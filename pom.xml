@@ -55,11 +55,16 @@
             <artifactId>spring-boot-devtools</artifactId>
         </dependency>
 
-        <!-- Spring JdbcTemplate依赖 -->
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-jdbc</artifactId>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-core</artifactId>
         </dependency>
+
+        <!--&lt;!&ndash; Spring JdbcTemplate依赖 &ndash;&gt;-->
+        <!--<dependency>-->
+            <!--<groupId>org.springframework.boot</groupId>-->
+            <!--<artifactId>spring-boot-starter-jdbc</artifactId>-->
+        <!--</dependency>-->
 
         <!-- SpringDataJpa依赖 -->
         <dependency>
