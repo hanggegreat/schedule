@@ -4,7 +4,7 @@ import javax.persistence.*;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
 
-@Entity(name = "js6.0_fang_jian")
+@Entity(name = "`js6.0_fang_jian`")
 public class Room implements Serializable {
     @Id
     @Column(length = 4, columnDefinition = "char(4)")
@@ -12,7 +12,7 @@ public class Room implements Serializable {
     private String roomNo;//教室编号
 
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "roomFunctionNo")
+    @JoinColumn(name = "roomFunctionNo", foreignKey = @ForeignKey(name = "none", value = ConstraintMode.NO_CONSTRAINT))
     private RoomFunction roomFunction;//教室功能
 
     @Column(length = 1, columnDefinition = "char(1)")
@@ -26,7 +26,7 @@ public class Room implements Serializable {
     private Short roomCapacity;//教室容量
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "roomBlockNo")
+    @JoinColumn(name = "roomBlockNo", foreignKey = @ForeignKey(name = "none", value = ConstraintMode.NO_CONSTRAINT))
     private Block block;//楼
 
     public String getRoomNo() {

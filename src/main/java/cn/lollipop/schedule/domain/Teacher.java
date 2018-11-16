@@ -4,7 +4,7 @@ import javax.persistence.*;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
 
-@Entity(name = "js0_teacher")
+@Entity(name = "`js0_teacher`")
 public class Teacher implements Serializable {
     @Id
     @Column(length = 4, columnDefinition = "char(4)")
@@ -20,15 +20,15 @@ public class Teacher implements Serializable {
     private String teacherSex;//教师性别
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "teacherGrade")
+    @JoinColumn(name = "teacherGrade", foreignKey = @ForeignKey(name = "none", value = ConstraintMode.NO_CONSTRAINT))
     private Grade grade;//教师年级
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "teacherState")
+    @JoinColumn(name = "teacherState", foreignKey = @ForeignKey(name = "none", value = ConstraintMode.NO_CONSTRAINT))
     private State state;//教师状态
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "teacherSub")
+    @JoinColumn(name = "teacherSub", foreignKey = @ForeignKey(name = "none", value = ConstraintMode.NO_CONSTRAINT))
     private Subject subject;//教师学科
 
     @Column(length = 15)

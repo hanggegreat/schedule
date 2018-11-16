@@ -5,7 +5,7 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.validation.constraints.Size;
 
-@Entity(name = "js6.1_fang_jian_gong_neng")
+@Entity(name = "`js6.1_fang_jian_gong_neng`")
 public class RoomFunction {
     @Id
     @Column(length = 2, columnDefinition = "char(2)")

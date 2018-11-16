@@ -15,15 +15,15 @@ public class Teach implements Serializable {
     private String teachNo;//任课编号
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "programId")
+    @JoinColumn(name = "programId", foreignKey = @ForeignKey(name = "none", value = ConstraintMode.NO_CONSTRAINT))
     private Program program;//培养方案
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "teacherNo")
+    @JoinColumn(name = "teacherNo", foreignKey = @ForeignKey(name = "none", value = ConstraintMode.NO_CONSTRAINT))
     private Teacher teacher;//教师编号
 
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "classNo")
+    @JoinColumn(name = "classNo", foreignKey = @ForeignKey(name = "none", value = ConstraintMode.NO_CONSTRAINT))
     private Class tClass;//班级
 
     public Long getId() {

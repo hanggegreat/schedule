@@ -5,7 +5,7 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.validation.constraints.Size;
 
-@Entity(name = "js1.2_zhuang_tai")
+@Entity(name = "`js1.2_zhuang_tai`")
 public class State {
     @Id
     @Column(length = 2, columnDefinition = "char(2)")

@@ -23,7 +23,7 @@ public class Timetable implements Serializable {
     private String teachNo;//任教编号
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "roomNo")
+    @JoinColumn(name = "roomNo", foreignKey = @ForeignKey(name = "none", value = ConstraintMode.NO_CONSTRAINT))
     private Room room;//教室编号
 
     public String getId() {

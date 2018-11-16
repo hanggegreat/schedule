@@ -20,11 +20,11 @@ public class Student implements Serializable {
     private String gender;//性别
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "classNo")
+    @JoinColumn(name = "classNo", foreignKey = @ForeignKey(name = "none", value = ConstraintMode.NO_CONSTRAINT))
     private Class stuClass;//班级
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "sStatus")
+    @JoinColumn(name = "sStatus", foreignKey = @ForeignKey(name = "none", value = ConstraintMode.NO_CONSTRAINT))
     private Status status;//状态
 
     @Column(length = 32)

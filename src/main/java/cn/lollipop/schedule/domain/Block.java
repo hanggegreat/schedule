@@ -5,7 +5,7 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.validation.constraints.Size;
 
-@Entity(name = "js6.3_lou")
+@Entity(name = "`js6.3_lou`")
 public class Block {
     @Id
     @Column(length = 1, columnDefinition = "char(1)")
