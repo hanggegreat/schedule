@@ -4,3 +4,4 @@
 ### 实体类Entities位于项目结构中的src下的cn/lollipop/schedule/domain/包中
 ### 数据层Repositories位于项目结构中的src下的cn/lollipop/schedule/repository/包中
 #### 其他部分后续待完。。。
+##### 感谢家人特别是妻子李醒对我工作的支持和帮助
