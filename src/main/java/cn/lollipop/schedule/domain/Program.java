@@ -15,7 +15,7 @@ public class Program implements Serializable {
     @Size(min = 4, max = 4)
     private String year;//学年号
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "enrollYear", foreignKey = @ForeignKey(name = "none", value = ConstraintMode.NO_CONSTRAINT))
     private Grade grade;//注册学年
 
@@ -38,7 +38,7 @@ public class Program implements Serializable {
     @Size(min = 1, max = 1)
     private String gradeNo;//年级号
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "subNo", foreignKey = @ForeignKey(name = "none", value = ConstraintMode.NO_CONSTRAINT))
     private Subject subject;//学科
 
@@ -113,5 +113,20 @@ public class Program implements Serializable {
 
     public void setSubject(Subject subject) {
         this.subject = subject;
+    }
+
+    @Override
+    public String toString() {
+        return "Program{" +
+                "id='" + id + '\'' +
+                ", year='" + year + '\'' +
+                ", grade=" + grade +
+                ", name='" + name + '\'' +
+                ", amount=" + amount +
+                ", exam='" + exam + '\'' +
+                ", status='" + status + '\'' +
+                ", gradeNo='" + gradeNo + '\'' +
+                ", subject=" + subject +
+                '}';
     }
 }

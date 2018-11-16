@@ -19,11 +19,11 @@ public class Student implements Serializable {
     @Size(min = 1, max = 1)
     private String gender;//性别
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "classNo", foreignKey = @ForeignKey(name = "none", value = ConstraintMode.NO_CONSTRAINT))
     private Class stuClass;//班级
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "sStatus", foreignKey = @ForeignKey(name = "none", value = ConstraintMode.NO_CONSTRAINT))
     private Status status;//状态
 
@@ -77,5 +77,17 @@ public class Student implements Serializable {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    @Override
+    public String toString() {
+        return "Student{" +
+                "sno='" + sno + '\'' +
+                ", sname='" + sname + '\'' +
+                ", gender='" + gender + '\'' +
+                ", stuClass=" + stuClass +
+                ", status=" + status +
+                ", password='" + password + '\'' +
+                '}';
     }
 }

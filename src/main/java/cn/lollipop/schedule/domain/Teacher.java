@@ -19,15 +19,15 @@ public class Teacher implements Serializable {
     @Size(min = 1, max = 1)
     private String teacherSex;//教师性别
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "teacherGrade", foreignKey = @ForeignKey(name = "none", value = ConstraintMode.NO_CONSTRAINT))
-    private Grade grade;//教师年级
+    @Column(length = 1, columnDefinition = "char(1)")
+    @Size(min = 1, max = 1)
+    private String teacherGrade;//年级号
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "teacherState", foreignKey = @ForeignKey(name = "none", value = ConstraintMode.NO_CONSTRAINT))
     private State state;//教师状态
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "teacherSub", foreignKey = @ForeignKey(name = "none", value = ConstraintMode.NO_CONSTRAINT))
     private Subject subject;//教师学科
 
@@ -59,12 +59,12 @@ public class Teacher implements Serializable {
         this.teacherSex = teacherSex;
     }
 
-    public Grade getGrade() {
-        return grade;
+    public String getTeacherGrade() {
+        return teacherGrade;
     }
 
-    public void setGrade(Grade grade) {
-        this.grade = grade;
+    public void setTeacherGrade(String teacherGrade) {
+        this.teacherGrade = teacherGrade;
     }
 
     public State getState() {
@@ -89,5 +89,18 @@ public class Teacher implements Serializable {
 
     public void setTeacherKey(String teacherKey) {
         this.teacherKey = teacherKey;
+    }
+
+    @Override
+    public String toString() {
+        return "Teacher{" +
+                "teacherNo='" + teacherNo + '\'' +
+                ", teacherName='" + teacherName + '\'' +
+                ", teacherSex='" + teacherSex + '\'' +
+                ", teacherGrade=" + teacherGrade +
+                ", state=" + state +
+                ", subject=" + subject +
+                ", teacherKey='" + teacherKey + '\'' +
+                '}';
     }
 }

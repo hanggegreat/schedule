@@ -31,4 +31,12 @@ public class Block {
     public void setBlockName(String blockName) {
         this.blockName = blockName;
     }
+
+    @Override
+    public String toString() {
+        return "Block{" +
+                "blockNo='" + blockNo + '\'' +
+                ", blockName='" + blockName + '\'' +
+                '}';
+    }
 }

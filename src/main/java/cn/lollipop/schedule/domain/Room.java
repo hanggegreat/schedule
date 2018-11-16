@@ -11,7 +11,7 @@ public class Room implements Serializable {
     @Size(min = 4, max = 4)
     private String roomNo;//教室编号
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne
     @JoinColumn(name = "roomFunctionNo", foreignKey = @ForeignKey(name = "none", value = ConstraintMode.NO_CONSTRAINT))
     private RoomFunction roomFunction;//教室功能
 
@@ -25,7 +25,7 @@ public class Room implements Serializable {
     @Column
     private Short roomCapacity;//教室容量
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "roomBlockNo", foreignKey = @ForeignKey(name = "none", value = ConstraintMode.NO_CONSTRAINT))
     private Block block;//楼
 
@@ -75,5 +75,17 @@ public class Room implements Serializable {
 
     public void setBlock(Block block) {
         this.block = block;
+    }
+
+    @Override
+    public String toString() {
+        return "Room{" +
+                "roomNo='" + roomNo + '\'' +
+                ", roomFunction=" + roomFunction +
+                ", roomStateNo='" + roomStateNo + '\'' +
+                ", roomNowPeople=" + roomNowPeople +
+                ", roomCapacity=" + roomCapacity +
+                ", block=" + block +
+                '}';
     }
 }

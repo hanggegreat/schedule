@@ -32,4 +32,12 @@ public class Subject implements Serializable {
     public void setSubName(String subName) {
         this.subName = subName;
     }
+
+    @Override
+    public String toString() {
+        return "Subject{" +
+                "subNo='" + subNo + '\'' +
+                ", subName='" + subName + '\'' +
+                '}';
+    }
 }

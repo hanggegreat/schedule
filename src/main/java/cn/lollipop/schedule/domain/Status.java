@@ -31,4 +31,12 @@ public class Status {
     public void setStuStaName(String stuStaName) {
         this.stuStaName = stuStaName;
     }
+
+    @Override
+    public String toString() {
+        return "Status{" +
+                "stuStaNo='" + stuStaNo + '\'' +
+                ", stuStaName='" + stuStaName + '\'' +
+                '}';
+    }
 }

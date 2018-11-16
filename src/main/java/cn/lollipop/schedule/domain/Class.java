@@ -19,7 +19,7 @@ public class Class implements Serializable {
     @Size(min = 1, max = 1)
     private String gradeNo;//年级号
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "teacherNo", foreignKey = @ForeignKey(name = "none", value = ConstraintMode.NO_CONSTRAINT))
     private Teacher teacher;//班主任
 
@@ -53,5 +53,15 @@ public class Class implements Serializable {
 
     public void setTeacher(Teacher teacher) {
         this.teacher = teacher;
+    }
+
+    @Override
+    public String toString() {
+        return "Class{" +
+                "classNo='" + classNo + '\'' +
+                ", className='" + className + '\'' +
+                ", gradeNo='" + gradeNo + '\'' +
+                ", teacher=" + teacher +
+                '}';
     }
 }

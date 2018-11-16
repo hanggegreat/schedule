@@ -7,9 +7,12 @@ import java.io.Serializable;
 @Entity(name = "pke_timetable")
 public class Timetable implements Serializable {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;//id
+
     @Column(length = 25, columnDefinition = "char(25)")
     @Size(min = 25, max = 25)
-    private String id;//课程编号
+    private String timetableNo;//课程编号
 
     @Column(length = 1, columnDefinition = "char(1)")
     @Size(min = 1, max = 1)
@@ -18,20 +21,28 @@ public class Timetable implements Serializable {
     @Column
     private Short time;//上课时间
 
-    @Column(length = 19, columnDefinition = "char(19)")
-    @Size(min = 19, max = 19)
-    private String teachNo;//任教编号
+    @ManyToOne
+    @JoinColumn(name = "teachNo", foreignKey = @ForeignKey(name = "none", value = ConstraintMode.NO_CONSTRAINT))
+    private Teach teach;//任课信息
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "roomNo", foreignKey = @ForeignKey(name = "none", value = ConstraintMode.NO_CONSTRAINT))
-    private Room room;//教室编号
+    private Room room;//教室
 
-    public String getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getTimetableNo() {
+        return timetableNo;
+    }
+
+    public void setTimetableNo(String timetableNo) {
+        this.timetableNo = timetableNo;
     }
 
     public String getStatus() {
@@ -50,12 +61,12 @@ public class Timetable implements Serializable {
         this.time = time;
     }
 
-    public String getTeachNo() {
-        return teachNo;
+    public Teach getTeach() {
+        return teach;
     }
 
-    public void setTeachNo(String teachNo) {
-        this.teachNo = teachNo;
+    public void setTeach(Teach teach) {
+        this.teach = teach;
     }
 
     public Room getRoom() {
@@ -64,5 +75,17 @@ public class Timetable implements Serializable {
 
     public void setRoom(Room room) {
         this.room = room;
+    }
+
+    @Override
+    public String toString() {
+        return "Timetable{" +
+                "id=" + id +
+                ", timetableNo='" + timetableNo + '\'' +
+                ", status='" + status + '\'' +
+                ", time=" + time +
+                ", teach=" + teach +
+                ", room=" + room +
+                '}';
     }
 }

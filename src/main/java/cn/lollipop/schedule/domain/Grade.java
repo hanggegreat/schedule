@@ -32,4 +32,12 @@ public class Grade implements Serializable {
     public void setGradeNo(String gradeNo) {
         this.gradeNo = gradeNo;
     }
+
+    @Override
+    public String toString() {
+        return "Grade{" +
+                "enrollYear='" + enrollYear + '\'' +
+                ", gradeNo='" + gradeNo + '\'' +
+                '}';
+    }
 }

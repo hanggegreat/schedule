@@ -14,15 +14,15 @@ public class Teach implements Serializable {
     @Size(min = 19, max = 19)
     private String teachNo;//任课编号
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "programId", foreignKey = @ForeignKey(name = "none", value = ConstraintMode.NO_CONSTRAINT))
     private Program program;//培养方案
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "teacherNo", foreignKey = @ForeignKey(name = "none", value = ConstraintMode.NO_CONSTRAINT))
-    private Teacher teacher;//教师编号
+    private Teacher teacher;//教师
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne
     @JoinColumn(name = "classNo", foreignKey = @ForeignKey(name = "none", value = ConstraintMode.NO_CONSTRAINT))
     private Class tClass;//班级
 
@@ -64,5 +64,16 @@ public class Teach implements Serializable {
 
     public void settClass(Class tClass) {
         this.tClass = tClass;
+    }
+
+    @Override
+    public String toString() {
+        return "Teach{" +
+                "id=" + id +
+                ", teachNo='" + teachNo + '\'' +
+                ", program=" + program +
+                ", teacher=" + teacher +
+                ", tClass=" + tClass +
+                '}';
     }
 }

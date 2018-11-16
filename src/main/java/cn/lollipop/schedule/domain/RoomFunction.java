@@ -31,4 +31,12 @@ public class RoomFunction {
     public void setRoomFunctionContent(String roomFunctionContent) {
         this.roomFunctionContent = roomFunctionContent;
     }
+
+    @Override
+    public String toString() {
+        return "RoomFunction{" +
+                "roomFunctionNo='" + roomFunctionNo + '\'' +
+                ", roomFunctionContent='" + roomFunctionContent + '\'' +
+                '}';
+    }
 }
