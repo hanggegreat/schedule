@@ -3,6 +3,7 @@ package cn.lollipop.schedule.domain;
 import javax.persistence.*;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
+import java.util.Set;
 
 @Entity(name = "`js0_teacher`")
 public class Teacher implements Serializable {
@@ -34,6 +35,16 @@ public class Teacher implements Serializable {
     @Column(length = 15)
     @Size(max = 15)
     private String teacherKey;//教师登录密码
+
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "`js1.1_jiao_shi_zhi_wei`",
+            joinColumns = {@JoinColumn(name = "teacherNo", referencedColumnName = "teacherNo",
+                    foreignKey = @ForeignKey(name = "none", value = ConstraintMode.NO_CONSTRAINT))},
+            inverseJoinColumns = {@JoinColumn(name = "teacherJob", referencedColumnName = "jobNo",
+                    foreignKey = @ForeignKey(name = "none", value = ConstraintMode.NO_CONSTRAINT))}
+    )
+    private Set<Job> jobs;//教师职位
 
     public String getTeacherNo() {
         return teacherNo;
@@ -91,16 +102,26 @@ public class Teacher implements Serializable {
         this.teacherKey = teacherKey;
     }
 
+
+    public Set<Job> getJobs() {
+        return jobs;
+    }
+
+    public void setJobs(Set<Job> jobs) {
+        this.jobs = jobs;
+    }
+
     @Override
     public String toString() {
         return "Teacher{" +
                 "teacherNo='" + teacherNo + '\'' +
                 ", teacherName='" + teacherName + '\'' +
                 ", teacherSex='" + teacherSex + '\'' +
-                ", teacherGrade=" + teacherGrade +
+                ", teacherGrade='" + teacherGrade + '\'' +
                 ", state=" + state +
                 ", subject=" + subject +
                 ", teacherKey='" + teacherKey + '\'' +
+                ", jobs=" + jobs +
                 '}';
     }
 }
