@@ -50,10 +50,11 @@ public interface TimetableRepository extends JpaRepository<Timetable, String> {
      *
      * @param classNo 班级编号
      * @param status  发布状态
+     * @param year    学年编号
      * @return 以List集合的形式返回查询出的全部数据
      */
-    @Query(nativeQuery = true, value = "SELECT id, timetableNo, status, `time`, teachNo, roomNo FROM pke_timetable WHERE timetableNo LIKE CONCAT('___________', ?1, '%') AND status = ?2")
-    List<Timetable> findAllByClassNoAndStatus(String classNo, String status);
+    @Query(nativeQuery = true, value = "SELECT id, timetableNo, status, `time`, teachNo, roomNo FROM pke_timetable WHERE timetableNo LIKE CONCAT('___________', ?1, '%', '____', ?3) AND status = ?2")
+    List<Timetable> findAllByClassNoAndStatusAndYear(String classNo, String status, String year);
 
     /**
      * 根据教师编号和学年号以及发布状态查询全部的课程信息
