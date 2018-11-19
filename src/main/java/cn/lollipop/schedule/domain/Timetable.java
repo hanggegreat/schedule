@@ -10,8 +10,8 @@ public class Timetable implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;//id
 
-    @Column(length = 25, columnDefinition = "char(25)")
-    @Size(min = 25, max = 25)
+    @Column(length = 23, columnDefinition = "char(25)")
+    @Size(min = 23, max = 23)
     private String timetableNo;//课程编号
 
     @Column(length = 1, columnDefinition = "char(1)")

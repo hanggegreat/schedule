@@ -10,8 +10,8 @@ public class Teach implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;//主键
 
-    @Column(length = 19, columnDefinition = "char(19)")
-    @Size(min = 19, max = 19)
+    @Column(length = 17, columnDefinition = "char(19)")
+    @Size(min = 17, max = 17)
     private String teachNo;//任课编号
 
     @ManyToOne

@@ -7,8 +7,8 @@ import java.io.Serializable;
 @Entity(name = "XJ_Class")
 public class Class implements Serializable {
     @Id
-    @Column(length = 8, columnDefinition = "char(8)")
-    @Size(min = 8, max = 8)
+    @Column(length = 6, columnDefinition = "char(6)")
+    @Size(min = 6, max = 6)
     private String classNo;//班级编号
 
     @Column(length = 6, columnDefinition = "char(6)")

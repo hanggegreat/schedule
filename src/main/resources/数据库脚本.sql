@@ -35,10 +35,10 @@ CREATE TABLE pke_program (
 # 2.任课表
 CREATE TABLE pke_teach (
   id        BIGINT AUTO_INCREMENT,
-  teachNo   CHAR(19),
+  teachNo   CHAR(17),
   programId CHAR(7),
   teacherNo CHAR(4),
-  classNo   CHAR(8),
+  classNo   CHAR(6),
   CONSTRAINT pk_teach PRIMARY KEY (id)
 )
   ENGINE = innodb;
@@ -48,7 +48,7 @@ CREATE TABLE pke_teach (
 # status表示发布状态，0表示待审核，1表示已发布
 CREATE TABLE pke_timetable (
   id          BIGINT AUTO_INCREMENT,
-  timetableNo CHAR(25),
+  timetableNo CHAR(23),
   status      CHAR(1),
   time        SMALLINT,
   teachNo     CHAR(19),
@@ -240,18 +240,18 @@ INSERT INTO pke_program (id, year, enrollYear, name, amount, exam, status, grade
 VALUES ('2020912', '2020', '2018', '信息科技3', 1, '0', '0', '9', '12');
 # 任教测试数据
 INSERT INTO pke_teach (teachNo, programId, teacherNo, classNo)
-VALUES ('2018809001220170203', '2018809', '0012', '20170203');
+VALUES ('20188090012201702', '2018809', '0012', '201702');
 INSERT INTO pke_teach (teachNo, programId, teacherNo, classNo)
-VALUES ('2018901004620160305', '2018901', '0046', '20160305');
+VALUES ('20189010046201603', '2018901', '0046', '201603');
 INSERT INTO pke_teach (teachNo, programId, teacherNo, classNo)
-VALUES ('2018706003320180102', '2018706', '0033', '20180102');
+VALUES ('20187060033201801', '2018706', '0033', '201801');
 # 课表测试数据
 INSERT INTO pke_timetable (timetableNo, status, time, teachNo, roomNo)
-VALUES ('2018809001220170203110105', '0', 5, '2018809001220170203', '1101');
+VALUES ('20188090012201702110105', '0', 5, '20188090012201702', '1101');
 INSERT INTO pke_timetable (timetableNo, status, time, teachNo, roomNo)
-VALUES ('2018809001220170203110116', '0', 16, '2018901004620160305', '1106');
+VALUES ('20188090012201702110116', '0', 16, '20189010046201603', '1106');
 INSERT INTO pke_timetable (timetableNo, status, time, teachNo, roomNo)
-VALUES ('2018809001220170203110137', '0', 37, '2018706003320180102', '1309');
+VALUES ('20188090012201702110137', '0', 37, '20187060033201801', '1309');
 
 # DROP VIEW pke_teacherView;
 # DROP VIEW pke_studentView;
