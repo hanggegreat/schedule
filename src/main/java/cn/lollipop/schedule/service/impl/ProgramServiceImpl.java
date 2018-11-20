@@ -31,14 +31,71 @@ public class ProgramServiceImpl implements ProgramService {
     @Override
     public List<Program> listByClassNo(String classNo) {
         Class myClass = this.classRepository.getOne(classNo);
-        Grade grade = this.gradeRepository.findByGradeNo(myClass.getGradeNo());
-        return this.programRepository.findAllByGradeAndStatus(grade, "1");
+        return this.programRepository.findAllByGradeNoAndStatus(myClass.getGradeNo(), "1");
     }
 
     @Override
     public List<Program> listStudentProgram(String sno) {
         Class myClass = this.studentRepository.getOne(sno).getStuClass();
-        Grade grade = this.gradeRepository.findByGradeNo(myClass.getGradeNo());
+        return this.programRepository.findAllByGradeNoAndStatus(myClass.getGradeNo(), "1");
+    }
+
+    @Override
+    public List<Program> listByGnoAndYear(String year, String gno) {
+        return this.programRepository.findAllByGradeNoAndYearAndStatus(gno, year, "1");
+    }
+
+    @Override
+    public List<Program> listByGrade(String enrollYear) {
+        Grade grade = this.gradeRepository.getOne(enrollYear);
         return this.programRepository.findAllByGradeAndStatus(grade, "1");
+    }
+
+    @Override
+    public List<Program> insertInBatch(List<Program> programs) {
+        return this.programRepository.saveAll(programs);
+    }
+
+    @Override
+    public List<Program> updateInBatch(List<Program> programs) {
+        return this.programRepository.saveAll(programs);
+    }
+
+    @Override
+    public Program update(Program program) {
+        return this.programRepository.save(program);
+    }
+
+    @Override
+    public void removeInBatch(List<Program> programs) {
+        this.programRepository.deleteInBatch(programs);
+    }
+
+    @Override
+    public Program refuse(Program programs) {
+        programs.setStatus("3");
+        return this.programRepository.save(programs);
+    }
+
+    @Override
+    public List<Program> refuseInBatch(List<Program> programs) {
+        for (Program program : programs) {
+            program.setStatus("3");
+        }
+        return this.programRepository.saveAll(programs);
+    }
+
+    @Override
+    public Program pass(Program programs) {
+        programs.setStatus("1");
+        return this.programRepository.save(programs);
+    }
+
+    @Override
+    public List<Program> passInBatch(List<Program> programs) {
+        for (Program program : programs) {
+            program.setStatus("1");
+        }
+        return this.programRepository.saveAll(programs);
     }
 }

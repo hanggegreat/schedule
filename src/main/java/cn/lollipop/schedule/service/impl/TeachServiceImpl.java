@@ -25,4 +25,24 @@ public class TeachServiceImpl implements TeachService {
     public List<Teach> listByTeacherNo(String teacherNo, String year) {
         return this.teachRepository.findAllByTeacherNoAndYear(teacherNo, year);
     }
+
+    @Override
+    public Teach insert(Teach teach) {
+        return this.teachRepository.save(teach);
+    }
+
+    @Override
+    public List<Teach> insertInBatch(List<Teach> teaches) {
+        return this.teachRepository.saveAll(teaches);
+    }
+
+    @Override
+    public Teach update(Teach teach) {
+        return this.teachRepository.save(teach);
+    }
+
+    @Override
+    public List<Teach> updateInBatch(List<Teach> teaches) {
+        return this.teachRepository.saveAll(teaches);
+    }
 }

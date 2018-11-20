@@ -96,4 +96,29 @@ public class TimetableServiceImpl implements TimetableService {
     public Timetable showByRoomAndTime(Room room, Short time) {
         return this.timetableRepository.findByRoomAndTimeAndStatus(room, time, "1");
     }
+
+    @Override
+    public void exchangeTowTimetables(Timetable a, Timetable b) {
+        Short timeA = a.getTime();
+        a.setTime(b.getTime());
+        b.setTime(timeA);
+        this.timetableRepository.save(a);
+        this.timetableRepository.save(b);
+    }
+
+    @Override
+    public List<Timetable> passInBatch(List<Timetable> timetables) {
+        for (Timetable timetable : timetables) {
+            timetable.setStatus("1");
+        }
+        return this.timetableRepository.saveAll(timetables);
+    }
+
+    @Override
+    public List<Timetable> refuseInBatch(List<Timetable> timetables) {
+        for (Timetable timetable : timetables) {
+            timetable.setStatus("3");
+        }
+        return this.timetableRepository.saveAll(timetables);
+    }
 }

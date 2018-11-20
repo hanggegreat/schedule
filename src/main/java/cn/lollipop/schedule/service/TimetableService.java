@@ -131,4 +131,28 @@ public interface TimetableService {
      * @return 以List集合的形式返回全部查询出的数据
      */
     Timetable showByRoomAndTime(Room room, Short time);
+
+    /**
+     * 交换两节课的上课时间
+     *
+     * @param a 课程a
+     * @param b 课程b
+     */
+    void exchangeTowTimetables(Timetable a, Timetable b);
+
+    /**
+     * 批量审核通过课程信息
+     *
+     * @param timetables 课程信息
+     * @return 返回审核通过后的课程信息
+     */
+    List<Timetable> passInBatch(List<Timetable> timetables);
+
+    /**
+     * 批量驳回课程信息
+     *
+     * @param timetables 课程信息
+     * @return 返回驳回后的课程信息
+     */
+    List<Timetable> refuseInBatch(List<Timetable> timetables);
 }
