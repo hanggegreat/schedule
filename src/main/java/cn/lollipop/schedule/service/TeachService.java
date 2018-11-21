@@ -31,7 +31,6 @@ public interface TeachService {
      */
     Teach insert(Teach teach);
 
-
     /**
      * 学科组长批量分配任课信息
      *

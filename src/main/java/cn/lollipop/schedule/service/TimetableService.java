@@ -1,12 +1,10 @@
 package cn.lollipop.schedule.service;
 
-import cn.lollipop.schedule.domain.Class;
 import cn.lollipop.schedule.domain.Room;
 import cn.lollipop.schedule.domain.Teacher;
 import cn.lollipop.schedule.domain.Timetable;
 
 import java.util.List;
-import java.util.Map;
 
 public interface TimetableService {
     /**
@@ -38,18 +36,6 @@ public interface TimetableService {
     List<Timetable> listByClassTeacher(Teacher teacher, String year);
 
     /**
-     * 学科组长查询课表前的查询操作，包含以下操作：
-     * <li>查询出学科组长的学科信息</li>
-     * <li>查询出学科组长所在年级的所有班级信息</li>
-     *
-     * @param teacher 学科组长
-     * @return 以"Map<String, Object>"集合的形式返回全部数据，包含如下内容：
-     * <li>key = subNo, value = teacher.getSubject().getSubNo()</li>
-     * <li>key = allClasses, value = ClassRepository.findAllByGradeNo()</li>
-     */
-    Map<String, Object> preListTableBySubLeader(Teacher teacher);
-
-    /**
      * 学科组长查询该学年所在年级指定班级的该学科的全部课程信息
      *
      * @param classNo 班级编号
@@ -58,14 +44,6 @@ public interface TimetableService {
      * @return 以List集合的形式返回全部查询出的数据
      */
     List<Timetable> listByClassNoAndSubNo(String classNo, String year, String subNo);
-
-    /**
-     * 年级组长查询课表前查询所在年级的全部班级信息
-     *
-     * @param teacher 年级组长
-     * @return 返回查询出的全部班级信息
-     */
-    List<Class> preListTableByGradeLeader(Teacher teacher);
 
     /**
      * 年级组长查询该学年所在年级指定班级的全部课程信息
@@ -85,6 +63,15 @@ public interface TimetableService {
      * @return 以List集合的形式返回全部查询出的数据
      */
     List<Timetable> listByTeacherNo(String teacherNo, String year);
+
+    /**
+     * 根据班级查询当前学年指定发布状态的全部课表信息
+     *
+     * @param classNo 班级编号
+     * @param status  发布状态
+     * @return 以List集合的形式返回全部查询出的数据
+     */
+    List<Timetable> listByClassNoAndStatus(String classNo, String status);
 
     /**
      * 领导根据学年查询指定教室的全部课表信息

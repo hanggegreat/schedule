@@ -6,12 +6,11 @@ import cn.lollipop.schedule.repository.ClassRepository;
 import cn.lollipop.schedule.repository.StudentRepository;
 import cn.lollipop.schedule.repository.TimetableRepository;
 import cn.lollipop.schedule.service.TimetableService;
+import cn.lollipop.schedule.util.YearUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @Service
 public class TimetableServiceImpl implements TimetableService {
@@ -40,26 +39,13 @@ public class TimetableServiceImpl implements TimetableService {
 
     @Override
     public List<Timetable> listByClassTeacher(Teacher teacher, String year) {
-        Class myClass = this.classRepository.findByTeacher(teacher);
+        Class myClass = this.classRepository.findByTeacherNoAndYear(teacher.getTeacherNo(), year);
         return this.timetableRepository.findAllByClassNoAndStatusAndYear(myClass.getClassNo(), "1", year);
-    }
-
-    @Override
-    public Map<String, Object> preListTableBySubLeader(Teacher teacher) {
-        Map<String, Object> map = new HashMap<>();
-        map.put("subNo", teacher.getSubject().getSubNo());
-        map.put("allClasses", this.classRepository.findAllByGradeNo(teacher.getTeacherGrade()));
-        return map;
     }
 
     @Override
     public List<Timetable> listByClassNoAndSubNo(String classNo, String year, String subNo) {
         return this.timetableRepository.findAllByClassNoAndYearAndSubNoAndStatus(classNo, year, subNo, "1");
-    }
-
-    @Override
-    public List<Class> preListTableByGradeLeader(Teacher teacher) {
-        return this.classRepository.findAllByGradeNo(teacher.getTeacherGrade());
     }
 
     @Override
@@ -70,6 +56,11 @@ public class TimetableServiceImpl implements TimetableService {
     @Override
     public List<Timetable> listByTeacherNo(String teacherNo, String year) {
         return this.timetableRepository.findAllByTeacherNoAndYearAndStatus(teacherNo, year, "1");
+    }
+
+    @Override
+    public List<Timetable> listByClassNoAndStatus(String classNo, String status) {
+        return this.timetableRepository.findAllByClassNoAndStatusAndYear(classNo, status, YearUtil.getCurrentYear());
     }
 
     @Override

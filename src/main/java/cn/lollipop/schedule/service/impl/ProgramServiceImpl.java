@@ -8,6 +8,7 @@ import cn.lollipop.schedule.repository.GradeRepository;
 import cn.lollipop.schedule.repository.ProgramRepository;
 import cn.lollipop.schedule.repository.StudentRepository;
 import cn.lollipop.schedule.service.ProgramService;
+import cn.lollipop.schedule.util.YearUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -29,20 +30,22 @@ public class ProgramServiceImpl implements ProgramService {
     }
 
     @Override
-    public List<Program> listByClassNo(String classNo) {
-        Class myClass = this.classRepository.getOne(classNo);
-        return this.programRepository.findAllByGradeNoAndStatus(myClass.getGradeNo(), "1");
-    }
-
-    @Override
     public List<Program> listStudentProgram(String sno) {
         Class myClass = this.studentRepository.getOne(sno).getStuClass();
-        return this.programRepository.findAllByGradeNoAndStatus(myClass.getGradeNo(), "1");
+        Grade grade = this.gradeRepository.findByGradeNo(myClass.getGradeNo());
+        return this.programRepository.findAllByGradeAndStatus(grade, "1");
     }
 
     @Override
-    public List<Program> listByGnoAndYear(String year, String gno) {
-        return this.programRepository.findAllByGradeNoAndYearAndStatus(gno, year, "1");
+    public List<Program> listByClassTeacher(String teacherNo) {
+        Class myClass = this.classRepository.findByTeacherNoAndYear(teacherNo, YearUtil.getCurrentYear());
+        Grade grade = this.gradeRepository.findByGradeNo(myClass.getGradeNo());
+        return this.programRepository.findAllByGradeAndStatus(grade, "1");
+    }
+
+    @Override
+    public List<Program> listByGno(String gno) {
+        return this.programRepository.findAllByGradeNoAndYearAndStatus(gno, YearUtil.getCurrentYear(), "1");
     }
 
     @Override

@@ -1,18 +1,12 @@
 package cn.lollipop.schedule.service;
 
 import cn.lollipop.schedule.domain.Program;
+import cn.lollipop.schedule.domain.Teacher;
 
 import java.util.List;
 import java.util.Set;
 
 public interface ProgramService {
-    /**
-     * 班主任查询所在班级的培养方案信息
-     *
-     * @param classNo 班级编号
-     * @return 以List集合的形式返回全部的数据
-     */
-    List<Program> listByClassNo(String classNo);
 
     /**
      * 学生查询自己的培养方案信息
@@ -23,13 +17,21 @@ public interface ProgramService {
     List<Program> listStudentProgram(String sno);
 
     /**
-     * 教务员，教学主任，校长查询指定学年指定年级的培养方案信息
+     * 班主任查询所在班级的培养方案信息
      *
-     * @param year 学年编号
-     * @param gno  年级号
+     * @param teacherNo 班主任编号
      * @return 以List集合的形式返回全部的数据
      */
-    List<Program> listByGnoAndYear(String year, String gno);
+    List<Program> listByClassTeacher(String teacherNo);
+
+    /**
+     * 教务员查询当前学年指定年级的培养方案信息
+     * 教务员，教学主任，校长查询指定年级的培养方案信息
+     *
+     * @param gno 年级号
+     * @return 以List集合的形式返回全部的数据
+     */
+    List<Program> listByGno(String gno);
 
     /**
      * 教务员根据注册年份查询该届学生的全部培养方案信息
