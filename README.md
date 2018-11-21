@@ -8,7 +8,7 @@
 <table>
     <thead>
       <tr>
-        <th>角色</th>
+        <th width="110px">角色</th>
         <th>权限</th>
       </tr>
     </thead>
