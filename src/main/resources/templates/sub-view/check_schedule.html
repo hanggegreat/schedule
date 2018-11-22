@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="../../static/frame/layui/css/layui.css">
+    <!--<link rel="stylesheet" href="http://cdn.datatables.net/1.10.13/css/jquery.dataTables.min.css">-->
+    <link rel="stylesheet" href="../../static/frame/static/css/style.css">
+    <link rel="icon" href="../../static/frame/static/image/code.png">
+</head>
+
+<div class="layui-form-item">
+    <div class="layui-input-inline">
+        <select name="quiz2">
+            <option value="">请选年级</option>
+            <option value="杭州">一年级</option>
+            <option value="宁波">二年级</option>
+            <option value="温州">三年级</option>
+            <option value="温州">四年级</option>
+            <option value="温州">五年级</option>
+        </select>
+    </div>
+    <div class="layui-input-inline">
+        <select name="quiz3">
+            <option value="">请选择学年</option>
+            <option value="西湖区">2017-2018</option>
+            <option value="余杭区">2016-2017</option>
+            <option value="拱墅区">2015-2016</option>
+        </select>
+    </div>
+</div>
+<fieldset class="layui-elem-field layui-field-title" style="margin-top: 40px;">
+    <legend>历年培养方案</legend>
+</fieldset>
+
+<!-- 需要改进 -->
+<div style="position: relative;">
+    <!--代码生成表格 -->
+<div id="dateTable"></div>
+    <div style="position: absolute;right:3%;top:5%;width:50%;height:100%">
+        <iframe src="show_schedule.html" width="100%" height="100%" frameborder="0">
+            您的浏览器不支持iframe，请升级
+        </iframe>
+    </div>
+</div>
+
+<script type="text/javascript" src="../../static/frame/layui/layui.js"></script>
+<script type="text/javascript" src="../js/index.js"></script>
+<script type="text/javascript">
+
+    // layui方法
+    layui.use(['table', 'form', 'layer', 'vip_table'], function () {
+
+        // 操作对象
+        var form = layui.form
+            , table = layui.table
+            , layer = layui.layer
+            , vipTable = layui.vip_table
+            , $ = layui.jquery;
+
+        // 表格渲染
+        var tableIns = table.render({
+            elem: '#dateTable'                  //指定原始表格元素选择器（推荐id选择器）
+            , height: vipTable.getFullHeight()    //容器高度
+            , cols: [[                  //标题栏
+                {field: 'id', title: 'ID', width: 120}
+                , {field: 'year', title: '学年', width: 100}
+                , {field: 'name', title: '课程名称', width: 100}
+                , {field: 'amount', title: '课时', width: 90}
+                , {field: 'exam', title: '是否考试', width: 90}
+                , {field: 'status', title: '审核状态', width: 90}
+                , {field: 'gradeNo', title: '年级', width: 90}
+                , {field: 'subName', title: '科目', width: 90}
+                , {fixed: 'right', title: '操作', width: 180, align: 'center', toolbar: '#barOption'} //这里的toolbar值是模板元素的选择器
+            ]]
+            , id: 'dataCheck'
+            , url: './../json/data_table.json'
+            , method: 'get'
+            , page: true
+            , limits: [30, 60, 90, 150, 300]
+            , limit: 30 //默认采用30
+            , loading: false
+            , done: function (res, curr, count) {
+                //如果是异步请求数据方式，res即为你接口返回的信息。
+                //如果是直接赋值的方式，res即为：{data: [], count: 99} data为当前页数据、count为数据总长度
+                console.log(res);
+
+                //得到当前页码
+                console.log(curr);
+
+                //得到数据总量
+                console.log(count);
+            }
+        });
+
+        // 获取选中行
+        table.on('checkbox(dataCheck)', function (obj) {
+            layer.msg('123');
+            console.log(obj.checked); //当前是否选中状态
+            console.log(obj.data); //选中行的相关数据
+            console.log(obj.type); //如果触发的是全选，则为：all，如果触发的是单选，则为：one
+        });
+
+        // 刷新
+        $('#btn-refresh').on('click', function () {
+            tableIns.reload();
+        });
+
+
+        // you code ...
+
+    });
+</script>
+<!-- 表格操作按钮集 -->
+<script type="text/html" id="barOption">
+    <a class="layui-btn layui-btn-mini" lay-event="detail">查看</a>
+    <a class="layui-btn layui-btn-mini layui-btn-normal" lay-event="edit">通过</a>
+    <a class="layui-btn layui-btn-mini layui-btn-danger" lay-event="del">驳回</a>
+</script>
+</body>
+</html>
