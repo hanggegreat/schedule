@@ -2,15 +2,23 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <script src="../../../static/js/jquery3.3.1.min.js"></script>
     <title>Title</title>
 </head>
 <body>
 <script>
-    $(document).ready(function(){
-        $("#b01").click(function(){
-            htmlobj=$.ajax({url:"test1.txt",async:false});
-            $("#myDiv").html(htmlobj.responseText);
-        });
+    $(function () {
+        $("#b01").bind('click', (function () {
+            $.ajax({
+                url: 'data.json',
+                type: 'GET',
+                dataType: 'json',
+                success: function (data) {
+                    console.log(data);
+                    // $("#myDiv").html(data);
+                }
+            });
+        }));
     });
 </script>
 <div id="myDiv"><h2>Let AJAX change this text</h2></div>
