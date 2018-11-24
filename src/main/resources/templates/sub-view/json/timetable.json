@@ -1,0 +1,75 @@
+{ "total": 149,
+  "columns":[
+    { "field": "WEEK","title": "节次 周次" },
+    { "field": "MONDAY", "title": "周一" },
+    { "field": "TUESDAY","title": "周二" },
+    { "field": "WEDNESDAY", "title": "周三" },
+    { "field": "THURSDAY","title": "周四" },
+    { "field": "FRIDAY", "title": "周五" }
+  ],
+  "rows":[
+    {"WEEK":"第一节",
+      "MONDAY":"2016-2017学年",
+      "TUESDAY":"语文1",
+      "WEDNESDAY":"8",
+      "THURSDAY":"是",
+      "FRIDAY":"7年级"
+    },
+    {"WEEK":" 第二节",
+      "MONDAY":"2016-2017学年",
+      "TUESDAY":"语文1",
+      "WEDNESDAY":"8",
+      "THURSDAY":"是",
+      "FRIDAY":"7年级"
+    },
+    {"WEEK":"第三节",
+      "MONDAY":"2016-2017学年",
+      "TUESDAY":"语文1",
+      "WEDNESDAY":"8",
+      "THURSDAY":"是",
+      "FRIDAY":"7年级"
+    },
+    {"WEEK":"第四节",
+      "MONDAY":"2016-2017学年",
+      "TUESDAY":"语文1",
+      "WEDNESDAY":"8",
+      "THURSDAY":"是",
+      "FRIDAY":"7年级"
+    },
+    {"WEEK":"午休",
+      "MONDAY":"2016-2017学年",
+      "TUESDAY":"语文1",
+      "WEDNESDAY":"8",
+      "THURSDAY":"是",
+      "FRIDAY":"7年级"
+    },
+    {"WEEK":"第五节",
+      "MONDAY":"2016-2017学年",
+      "TUESDAY":"语文1",
+      "WEDNESDAY":"8",
+      "THURSDAY":"是",
+      "FRIDAY":"7年级"
+    },
+    {"WEEK":"第六节",
+      "MONDAY":"2016-2017学年",
+      "TUESDAY":"语文1",
+      "WEDNESDAY":"8",
+      "THURSDAY":"是",
+      "FRIDAY":"7年级"
+    },
+    {"WEEK":"第七节",
+      "MONDAY":"2016-2017学年",
+      "TUESDAY":"语文1",
+      "WEDNESDAY":"8",
+      "THURSDAY":"是",
+      "FRIDAY":"7年级"
+    },
+    {"WEEK":"第八节",
+      "MONDAY":"2016-2017学年",
+      "TUESDAY":"语文1",
+      "WEDNESDAY":"8",
+      "THURSDAY":"是",
+      "FRIDAY":"7年级"
+    }
+  ]
+}

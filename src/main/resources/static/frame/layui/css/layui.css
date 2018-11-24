@@ -913,7 +913,7 @@ a cite {
 }
 
 .layui-field-title {
-    margin: 10px 0 20px;
+    margin: 40px 0 20px;
     border: none;
     border-top: 1px solid #e2e2e2
 }
@@ -1272,7 +1272,9 @@ a cite {
 
 .layui-form-item {
     clear: both;
-    padding-left: 190px;
+    width:400px;
+    padding-top: 20px;
+    padding-left: 40px;
     *zoom: 1
 }
 

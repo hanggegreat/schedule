@@ -7,132 +7,40 @@
     <!--<link rel="stylesheet" href="http://cdn.datatables.net/1.10.13/css/jquery.dataTables.min.css">-->
     <link rel="stylesheet" href="../../static/frame/static/css/style.css">
     <link rel="icon" href="../../static/frame/static/image/code.png">
+    <script src="../../static/js/jquery3.3.1.min.js"></script>
+    <script src="own-js.js"></script>
 </head>
 <body>
 <div class="layui-form-item">
     <div class="layui-input-inline">
-        <select name="quiz2">
-            <option value="">请选学年</option>
-            <option value="杭州">一年级</option>
-            <option value="宁波">二年级</option>
-            <option value="温州">三年级</option>
-            <option value="温州">四年级</option>
-            <option value="温州">五年级</option>
+        <select class="year-selector">
         </select>
     </div>
     <div class="layui-input-inline">
-        <select name="quiz3">
-            <option value="">请选择年级</option>
-            <option value="西湖区">2017-2018</option>
-            <option value="余杭区">2016-2017</option>
-            <option value="拱墅区">2015-2016</option>
+        <select class="grade-selector">
         </select>
     </div>
     <div class="layui-input-inline">
-        <select name="quiz3">
-            <option value="">请选择班级</option>
-            <option value="西湖区">2017-2018</option>
-            <option value="余杭区">2016-2017</option>
-            <option value="拱墅区">2015-2016</option>
+        <select class="class-selector">
         </select>
     </div>
 </div>
-<fieldset class="layui-elem-field layui-field-title" style="margin-top: 40px;">
+<fieldset class="layui-elem-field layui-field-title">
     <legend>班级课表</legend>
 </fieldset>
 <table class="layui-table" lay-even="" lay-skin="row">
-    <colgroup>
-        <col width="80">
-        <col width="80">
-        <col width="80">
-        <col width="80">
-        <col width="80">
-        <col width="80">
+    <colgroup class="table-col">
     </colgroup>
-    <thead>
-    <tr>
-        <th>节次\周次</th>
-        <th>周一</th>
-        <th>周二</th>
-        <th>周三</th>
-        <th>周四</th>
-        <th>周五</th>
-    </tr>
+    <thead class="table-title">
     </thead>
-    <tbody>
-    <tr>
-        <td>第一节</td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-    </tr>
-    <tr>
-        <td>第二节</td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-    </tr>
-    <tr>
-        <td>第三节</td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-    </tr>
-    <tr>
-        <td>第四节</td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-    </tr>
-    <tr>
-        <td>午休</td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-    </tr>
-    <tr>
-        <td>第五节</td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-    </tr>
-    <tr>
-        <td>第六节</td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-    </tr>
-    <tr>
-        <td>第七节</td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-    </tr>
-    <tr>
-        <td>第八节</td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-    </tr>
+    <tbody class="table-content">
     </tbody>
 </table>
+<script>
+    make_select("json/year.json","year-selector","学年");
+    make_select("json/grade.json","grade-selector","年级");
+    make_select("json/class.json","class-selector","班级");
+    make_table("json/timetable.json",80)
+</script>
 </body>
 </html>

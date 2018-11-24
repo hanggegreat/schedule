@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="../../../static/frame/layui/css/layui.css">
+    <link rel="stylesheet" href="../../../static/frame/static/css/style.css">
+    <link rel="icon" href="../../../static/frame/static/image/code.png">
+    <script src="../../../static/js/jquery3.3.1.min.js"></script>
+    <script src="../own-js.js"></script>
+</head>
+<body>
+<div class="layui-form-item">
+    <div class="layui-input-inline">
+        <select id="year-selector"></select>
+    </div>
+</div>
+
+<fieldset class="layui-elem-field layui-field-title">
+    <legend>培养方案</legend>
+</fieldset>
+
+<table class="layui-table" lay-even="" lay-skin="row">
+    <colgroup class="table-col">
+    </colgroup>
+    <thead class="table-title">
+    </thead>
+    <tbody class="table-content">
+    </tbody>
+</table>
+<script>
+    make_select("../json/year.json","year-selector","学年");
+    make_table("../json/schedule.json",100)
+</script>
+</body>
+</html>
