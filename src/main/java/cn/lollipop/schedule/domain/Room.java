@@ -1,10 +1,13 @@
 package cn.lollipop.schedule.domain;
 
+import org.hibernate.annotations.Proxy;
+
 import javax.persistence.*;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
 
 @Entity(name = "`js6.0_fang_jian`")
+@Proxy(lazy = false)
 public class Room implements Serializable {
     @Id
     @Column(length = 4, columnDefinition = "char(4)")

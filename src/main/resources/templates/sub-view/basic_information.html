@@ -1,22 +1,38 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-    <link rel="stylesheet" href="../../static/frame/layui/css/layui.css">
-    <link rel="stylesheet" href="../../static/frame/static/css/style.css">
+    <link rel="stylesheet" href="../../static/frame/layui/css/layui.css" th:href="@{/frame/layui/css/layui.css}">
+    <link rel="stylesheet" href="../../static/frame/static/css/style.css" th:href="@{/frame/static/css/style.css}">
 </head>
 <body>
-    <fieldset class="layui-elem-field">
-        <legend>个人信息</legend>
-        <div class="layui-field-box">
-            <p>姓名：</p>
-            <p>性别：</p>
-            <p>教师编号：</p>
-            <p>职称：</p>
-            <p>年级：</p>
-            <p>科目：</p>
+<fieldset class="layui-elem-field">
+    <legend>个人信息</legend>
+    <div class="layui-field-box">
+        <div th:if="${student != null}">
+            <!--/*@thymesVar id="student" type="cn.lollipop.schedule.domain.Student"*/-->
+            <p>学号：
+                <span th:text="${student.sno}" style="margin-left: 80px;">123</span></p>
+            <p>姓名：<span th:text="${student.sname}" style="margin-left: 80px;">123</span></p>
+            <p>性别：<span th:text="${student.gender}" style="margin-left: 80px;">123</span></p>
+            <p>班级：<span th:text="${student.stuClass.className}" style="margin-left: 80px;">123</span></p>
         </div>
-    </fieldset>
+        <div th:if="${teacher != null}">
+            <!--/*@thymesVar id="teacher" type="cn.lollipop.schedule.domain.Teacher"*/-->
+            <p>工号：<span th:text="${teacher.teacherNo}" style="margin-left: 80px;">123</span></p>
+            <p>姓名：<span th:text="${teacher.teacherName}" style="margin-left: 80px;">123</span></p>
+            <p>性别：<span th:text="${teacher.teacherSex}" style="margin-left: 80px;">123</span></p>
+            <p th:switch="${teacher.teacherGrade}">
+                年级：<span th:case="'1'" style="margin-left: 80px;">七年级</span>
+                <span th:case="'2'" style="margin-left: 80px;">八年级</span>
+                <span th:case="'3'" style="margin-left: 80px;">九年级</span>
+                <span th:case="null" style="margin-left: 80px;">暂无</span>
+            </p>
+            <p th:if="${teacher.subject != null}">科目：<span th:text="${teacher.subject.subName}" style="margin-left: 80px;">123</span></p>
+        </div>
+    </div>
+</fieldset>
 </body>
 </html>

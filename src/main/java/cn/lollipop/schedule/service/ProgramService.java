@@ -26,7 +26,6 @@ public interface ProgramService {
 
     /**
      * 教务员查询当前学年指定年级的培养方案信息
-     * 教务员，教学主任，校长查询指定年级的培养方案信息
      *
      * @param gno 年级号
      * @return 以List集合的形式返回全部的数据
@@ -40,6 +39,14 @@ public interface ProgramService {
      * @return 以List集合的形式返回全部的数据
      */
     List<Program> listByGrade(String enrollYear);
+
+    /**
+     * 根据发布状态查询指定届全部培养方案
+     * @param status 发布状态
+     * @param enrollYear 注册年份
+     * @return 以List集合的形式返回全部的数据
+     */
+    List<Program> listByStatusAndEnrollYear(String status, String enrollYear);
 
     /**
      * 教务员制定培养方案

@@ -6,6 +6,14 @@ import java.util.List;
 
 public interface TeacherService {
     /**
+     * 根据教师编号查询教师信息的操作
+     *
+     * @param teacherNo 教师编号
+     * @return 返回教师信息
+     */
+    Teacher show(String teacherNo);
+
+    /**
      * 根据年级查询出该年级的全部教师信息
      * 用于领导查询教师课表前查询教师的操作
      *

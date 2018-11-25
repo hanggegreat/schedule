@@ -1,31 +1,31 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
     <link rel="stylesheet" href="../../static/frame/layui/css/layui.css">
-    <!--<link rel="stylesheet" href="http://cdn.datatables.net/1.10.13/css/jquery.dataTables.min.css">-->
+    <link rel="stylesheet" th:href="@{/frame/layui/css/layui.css}">
     <link rel="stylesheet" href="../../static/frame/static/css/style.css">
+    <link rel="stylesheet" th:href="@{/frame/static/css/style.css}">
     <link rel="icon" href="../../static/frame/static/image/code.png">
+    <link rel="icon" th:href="@{/frame/static/image/code.png}">
 </head>
 
 <div class="layui-form-item">
     <div class="layui-input-inline">
-        <select name="quiz2">
-            <option value="">请选年级</option>
-            <option value="杭州">一年级</option>
-            <option value="宁波">二年级</option>
-            <option value="温州">三年级</option>
-            <option value="温州">四年级</option>
-            <option value="温州">五年级</option>
+        <select name="quiz3">
+            <option value="">请选择学年</option>
+            <option value="2017">2017-2018</option>
+            <option value="2016">2016-2017</option>
+            <option value="2015">2015-2016</option>
         </select>
     </div>
     <div class="layui-input-inline">
-        <select name="quiz3">
-            <option value="">请选择学年</option>
-            <option value="西湖区">2017-2018</option>
-            <option value="余杭区">2016-2017</option>
-            <option value="拱墅区">2015-2016</option>
+        <select name="quiz2">
+            <option value="">请选年级</option>
+            <option value="7">七年级</option>
+            <option value="8">八年级</option>
+            <option value="9">九年级</option>
         </select>
     </div>
 </div>
@@ -38,14 +38,16 @@
     <!--代码生成表格 -->
 <div id="dateTable"></div>
     <div style="position: absolute;right:3%;top:5%;width:50%;height:100%">
-        <iframe src="show_schedule.html" width="100%" height="100%" frameborder="0">
+        <iframe src="show_program_by_grade.html" width="100%" height="100%" frameborder="0">
             您的浏览器不支持iframe，请升级
         </iframe>
     </div>
 </div>
 
 <script type="text/javascript" src="../../static/frame/layui/layui.js"></script>
+<script type="text/javascript" th:src="@{/frame/layui/layui.js}"></script>
 <script type="text/javascript" src="../../static/frame/js/index.js"></script>
+<script type="text/javascript" th:src="@{/frame/js/index.js}"></script>
 <script type="text/javascript">
 
     // layui方法

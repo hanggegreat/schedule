@@ -1,10 +1,13 @@
 package cn.lollipop.schedule.domain;
 
+import org.hibernate.annotations.Proxy;
+
 import javax.persistence.*;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
 
 @Entity(name = "pke_teach")
+@Proxy(lazy = false)
 public class Teach implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

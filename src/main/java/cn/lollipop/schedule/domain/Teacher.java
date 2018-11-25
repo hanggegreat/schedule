@@ -1,11 +1,16 @@
 package cn.lollipop.schedule.domain;
 
+import org.hibernate.annotations.NotFound;
+import org.hibernate.annotations.NotFoundAction;
+import org.hibernate.annotations.Proxy;
+
 import javax.persistence.*;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.util.Set;
 
 @Entity(name = "`js0_teacher`")
+@Proxy(lazy = false)
 public class Teacher implements Serializable {
     @Id
     @Column(length = 4, columnDefinition = "char(4)")
@@ -26,10 +31,12 @@ public class Teacher implements Serializable {
 
     @ManyToOne
     @JoinColumn(name = "teacherState", foreignKey = @ForeignKey(name = "none", value = ConstraintMode.NO_CONSTRAINT))
+    @NotFound(action= NotFoundAction.IGNORE)
     private State state;//教师状态
 
     @ManyToOne
     @JoinColumn(name = "teacherSub", foreignKey = @ForeignKey(name = "none", value = ConstraintMode.NO_CONSTRAINT))
+    @NotFound(action= NotFoundAction.IGNORE)
     private Subject subject;//教师学科
 
     @Column(length = 15)
@@ -44,6 +51,7 @@ public class Teacher implements Serializable {
             inverseJoinColumns = {@JoinColumn(name = "teacherJob", referencedColumnName = "jobNo",
                     foreignKey = @ForeignKey(name = "none", value = ConstraintMode.NO_CONSTRAINT))}
     )
+    @NotFound(action= NotFoundAction.IGNORE)
     private Set<Job> jobs;//教师职位
 
     public String getTeacherNo() {

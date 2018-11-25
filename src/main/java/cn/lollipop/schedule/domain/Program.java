@@ -1,10 +1,13 @@
 package cn.lollipop.schedule.domain;
 
+import org.hibernate.annotations.Proxy;
+
 import javax.persistence.*;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
 
 @Entity(name = "pke_program")
+@Proxy(lazy = false)
 public class Program implements Serializable {
     @Id
     @Column(length = 7, columnDefinition = "char(7)")

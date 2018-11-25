@@ -1,9 +1,12 @@
 package cn.lollipop.schedule.domain;
 
+import org.hibernate.annotations.Proxy;
+
 import javax.persistence.*;
 import javax.validation.constraints.Size;
 
 @Entity(name = "`js1.0_zhi_wei`")
+@Proxy(lazy = false)
 public class Job {
     @Id
     @Column(length = 2, columnDefinition = "char(2)")

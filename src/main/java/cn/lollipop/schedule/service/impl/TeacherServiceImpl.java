@@ -20,6 +20,11 @@ public class TeacherServiceImpl implements TeacherService {
     }
 
     @Override
+    public Teacher show(String teacherNo) {
+        return this.teacherRepository.getOne(teacherNo);
+    }
+
+    @Override
     public List<Teacher> listByGno(String gno) {
         return this.teacherRepository.findAllByTeacherGrade(gno);
     }

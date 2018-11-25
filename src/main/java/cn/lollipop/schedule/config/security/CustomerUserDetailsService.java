@@ -5,7 +5,6 @@ import cn.lollipop.schedule.domain.Student;
 import cn.lollipop.schedule.domain.Teacher;
 import cn.lollipop.schedule.repository.StudentRepository;
 import cn.lollipop.schedule.repository.TeacherRepository;
-import cn.lollipop.schedule.util.NumToString;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -15,40 +14,35 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import javax.servlet.http.HttpSession;
+import java.util.*;
 
 @Service
 public class CustomerUserDetailsService implements UserDetailsService {
     private final StudentRepository studentRepository;
     private final TeacherRepository teacherRepository;
+    private final HttpSession session;
 
     @Autowired
-    public CustomerUserDetailsService(StudentRepository studentRepository, TeacherRepository teacherRepository) {
+    public CustomerUserDetailsService(StudentRepository studentRepository, TeacherRepository teacherRepository, HttpSession session) {
         this.studentRepository = studentRepository;
         this.teacherRepository = teacherRepository;
+        this.session = session;
     }
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Teacher teacher = this.teacherRepository.getOne(username);
-        Student student = this.studentRepository.getOne(username);
         List<GrantedAuthority> authorities = new ArrayList<>();
-        if (teacher != null) {
-            Set<Job> jobs = teacher.getJobs();
+        Optional<Teacher> teacherOptional = this.teacherRepository.findById(username);
+        if (teacherOptional.isPresent()) {
+            Set<Job> jobs = teacherOptional.get().getJobs();
             Set<String> jobNos = new HashSet<>();
             for (Job job : jobs) {
                 jobNos.add(job.getJobNo());
             }
+            authorities.add(new SimpleGrantedAuthority("ROLE_TEACHER"));
             if (jobNos.contains("00")) {
                 authorities.add(new SimpleGrantedAuthority("ROLE_ADVISER"));
-            }
-            for (int i = 1; i <= 13; i++) {
-                if (jobNos.contains(NumToString.convert(i))) {
-                    authorities.add(new SimpleGrantedAuthority("ROLE_TEACHER"));
-                }
             }
             if (jobNos.contains("21")) {
                 authorities.add(new SimpleGrantedAuthority("ROLE_SUBLEADER"));
@@ -65,10 +59,17 @@ public class CustomerUserDetailsService implements UserDetailsService {
             if (jobNos.contains("25")) {
                 authorities.add(new SimpleGrantedAuthority("ROLE_PRINCIPAL"));
             }
-            return new User(username, teacher.getTeacherKey(), authorities);
-        } else if (student != null) {
-            authorities.add(new SimpleGrantedAuthority("ROLE_STUDENT"));
-            return new User(username, student.getPassword(), authorities);
+            session.setAttribute("username", teacherOptional.get().getTeacherName());
+            session.setAttribute("type", "teacher");
+            return new User(username, teacherOptional.get().getTeacherKey(), authorities);
+        } else {
+            Optional<Student> studentOptional = this.studentRepository.findById(username);
+            if (studentOptional.isPresent()) {
+                authorities.add(new SimpleGrantedAuthority("ROLE_STUDENT"));
+                session.setAttribute("username", studentOptional.get().getSname());
+                session.setAttribute("type", "student");
+                return new User(username, studentOptional.get().getPassword(), authorities);
+            }
         }
         throw new UsernameNotFoundException("User " + username + " not found!");
     }

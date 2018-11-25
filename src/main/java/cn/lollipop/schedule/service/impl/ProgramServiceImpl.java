@@ -6,7 +6,6 @@ import cn.lollipop.schedule.domain.Program;
 import cn.lollipop.schedule.repository.ClassRepository;
 import cn.lollipop.schedule.repository.GradeRepository;
 import cn.lollipop.schedule.repository.ProgramRepository;
-import cn.lollipop.schedule.repository.StudentRepository;
 import cn.lollipop.schedule.service.ProgramService;
 import cn.lollipop.schedule.util.YearUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,27 +18,27 @@ public class ProgramServiceImpl implements ProgramService {
     private final ProgramRepository programRepository;
     private final ClassRepository classRepository;
     private final GradeRepository gradeRepository;
-    private final StudentRepository studentRepository;
 
     @Autowired
-    public ProgramServiceImpl(ProgramRepository programRepository, ClassRepository classRepository, GradeRepository gradeRepository, StudentRepository studentRepository) {
+    public ProgramServiceImpl(ProgramRepository programRepository, ClassRepository classRepository, GradeRepository gradeRepository) {
         this.programRepository = programRepository;
         this.classRepository = classRepository;
         this.gradeRepository = gradeRepository;
-        this.studentRepository = studentRepository;
     }
 
     @Override
     public List<Program> listStudentProgram(String sno) {
-        Class myClass = this.studentRepository.getOne(sno).getStuClass();
-        Grade grade = this.gradeRepository.findByGradeNo(myClass.getGradeNo());
+        String enrollYear = sno.substring(0, 4);
+        Grade grade = this.gradeRepository.getOne(enrollYear);
         return this.programRepository.findAllByGradeAndStatus(grade, "1");
     }
 
     @Override
     public List<Program> listByClassTeacher(String teacherNo) {
         Class myClass = this.classRepository.findByTeacherNoAndYear(teacherNo, YearUtil.getCurrentYear());
-        Grade grade = this.gradeRepository.findByGradeNo(myClass.getGradeNo());
+        System.out.println(myClass);
+        Grade grade = this.gradeRepository.findByGradeNo(String.valueOf(Integer.parseInt(myClass.getGradeNo()) + 6));
+        System.out.println(grade);
         return this.programRepository.findAllByGradeAndStatus(grade, "1");
     }
 
@@ -52,6 +51,11 @@ public class ProgramServiceImpl implements ProgramService {
     public List<Program> listByGrade(String enrollYear) {
         Grade grade = this.gradeRepository.getOne(enrollYear);
         return this.programRepository.findAllByGradeAndStatus(grade, "1");
+    }
+
+    @Override
+    public List<Program> listByStatusAndEnrollYear(String status, String enrollYear) {
+        return this.programRepository.findAllByGradeAndStatus(this.gradeRepository.getOne(enrollYear), status);
     }
 
     @Override

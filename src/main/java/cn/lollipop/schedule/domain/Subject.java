@@ -1,5 +1,7 @@
 package cn.lollipop.schedule.domain;
 
+import org.hibernate.annotations.Proxy;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -7,6 +9,7 @@ import javax.validation.constraints.Size;
 import java.io.Serializable;
 
 @Entity(name = "`js3.0_xue_ke`")
+@Proxy(lazy = false)
 public class Subject implements Serializable {
     @Id
     @Column(length = 2, columnDefinition = "char(1)")

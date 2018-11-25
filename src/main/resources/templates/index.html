@@ -1,14 +1,20 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
     <meta name="renderer" content="webkit">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <title>教务系统·排课系统</title>
-    <link rel="stylesheet" href="../static/frame/layui/css/layui.css">
-    <link rel="stylesheet" href="../static/frame/static/css/style.css">
-    <link rel="icon" href="../static/frame/static/image/code.png">
+    <link rel="stylesheet" href="../static/frame/layui/css/layui.css" th:href="@{/frame/layui/css/layui.css}">
+    <link rel="stylesheet" href="../static/frame/static/css/style.css" th:href="@{/frame/static/css/style.css}">
+    <link rel="icon" href="../static/frame/static/image/code.png" th:href="@{/frame/static/image/code.png}">
+    <link rel="stylesheet" href="../static/css/bootstrap.min.css"
+          th:href="@{/webjars/bootstrap/4.1.3/css/bootstrap.min.css}">
+    <script src="../static/js/jquery3.3.1.min.js" th:src="@{/webjars/jquery/3.0.0/jquery.min.js}"></script>
+    <script src="../static/js/popper.min.js" th:src="@{/webjars/popper.js/1.14.3/popper.min.js}"></script>
+    <script src="../static/js/bootstrap.min.js" th:src="@{/webjars/bootstrap/4.1.3/js/bootstrap.min.js}"></script>
 </head>
 <body>
 
@@ -16,14 +22,12 @@
 <div class="layui-layout layui-layout-admin"> <!-- 添加skin-1类可手动修改主题为纯白，添加skin-2类可手动修改主题为蓝白 -->
     <!-- header -->
     <div class="layui-header my-header">
-        <a href="index.html">
-            <!--<img class="my-header-logo" src="" alt="logo">-->
+        <a href="temp.html">
             <div class="my-header-logo">教务系统·排课系统</div>
         </a>
         <div class="my-header-btn">
             <button class="layui-btn layui-btn-small btn-nav"><i class="layui-icon">&#xe65f;</i></button>
         </div>
-
         <!-- 顶部右侧添加选项卡监听 -->
         <ul class="layui-nav my-header-user-nav" lay-filter="side-top-right">
             <li class="layui-nav-item">
@@ -35,50 +39,158 @@
                 </dl>
             </li>
             <li class="layui-nav-item">
-                <a class="name" href="javascript:;"><img src="../static/frame/static/image/code.png" alt="logo"> Admin </a>
+                <a class="name" href="javascript:;">
+                    <span sec:authorize="hasRole('STUDENT')">学生·</span>
+                    <span sec:authorize="hasRole('TEACHER')">
+                        <span sec:authorize="hasRole('ADVISER')">班主任·</span>
+                        <span sec:authorize="hasRole('SUBLEADER')">学科组长·</span>
+                        <span sec:authorize="hasRole('GRADELEADER')">年级组长·</span>
+                        <span sec:authorize="hasRole('ACADEMIC')">教务员·</span>
+                        <span sec:authorize="hasRole('REGISTRAR')">教务主任·</span>
+                        <span sec:authorize="hasRole('PRINCIPAL')">校长·</span>
+                    </span>
+                    <span sec:authorize="!hasAnyRole('ADVISER', 'SUBLEADER', 'GRADELEADER', 'ACADEMIC', 'REGISTRAR', 'PRINCIPAL') && hasRole('ADVISER')">教师·</span>
+                    <span th:text="${#session.getAttribute('username')}">小明</span>
+                </a>
                 <dl class="layui-nav-child">
-                    <dd><a href="javascript:;" href-url="demo/login.html"><i class="layui-icon">&#xe621;</i>登录页</a></dd>
-                    <dd><a href="javascript:;" href-url="demo/map.html"><i class="layui-icon">&#xe621;</i>图表</a></dd>
-                    <dd><a href="/"><i class="layui-icon">&#x1006;</i>退出</a></dd>
+                    <dd><a href="javascript:;" onclick="logoutForm.submit()"><i class="layui-icon">&#x1006;</i>退出</a>
+                    </dd>
                 </dl>
             </li>
         </ul>
+        <form id="logoutForm" method="post" action="/logout" th:action="@{/logout}"></form>
 
     </div>
     <!-- side -->
     <div class="layui-side my-side">
         <div class="layui-side-scroll">
+            <div class="layui-side-profile">
+                <img src="../static/img/profile.jpg" th:src="@{/img/profile.jpg}"
+                     style="height:150px; width:150px;border-radius:80px;margin:15px 0; "/>
+            </div>
             <!-- 左侧主菜单添加选项卡监听 -->
             <ul class="layui-nav layui-nav-tree" lay-filter="side-main">
-               <li class="layui-nav-item  layui-nav-itemed">
-                    <a href="javascript:;"><i class="layui-icon">&#xe620;</i>基础</a>
+                <li sec:authorize="isAuthenticated()" class="layui-nav-item  layui-nav-itemed">
+                    <a href="javascript:;"><i class="layui-icon">&#xe620;</i>基本信息</a>
                     <dl class="layui-nav-child">
-                        <dd><a href="javascript:;" href-url="demo/btn1.html"><i class="layui-icon">&#xe621;</i>按钮</a></dd>
-                        <dd><a href="javascript:;" href-url="demo/form.html"><i class="layui-icon">&#xe621;</i>表单</a></dd>
-                        <dd><a href="javascript:;" href-url="demo/table.html"><i class="layui-icon">&#xe621;</i>表格</a></dd>
-                        <dd><a href="javascript:;" href-url="demo/tab-card.html"><i class="layui-icon">&#xe621;</i>选项卡</a></dd>
-                        <dd><a href="javascript:;" href-url="demo/progress-bar.html"><i class="layui-icon">&#xe621;</i>进度条</a></dd>
-                        <dd><a href="javascript:;" href-url="demo/folding-panel.html"><i class="layui-icon">&#xe621;</i>折叠面板</a></dd>
-                        <dd><a href="javascript:;" href-url="demo/auxiliar.html"><i class="layui-icon">&#xe621;</i>辅助元素</a></dd>
+                        <dd>
+                            <a href="javascript:;" href-url="sub-view/basic_information.html"
+                               th:attr="href-url=@{'/' + ${#session.getAttribute('type')} + '/info'}"><i
+                                    class="layui-icon">&#xe621;</i>查看基本信息</a>
+                        </dd>
                     </dl>
                 </li>
-                <li class="layui-nav-item">
-                    <a href="javascript:;"><i class="layui-icon">&#xe628;</i>扩展</a>
+                <li class="layui-nav-item  layui-nav-itemed">
+                    <a href="javascript:;"><i class="layui-icon">&#xe620;</i>培养方案</a>
                     <dl class="layui-nav-child">
-                        <dd><a href="javascript:;" href-url="demo/login.html"><i class="layui-icon">&#xe621;</i>登录页</a></dd>
-                        <dd><a href="javascript:;" href-url="demo/register.html"><i class="layui-icon">&#xe621;</i>注册页</a></dd>
-                        <dd><a href="javascript:;" href-url="demo/login2.html"><i class="layui-icon">&#xe621;</i>登录页2</a></dd>
-                        <dd><a href="javascript:;" href-url="demo/map.html"><i class="layui-icon">&#xe621;</i>图表</a></dd>
-                        <dd><a href="javascript:;" href-url="demo/add-edit.html"><i class="layui-icon">&#xe621;</i>添加-修改</a></dd>
-                        <dd><a href="javascript:;" href-url="demo/data-table.html"><i class="layui-icon">&#xe621;</i>data-table 表格页</a></dd>
-                        <dd><a href="javascript:;" href-url="demo/tree-table.html"><i class="layui-icon">&#xe621;</i>Tree table树表格页</a></dd>
-                        <dd><a href="javascript:;" href-url="demo/404.html"><i class="layui-icon">&#xe621;</i>404页</a></dd>
-                        <dd><a href="javascript:;" href-url="demo/tips.html"><i class="layui-icon">&#xe621;</i>提示页</a></dd>
+                        <dd sec:authorize="hasRole('STUDENT')">
+                            <a href="javascript:;"
+                               href-url="sub-view/show_program.html"
+                               th:attr="href-url=@{/student/program/list}">
+                                <i class="layui-icon">&#xe621;</i>我的
+                            </a>
+                        </dd>
+                        <dd sec:authorize="hasRole('ADVISER')">
+                            <a href="javascript:;"
+                               href-url="sub-view/show_program.html"
+                               th:attr="href-url=@{/teacher/adviser/program/list}">
+                                <i class="layui-icon">&#xe621;</i>所在班级
+                            </a>
+                        </dd>
+                        <dd sec:authorize="hasRole('GRADELEADER')">
+                            <a href="javascript:;"
+                               href-url="sub-view/show_program.html"
+                               th:attr="href-url=@{/teacher/gradeLeader/program/list}">
+                                <i class="layui-icon">&#xe621;</i>所在年级
+                            </a>
+                        </dd>
+                        <dd sec:authorize="hasRole('ACADEMIC')">
+                            <a href="javascript:;"
+                               href-url="sub-view/show_program_by_grade.html"
+                               th:attr="href-url=@{/teacher/academic/program/listByGrade}">
+                                <i class="layui-icon">&#xe621;</i>查看历届</a>
+                        </dd>
+                        <dd sec:authorize="hasRole('ACADEMIC')">
+                            <a href="javascript:;" href-url="sub-view/make_schedule.html"
+                               th:attr="href-url=@{/teacher/academic/program/make}">
+                                <i class="layui-icon">&#xe621;</i>制定
+                            </a>
+                        </dd>
+                        <dd sec:authorize="hasAnyRole('REGISTRAR', 'ACADEMIC')">
+                            <a href="javascript:;" href-url="sub-view/show_program_by_status_and_grade.html"
+                               th:attr="href-url=@{/teacher/academic/program/listUnpublished}">
+                                <i class="layui-icon">&#xe621;</i>未发布
+                            </a>
+                        </dd>
+                        <dd sec:authorize="hasAnyRole('REGISTRAR', 'ACADEMIC')">
+                            <a href="javascript:;" href-url="sub-view/show_program_by_status_and_grade.html"
+                               th:attr="href-url=@{/teacher/academic/program/check}">
+                                <i class="layui-icon">&#xe621;</i>待审核
+                            </a>
+                        </dd>
+                        <dd sec:authorize="hasAnyRole('REGISTRAR', 'ACADEMIC')">
+                            <a href="javascript:;" href-url="sub-view/show_program_by_status_and_grade.html"
+                               th:attr="href-url=@{/teacher/academic/program/listPublished}">
+                                <i class="layui-icon">&#xe621;</i>已发布
+                            </a>
+                        </dd>
+                        <dd sec:authorize="hasRole('REGISTRAR')">
+                            <a href="javascript:;" href-url="sub-view/show_program_by_status_and_grade.html"
+                               th:attr="href-url=@{/teacher/academic/program/review}">
+                                <i class="layui-icon">&#xe621;</i>审核
+                            </a>
+                        </dd>
+                        <dd sec:authorize="hasAnyRole('REGISTRAR', 'ACADEMIC')">
+                            <a href="javascript:;" href-url="sub-view/show_program_by_status_and_grade.html"
+                               th:attr="href-url=@{/teacher/academic/program/listFail}">
+                                <i class="layui-icon">&#xe621;</i>未通过
+                            </a>
+                        </dd>
                     </dl>
                 </li>
-                <li class="layui-nav-item"><a target="_blank" href="//shang.qq.com/wpa/qunwpa?idkey=ad6ba602ae228be2222ddb804086e0cfa42da3d74e34b383b665c2bec1adfc6e"><i class="layui-icon">&#xe61e;</i>加入群下载源码</a></li>
+                <li class="layui-nav-item  layui-nav-itemed">
+                    <a href="javascript:;"><i class="layui-icon">&#xe620;</i>任教(学科组长)</a>
+                    <dl class="layui-nav-child">
+                        <dd><a href="javascript:;" href-url="sub-view/check_tertable.html"><i class="layui-icon">&#xe621;</i>分配教师(增加、修改)</a>
+                        </dd>
+                        <dd><a href="javascript:;" href-url="sub-view/check_classtable.html"><i class="layui-icon">&#xe621;</i>查看</a>
+                        </dd>
+                    </dl>
+                </li>
+                <li class="layui-nav-item  layui-nav-itemed">
+                    <a href="javascript:;"><i class="layui-icon">&#xe620;</i>课程表</a>
+                    <dl class="layui-nav-child">
+                        <dd><a href="javascript:;" href-url="sub-view/check_tertable.html"><i class="layui-icon">&#xe621;</i>查看教师课表</a>
+                        </dd>
+                        <dd><a href="javascript:;" href-url="sub-view/check_classtable.html"><i class="layui-icon">&#xe621;</i>查看班级课表</a>
+                        </dd>
+                        <dd><a href="javascript:;" href-url="sub-view/check_classtable.html"><i class="layui-icon">&#xe621;</i>我的（学生）</a>
+                        </dd>
+                        <dd><a href="javascript:;" href-url="sub-view/check_classtable.html"><i class="layui-icon">&#xe621;</i>我的（教师）</a>
+                        </dd>
+                        <dd><a href="javascript:;" href-url="sub-view/check_classtable.html"><i class="layui-icon">&#xe621;</i>当前班级（班主任）</a>
+                        </dd>
+                        <dd><a href="javascript:;" href-url="sub-view/check_classtable.html"><i class="layui-icon">&#xe621;</i>当前年级（年级组长）</a>
+                        </dd>
+                        <dd><a href="javascript:;" href-url="sub-view/check_classtable.html"><i class="layui-icon">&#xe621;</i>查看（领导）</a>
+                        </dd>
+                        <dd><a href="javascript:;" href-url="sub-view/check_classtable.html"><i class="layui-icon">&#xe621;</i>排课（教务员）</a>
+                        </dd>
+                        <dd><a href="javascript:;" href-url="sub-view/check_classtable.html"><i class="layui-icon">&#xe621;</i>修改（教务员）</a>
+                        </dd>
+                        <dd><a href="javascript:;" href-url="sub-view/check_classtable.html"><i class="layui-icon">&#xe621;</i>审核（教务主任）</a>
+                        </dd>
+                        <dd><a href="javascript:;" href-url="sub-view/check_classtable.html"><i class="layui-icon">&#xe621;</i>未发布（教务员）</a>
+                        </dd>
+                        <dd><a href="javascript:;" href-url="sub-view/check_classtable.html"><i class="layui-icon">&#xe621;</i>已发布（教务员、教务主任）</a>
+                        </dd>
+                        <dd><a href="javascript:;" href-url="sub-view/check_classtable.html"><i class="layui-icon">&#xe621;</i>待审核（教务员、教务主任）</a>
+                        </dd>
+                        <dd><a href="javascript:;" href-url="sub-view/check_classtable.html"><i class="layui-icon">&#xe621;</i>未通过（教务员、教务主任）</a>
+                        </dd>
+                    </dl>
+                </li>
             </ul>
-
         </div>
     </div>
     <!-- body -->
@@ -89,14 +201,13 @@
             </ul>
             <div class="layui-tab-content">
                 <div class="layui-tab-item layui-show">
-                    <iframe id="iframe" src="demo/welcome.html" frameborder="0"></iframe>
+                    <iframe id="iframe" th:src="@{/welcome}" src="sub-view/welcome.html" frameborder="0"></iframe>
                 </div>
             </div>
         </div>
     </div>
     <!-- footer -->
     <div class="layui-footer my-footer">
-        
     </div>
 </div>
 
@@ -115,25 +226,14 @@
     </table>
 </div>
 
-<script type="text/javascript" src="../static/frame/layui/layui.js"></script>
-<script type="text/javascript" src="../static/frame/static/js/vip_comm.js"></script>
+<script src="../static/frame/layui/layui.js" th:src="@{/frame/layui/layui.js}"></script>
+<script src="../static/frame/static/js/vip_comm.js" th:src="@{/frame/static/js/vip_comm.js}"></script>
 <script type="text/javascript">
-layui.use(['layer','vip_nav'], function () {
-
-    // 操作对象
-    var layer       = layui.layer
-        ,vipNav     = layui.vip_nav
-        ,$          = layui.jquery;
-
-    // 顶部左侧菜单生成 [请求地址,过滤ID,是否展开,携带参数]
-    vipNav.top_left('./json/nav_top_left.json','side-top-left',false);
-    // 主体菜单生成 [请求地址,过滤ID,是否展开,携带参数]
-    vipNav.main('./json/nav_main.json','side-main',true);
-
-    // you code ...
-
-
-});
+    layui.use(['layer', 'vip_nav'], function () {
+        // 操作对象
+        var layer = layui.layer
+            , vipNav = layui.vip_nav
+            , $ = layui.jquery;
+    });
 </script>
 </body>
-</html>

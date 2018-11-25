@@ -1,11 +1,14 @@
 package cn.lollipop.schedule.domain;
 
+import org.hibernate.annotations.Proxy;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.validation.constraints.Size;
 
 @Entity(name = "`js6.1_fang_jian_gong_neng`")
+@Proxy(lazy = false)
 public class RoomFunction {
     @Id
     @Column(length = 2, columnDefinition = "char(2)")

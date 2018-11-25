@@ -1,11 +1,14 @@
 package cn.lollipop.schedule.domain;
 
+import org.hibernate.annotations.Proxy;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.validation.constraints.Size;
 
 @Entity(name = "`js6.3_lou`")
+@Proxy(lazy = false)
 public class Block {
     @Id
     @Column(length = 1, columnDefinition = "char(1)")

@@ -1,10 +1,13 @@
 package cn.lollipop.schedule.domain;
 
+import org.hibernate.annotations.Proxy;
+
 import javax.persistence.*;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
 
 @Entity(name = "XJ_Student")
+@Proxy(lazy = false)
 public class Student implements Serializable {
     @Id
     @Column(length = 8, columnDefinition = "char(8)")

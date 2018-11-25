@@ -7,7 +7,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 public interface ProgramRepository extends JpaRepository<Program, String> {
-
     /**
      * 根据注册学年以及发布状态查询该届学生的全部培养方案信息
      *
@@ -17,9 +16,8 @@ public interface ProgramRepository extends JpaRepository<Program, String> {
      */
     List<Program> findAllByGradeAndStatus(Grade grade, String status);
 
-
     /**
-     * 根据年级号以及发布状态查询出该年级学生的全部培养方案信息
+     * 根据年级号以及发布状态查询出该年级学生该学年的全部培养方案信息
      *
      * @param gradeNo 年级号
      * @param year    学年编号

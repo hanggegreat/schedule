@@ -1,11 +1,14 @@
 package cn.lollipop.schedule.domain;
 
+import org.hibernate.annotations.Proxy;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.validation.constraints.Size;
 
 @Entity(name = "XJ_StudentStaNo")
+@Proxy(lazy = false)
 public class Status {
     @Id
     @Column(length = 2, columnDefinition = "char(2)")
