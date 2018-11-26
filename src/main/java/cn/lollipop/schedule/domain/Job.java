@@ -5,7 +5,7 @@ import org.hibernate.annotations.Proxy;
 import javax.persistence.*;
 import javax.validation.constraints.Size;
 
-@Entity(name = "`js1.0_zhi_wei`")
+@Entity(name = "js_zhi_wei")
 @Proxy(lazy = false)
 public class Job {
     @Id

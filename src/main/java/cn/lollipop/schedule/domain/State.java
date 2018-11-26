@@ -7,7 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.validation.constraints.Size;
 
-@Entity(name = "`js1.2_zhuang_tai`")
+@Entity(name = "js_zhuang_tai")
 @Proxy(lazy = false)
 public class State {
     @Id

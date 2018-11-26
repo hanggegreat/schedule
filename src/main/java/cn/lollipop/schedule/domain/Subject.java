@@ -8,7 +8,7 @@ import javax.persistence.Id;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
 
-@Entity(name = "`js3.0_xue_ke`")
+@Entity(name = "js_xue_ke")
 @Proxy(lazy = false)
 public class Subject implements Serializable {
     @Id

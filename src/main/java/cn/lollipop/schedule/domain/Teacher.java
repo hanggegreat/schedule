@@ -9,7 +9,7 @@ import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.util.Set;
 
-@Entity(name = "`js0_teacher`")
+@Entity(name = "js_teacher")
 @Proxy(lazy = false)
 public class Teacher implements Serializable {
     @Id
@@ -45,7 +45,7 @@ public class Teacher implements Serializable {
 
 
     @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "`js1.1_jiao_shi_zhi_wei`",
+    @JoinTable(name = "`js_jiao_shi_zhi_wei`",
             joinColumns = {@JoinColumn(name = "teacherNo", referencedColumnName = "teacherNo",
                     foreignKey = @ForeignKey(name = "none", value = ConstraintMode.NO_CONSTRAINT))},
             inverseJoinColumns = {@JoinColumn(name = "teacherJob", referencedColumnName = "jobNo",

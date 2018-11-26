@@ -1,16 +1,17 @@
 package cn.lollipop.schedule.controller;
 
 import cn.lollipop.schedule.domain.Grade;
+import cn.lollipop.schedule.domain.Program;
 import cn.lollipop.schedule.domain.Teacher;
 import cn.lollipop.schedule.repository.GradeRepository;
 import cn.lollipop.schedule.service.ProgramService;
+import cn.lollipop.schedule.service.SubjectService;
 import cn.lollipop.schedule.service.TeacherService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * @author lollipop
@@ -23,18 +24,33 @@ public class programController {
     private final ProgramService programService;
     private final TeacherService teacherService;
     private final GradeRepository gradeRepository;
+    private final SubjectService subjectService;
 
     @Autowired
-    public programController(ProgramService programService, TeacherService teacherService, GradeRepository gradeRepository) {
+    public programController(ProgramService programService, TeacherService teacherService, GradeRepository gradeRepository, SubjectService subjectService) {
         this.programService = programService;
         this.teacherService = teacherService;
         this.gradeRepository = gradeRepository;
+        this.subjectService = subjectService;
     }
 
     @RequestMapping("/student/program/list")
     public String studentList(Model model, Authentication authentication) {
         model.addAttribute("programs", this.programService.listStudentProgram(authentication.getName()));
         return "sub-view/show_program";
+    }
+
+    @GetMapping("/teacher/academic/program/make")
+    public String preMake(Model model) {
+        model.addAttribute("grades", this.gradeRepository.findAll());
+        model.addAttribute("subjects", this.subjectService.list());
+        return "sub-view/make_program";
+    }
+
+    @PostMapping("/teacher/academic/program/make")
+    @ResponseBody
+    public boolean make(Program program) {
+        return programService.insert(program) != null;
     }
 
     @RequestMapping("/teacher/adviser/program/list")
@@ -61,7 +77,7 @@ public class programController {
     }
 
     @RequestMapping({"/teacher/academic/program/listUnpublished/{enrollYear}", "/teacher/academic/program/listUnpublished"})
-    public String listUnpublished(Model model, @PathVariable(required = false) String enrollYear){
+    public String listUnpublished(Model model, @PathVariable(required = false) String enrollYear) {
         model.addAttribute("status", "0");
         model.addAttribute("url", "listUnpublished");
         if (enrollYear != null && !enrollYear.isEmpty()) {
@@ -72,7 +88,7 @@ public class programController {
     }
 
     @RequestMapping({"/teacher/academic/program/check/{enrollYear}", "/teacher/academic/program/check"})
-    public String check(Model model, @PathVariable(required = false) String enrollYear){
+    public String check(Model model, @PathVariable(required = false) String enrollYear) {
         model.addAttribute("status", "2");
         model.addAttribute("url", "check");
         if (enrollYear != null && !enrollYear.isEmpty()) {
@@ -83,7 +99,7 @@ public class programController {
     }
 
     @RequestMapping({"/teacher/academic/program/listPublished/{enrollYear}", "/teacher/academic/program/listPublished"})
-    public String listPublished(Model model, @PathVariable(required = false) String enrollYear){
+    public String listPublished(Model model, @PathVariable(required = false) String enrollYear) {
         model.addAttribute("status", "1");
         model.addAttribute("url", "listPublished");
         if (enrollYear != null && !enrollYear.isEmpty()) {
@@ -94,7 +110,7 @@ public class programController {
     }
 
     @RequestMapping({"/teacher/academic/program/review/{enrollYear}", "/teacher/academic/program/review"})
-    public String review(Model model, @PathVariable(required = false) String enrollYear){
+    public String review(Model model, @PathVariable(required = false) String enrollYear) {
         model.addAttribute("status", "2");
         model.addAttribute("url", "review");
         if (enrollYear != null && !enrollYear.isEmpty()) {
@@ -105,7 +121,7 @@ public class programController {
     }
 
     @RequestMapping({"/teacher/academic/program/listFail/{enrollYear}", "/teacher/academic/program/listFail"})
-    public String listFail(Model model, @PathVariable(required = false) String enrollYear){
+    public String listFail(Model model, @PathVariable(required = false) String enrollYear) {
         model.addAttribute("status", "3");
         model.addAttribute("url", "listFail");
         if (enrollYear != null && !enrollYear.isEmpty()) {

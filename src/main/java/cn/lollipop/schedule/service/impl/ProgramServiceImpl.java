@@ -59,6 +59,11 @@ public class ProgramServiceImpl implements ProgramService {
     }
 
     @Override
+    public Program insert(Program program) {
+        return programRepository.save(program);
+    }
+
+    @Override
     public List<Program> insertInBatch(List<Program> programs) {
         return this.programRepository.saveAll(programs);
     }

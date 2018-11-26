@@ -7,7 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.validation.constraints.Size;
 
-@Entity(name = "`js6.3_lou`")
+@Entity(name = "js_lou")
 @Proxy(lazy = false)
 public class Block {
     @Id

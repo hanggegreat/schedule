@@ -25,7 +25,7 @@ public class Timetable implements Serializable {
     private Short time;//上课时间
 
     @ManyToOne
-    @JoinColumn(name = "teachNo", foreignKey = @ForeignKey(name = "none", value = ConstraintMode.NO_CONSTRAINT))
+    @JoinColumn(name = "teachNo", referencedColumnName = "teachNo", foreignKey = @ForeignKey(name = "none", value = ConstraintMode.NO_CONSTRAINT))
     private Teach teach;//任课信息
 
     @ManyToOne

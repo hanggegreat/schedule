@@ -7,7 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.validation.constraints.Size;
 
-@Entity(name = "`js6.1_fang_jian_gong_neng`")
+@Entity(name = "js_fang_jian_gong_neng")
 @Proxy(lazy = false)
 public class RoomFunction {
     @Id

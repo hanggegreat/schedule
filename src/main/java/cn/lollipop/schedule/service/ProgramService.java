@@ -51,6 +51,14 @@ public interface ProgramService {
     /**
      * 教务员制定培养方案
      *
+     * @param program 培养方案
+     * @return 返回插入后的新数据
+     */
+    Program insert(Program program);
+
+    /**
+     * 教务员制定培养方案
+     *
      * @param programs 培养方案
      * @return 以List集合的形式返回插入后的新数据
      */
