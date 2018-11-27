@@ -40,4 +40,12 @@ public interface TeacherRepository extends JpaRepository<Teacher, String> {
      * @return 返回教师信息
      */
     Teacher findByTeacherNoAndTeacherKey(String teacherNo, String teacherKey);
+
+    /**
+     * 根据教师编号查询出该教师的全部信息
+     *
+     * @param teacherNo 教师编号
+     * @return 返回教师信息
+     */
+    Teacher findByTeacherNo(String teacherNo);
 }

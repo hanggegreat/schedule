@@ -13,6 +13,10 @@ import java.util.Set;
 @Proxy(lazy = false)
 public class Teacher implements Serializable {
     @Id
+    @Column(length = 5, columnDefinition = "char(5)")
+    @Size(min = 5, max = 5)
+    private String id;
+
     @Column(length = 4, columnDefinition = "char(4)")
     @Size(min = 4, max = 4)
     private String teacherNo;//教师编号
@@ -53,6 +57,14 @@ public class Teacher implements Serializable {
     )
     @NotFound(action= NotFoundAction.IGNORE)
     private Set<Job> jobs;//教师职位
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 
     public String getTeacherNo() {
         return teacherNo;
@@ -110,7 +122,6 @@ public class Teacher implements Serializable {
         this.teacherKey = teacherKey;
     }
 
-
     public Set<Job> getJobs() {
         return jobs;
     }
@@ -122,7 +133,8 @@ public class Teacher implements Serializable {
     @Override
     public String toString() {
         return "Teacher{" +
-                "teacherNo='" + teacherNo + '\'' +
+                "id='" + id + '\'' +
+                ", teacherNo='" + teacherNo + '\'' +
                 ", teacherName='" + teacherName + '\'' +
                 ", teacherSex='" + teacherSex + '\'' +
                 ", teacherGrade='" + teacherGrade + '\'' +

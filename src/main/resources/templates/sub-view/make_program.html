@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="renderer" content="webkit">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="_csrf" th:content="${_csrf.token}"/>
+    <meta name="_csrf_header"  th:content="${_csrf.headerName}"/>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <title>表单</title>
     <link rel="stylesheet" href="../../static/frame/layui/css/layui.css" th:href="@{/frame/layui/css/layui.css}">
@@ -12,7 +14,6 @@
     <script src="../../static/js/jquery3.3.1.min.js" th:src="@{/webjars/jquery/3.0.0/jquery.min.js}"></script>
     <script src="../../static/js/own-js.js" th:src="@{/js/own-js.js}"></script>
     <script src="../../static/frame/layui/layui.js" th:src="@{/frame/layui/layui.js}"></script>
-    <script src="../../static/js/own-js.js" th:src="@{/js/own-js.js}"></script>
 </head>
 <body class="body">
 <form class="layui-form" method="post" th:action="@{/teacher/academic/program/make}">
@@ -61,9 +62,9 @@
     </div>
 
     <div class="layui-form-item">
-        <label class="layui-form-label" for="subject.subNo">科目</label>
+        <label class="layui-form-label" for="subNo">科目</label>
         <div class="layui-input-block">
-            <select name="subject.subNo" id="subject.subNo">
+            <select name="subNo" id="subNo">
                 <option th:each="subject: ${subjects}" th:value="${subject.subNo}" th:text="${subject.subName}"></option>
             </select>
         </div>
@@ -71,7 +72,7 @@
 
     <div class="layui-form-item">
         <div class="layui-input-block">
-            <button class="layui-btn" onclick="return get_form()" lay-submit="" lay-filter="demo1">添加</button>
+            <button class="layui-btn" onclick="insert();" lay-submit="" lay-filter="demo1">添加</button>
             <button type="reset" class="layui-btn layui-btn-primary">重置</button>
         </div>
     </div>
@@ -152,7 +153,6 @@
         form.on('submit(demo1)', function(data){
             return false;
         });
-
 
     });
 </script>

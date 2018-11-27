@@ -11,4 +11,12 @@ public interface SubjectService {
      * @return 以List集合的形式返回全部数据
      */
     List<Subject> list();
+
+    /**
+     * 根据id查询对于学科信息
+     *
+     * @param subNo 学科编号
+     * @return 返回学科对象
+     */
+    Subject show(String subNo);
 }

@@ -21,7 +21,7 @@ public class TeacherServiceImpl implements TeacherService {
 
     @Override
     public Teacher show(String teacherNo) {
-        return this.teacherRepository.getOne(teacherNo);
+        return this.teacherRepository.findByTeacherNo(teacherNo);
     }
 
     @Override

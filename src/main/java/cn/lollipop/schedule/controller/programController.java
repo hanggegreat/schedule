@@ -13,6 +13,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 /**
  * @author lollipop
  * @email nhuy@qq.com
@@ -49,8 +51,12 @@ public class programController {
 
     @PostMapping("/teacher/academic/program/make")
     @ResponseBody
-    public boolean make(Program program) {
-        return programService.insert(program) != null;
+    public Program make(@Valid Program program) {
+        program.setStatus("0");
+        program.setYear(String.valueOf(Integer.parseInt(program.getGrade().getEnrollYear()) + Integer.parseInt(program.getGradeNo()) - 7));
+        program.setId(program.getYear() + program.getGradeNo() + program.getSubject().getSubNo());
+        System.out.println(program);
+        return programService.insert(program);
     }
 
     @RequestMapping("/teacher/adviser/program/list")

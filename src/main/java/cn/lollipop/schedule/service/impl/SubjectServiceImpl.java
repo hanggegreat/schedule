@@ -21,4 +21,9 @@ public class SubjectServiceImpl implements SubjectService {
     public List<Subject> list() {
         return this.subjectRepository.findAll();
     }
+
+    @Override
+    public Subject show(String subNo) {
+        return this.subjectRepository.getOne(subNo);
+    }
 }

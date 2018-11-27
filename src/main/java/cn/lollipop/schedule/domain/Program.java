@@ -45,7 +45,6 @@ public class Program implements Serializable {
     @JoinColumn(name = "subNo", foreignKey = @ForeignKey(name = "none", value = ConstraintMode.NO_CONSTRAINT))
     private Subject subject;//学科
 
-
     public String getId() {
         return id;
     }

@@ -33,9 +33,9 @@ public class CustomerUserDetailsService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         List<GrantedAuthority> authorities = new ArrayList<>();
-        Optional<Teacher> teacherOptional = this.teacherRepository.findById(username);
-        if (teacherOptional.isPresent()) {
-            Set<Job> jobs = teacherOptional.get().getJobs();
+        Teacher teacher = this.teacherRepository.findByTeacherNo(username);
+        if (teacher != null) {
+            Set<Job> jobs = teacher.getJobs();
             Set<String> jobNos = new HashSet<>();
             for (Job job : jobs) {
                 jobNos.add(job.getJobNo());
@@ -59,9 +59,9 @@ public class CustomerUserDetailsService implements UserDetailsService {
             if (jobNos.contains("25")) {
                 authorities.add(new SimpleGrantedAuthority("ROLE_PRINCIPAL"));
             }
-            session.setAttribute("username", teacherOptional.get().getTeacherName());
+            session.setAttribute("username", teacher.getTeacherName());
             session.setAttribute("type", "teacher");
-            return new User(username, teacherOptional.get().getTeacherKey(), authorities);
+            return new User(username, teacher.getTeacherKey(), authorities);
         } else {
             Optional<Student> studentOptional = this.studentRepository.findById(username);
             if (studentOptional.isPresent()) {

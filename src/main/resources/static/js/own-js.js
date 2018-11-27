@@ -1,3 +1,6 @@
+var header = $("meta[name='_csrf_header']").attr("content");
+var token = $("meta[name='_csrf']").attr("content");
+
 /**
  *@Param: string url_table, int width
  *@Return: void
@@ -50,6 +53,9 @@ make_select = function (url_selector, selector, item) {
             url: url_selector,
             type: 'GET',
             dataType: 'json',
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader(header, token);
+            },
             success: function (data) {
                 $("#" + selector).append("<option value='-1'>--请选择" + item + "--</option>");
                 $.each(data, function (index, item) {
@@ -68,19 +74,18 @@ get_string = function (e) {
     //              tr.find("td:nth-child(6)").val().toString()+
     //              tr.find("td:nth-child(7)").val().toString();
     return '2017803';
-}
+};
 get_form = function () {
-    var yearNo = $("#year-selector").val();
-    var gradeNo = $("#grade-selector").val();
-    var subjectNo = $("#subject-selector").val();
-    var id = yearNo.toString() + gradeNo.toString() + subjectNo.toString();
-    var year = $("#year-selector").find("option:selected").text();
-    var grade = $("#grade-selector").find("option:selected").text();
-    var subject = $("#subject-selector").find("option:selected").text();
+    var enrollYear = $("#enrollYear").val();
+    var gradeNo = $("#gradeNo").val();
+    var subNo = $("#subNo").val();
+    var id = enrollYear + gradeNo + subNo;
+    var year = $("#year").find("option:selected").text();
+    var grade = $("#gradeNo").find("option:selected").text();
+    var subject = $("#subNo").find("option:selected").text();
     var exam = $('input:radio:checked').val();
-    var name = $("input[name='name'] ").val();
+    var name = $("input[name='name']").val();
     var amount = $("input[name='amount']").val();
-    exam = (exam === '01') ? '是' : '否';
     var array = [id, year, name, amount, exam, grade, subject];
     var tr = $("<tr></tr>");
     tr.appendTo($(".table-content"));
@@ -160,5 +165,37 @@ edit = function (tds) {
                     break;
             }
         });
+    });
+};
+
+var insert = function () {
+    var enrollYear = $("#enrollYear").val();
+    var gradeNo = $("#gradeNo").val();
+    var subNo = $("#subNo").val();
+    var exam = $('input:radio:checked').val();
+    var name = $("input[name='name']").val();
+    var amount = $("input[name='amount']").val();
+    if (name === '' || !/^\d{1,2}$/.test(amount)) {
+        console.log(name === '');
+        console.log(!/^\d{1,2}$/.test(amount));
+        return;
+    }
+    $.ajax({
+        url: "/teacher/academic/program/make",
+        type: 'POST',
+        dataType: 'json',
+        data: {
+            'grade.enrollYear': enrollYear,
+            'name': name,
+            'amount': amount,
+            'exam': exam,
+            'gradeNo': gradeNo,
+            'subject.subNo': subNo
+        },
+        beforeSend: function (xhr) {
+            xhr.setRequestHeader(header, token);
+        },
+        success: function (data) {
+        }
     });
 };
