@@ -5,20 +5,17 @@
     <meta name="renderer" content="webkit">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <title>管理员登录</title>
-    <link rel="stylesheet" href="../static/frame/layui/css/layui.css">
-    <link rel="stylesheet" th:href="@{/frame/layui/css/layui.css}">
-    <link rel="stylesheet" href="../static/frame/static/css/style.css">
-    <link rel="stylesheet" th:href="@{/frame/static/css/style.css}">
-    <link rel="icon" href="../static/frame/static/image/code.png">
-    <link rel="icon" th:href="@{/frame/static/image/code.png}">
+    <title>登录</title>
+    <link rel="stylesheet" href="../static/frame/layui/css/layui.css" th:href="@{/frame/layui/css/layui.css}">
+    <link rel="stylesheet" href="../static/frame/static/css/style.css" th:href="@{/frame/static/css/style.css}">
+    <link rel="icon" href="../static/frame/static/image/code.png" th:href="@{/frame/static/image/code.png}">
 </head>
 <body class="login-body body">
 
 <div class="login-box">
     <form class="layui-form layui-form-pane" method="post" th:action="@{/login}">
         <div class="layui-form-item">
-            <h3>失物招领后台登录系统</h3>
+            <h3 style="margin-left: -80px;">教务·排课系统登录</h3>
         </div>
         <div class="layui-form-item">
             <label class="layui-form-label">账号：</label>
@@ -43,8 +40,7 @@
     </form>
 </div>
 
-<script type="text/javascript" src="../static/frame/layui/layui.js"></script>
-<script type="text/javascript" th:src="@{/frame/layui/layui.js}"></script>
+<script type="text/javascript" src="../static/frame/layui/layui.js" th:src="@{/frame/layui/layui.js}"></script>
 <script type="text/javascript">
     layui.use(['form', 'layer'], function () {
 

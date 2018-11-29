@@ -3,8 +3,12 @@ package cn.lollipop.schedule.repository;
 import cn.lollipop.schedule.domain.Grade;
 import cn.lollipop.schedule.domain.Program;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Set;
 
 public interface ProgramRepository extends JpaRepository<Program, String> {
     /**
@@ -25,4 +29,16 @@ public interface ProgramRepository extends JpaRepository<Program, String> {
      * @return 以List集合的形式返回查询出的全部数据
      */
     List<Program> findAllByGradeNoAndYearAndStatus(String gradeNo, String year, String status);
+
+    /**
+     * 批量修改培养方案状态
+     *
+     * @param ids    培养方案编号
+     * @param status 要修改为的状态
+     * @return 返回修改行数
+     */
+    @Modifying
+    @Transactional
+    @Query(nativeQuery = true, value = "UPDATE pke_program SET status = ?2 WHERE id in ?1")
+    int updateStatusByIdsAndStatus(Set<String> ids, String status);
 }

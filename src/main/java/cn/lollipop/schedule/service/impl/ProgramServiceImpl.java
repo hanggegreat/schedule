@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Set;
 
 @Service
 public class ProgramServiceImpl implements ProgramService {
@@ -29,33 +30,33 @@ public class ProgramServiceImpl implements ProgramService {
     @Override
     public List<Program> listStudentProgram(String sno) {
         String enrollYear = sno.substring(0, 4);
-        Grade grade = this.gradeRepository.getOne(enrollYear);
-        return this.programRepository.findAllByGradeAndStatus(grade, "1");
+        Grade grade = gradeRepository.getOne(enrollYear);
+        return programRepository.findAllByGradeAndStatus(grade, "1");
     }
 
     @Override
     public List<Program> listByClassTeacher(String teacherNo) {
-        Class myClass = this.classRepository.findByTeacherNoAndYear(teacherNo, YearUtil.getCurrentYear());
+        Class myClass = classRepository.findByTeacherNoAndYear(teacherNo, YearUtil.getCurrentYear());
         System.out.println(myClass);
-        Grade grade = this.gradeRepository.findByGradeNo(String.valueOf(Integer.parseInt(myClass.getGradeNo()) + 6));
+        Grade grade = gradeRepository.findByGradeNo(String.valueOf(Integer.parseInt(myClass.getGradeNo()) + 6));
         System.out.println(grade);
-        return this.programRepository.findAllByGradeAndStatus(grade, "1");
+        return programRepository.findAllByGradeAndStatus(grade, "1");
     }
 
     @Override
     public List<Program> listByGno(String gno) {
-        return this.programRepository.findAllByGradeNoAndYearAndStatus(gno, YearUtil.getCurrentYear(), "1");
+        return programRepository.findAllByGradeNoAndYearAndStatus(gno, YearUtil.getCurrentYear(), "1");
     }
 
     @Override
     public List<Program> listByGrade(String enrollYear) {
-        Grade grade = this.gradeRepository.getOne(enrollYear);
-        return this.programRepository.findAllByGradeAndStatus(grade, "1");
+        Grade grade = gradeRepository.getOne(enrollYear);
+        return programRepository.findAllByGradeAndStatus(grade, "1");
     }
 
     @Override
     public List<Program> listByStatusAndEnrollYear(String status, String enrollYear) {
-        return this.programRepository.findAllByGradeAndStatus(this.gradeRepository.getOne(enrollYear), status);
+        return programRepository.findAllByGradeAndStatus(gradeRepository.getOne(enrollYear), status);
     }
 
     @Override
@@ -64,50 +65,32 @@ public class ProgramServiceImpl implements ProgramService {
     }
 
     @Override
-    public List<Program> insertInBatch(List<Program> programs) {
-        return this.programRepository.saveAll(programs);
-    }
-
-    @Override
-    public List<Program> updateInBatch(List<Program> programs) {
-        return this.programRepository.saveAll(programs);
-    }
-
-    @Override
     public Program update(Program program) {
-        return this.programRepository.save(program);
+        return programRepository.save(program);
     }
 
     @Override
-    public void removeInBatch(List<Program> programs) {
-        this.programRepository.deleteInBatch(programs);
+    public void remove(String id) {
+        programRepository.deleteById(id);
     }
 
     @Override
-    public Program refuse(Program programs) {
-        programs.setStatus("3");
-        return this.programRepository.save(programs);
+    public Program show(String id) {
+        return programRepository.getOne(id);
     }
 
     @Override
-    public List<Program> refuseInBatch(List<Program> programs) {
-        for (Program program : programs) {
-            program.setStatus("3");
-        }
-        return this.programRepository.saveAll(programs);
+    public int refuseInBatch(Set<String> ids) {
+        return programRepository.updateStatusByIdsAndStatus(ids, "3");
     }
 
     @Override
-    public Program pass(Program programs) {
-        programs.setStatus("1");
-        return this.programRepository.save(programs);
+    public int publishInBatch(Set<String> ids) {
+        return programRepository.updateStatusByIdsAndStatus(ids, "2");
     }
 
     @Override
-    public List<Program> passInBatch(List<Program> programs) {
-        for (Program program : programs) {
-            program.setStatus("1");
-        }
-        return this.programRepository.saveAll(programs);
+    public int passInBatch(Set<String> ids) {
+        return programRepository.updateStatusByIdsAndStatus(ids, "1");
     }
 }

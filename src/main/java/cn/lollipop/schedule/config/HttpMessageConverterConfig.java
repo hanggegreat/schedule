@@ -20,7 +20,7 @@ public class HttpMessageConverterConfig {
         FastJsonHttpMessageConverter fastJsonHttpMessageConverter = new FastJsonHttpMessageConverter();
         // 创建FastJson对象并设定序列化规则
         FastJsonConfig fastJsonConfig = new FastJsonConfig();
-        fastJsonConfig.setSerializerFeatures(SerializerFeature.PrettyFormat);
+        fastJsonConfig.setSerializerFeatures(SerializerFeature.DisableCircularReferenceDetect); //关闭循环引用
 
         // 解决中文乱码
         List<MediaType> mediaTypes = new ArrayList<>();

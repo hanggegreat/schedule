@@ -7,26 +7,23 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <title>欢迎页</title>
-    <link rel="stylesheet" href="../../static/frame/layui/css/layui.css" th:href="@{/frame/layui/css/layui.css}">
-    <link rel="stylesheet" href="../../static/frame/static/css/style.css" th:href="@{/frame/static/css/style.css}">
     <link rel="icon" href="../../static/frame/static/image/code.png" th:href="@{/frame/static/image/code.png}">
     <link rel="stylesheet" href="../../static/css/bootstrap.min.css"
           th:href="@{/webjars/bootstrap/4.1.3/css/bootstrap.min.css}">
-    <script src="../../static/js/jquery3.3.1.min.js" th:src="@{/webjars/jquery/3.0.0/jquery.min.js}"></script>
-    <script src="../../static/js/popper.min.js" th:src="@{/webjars/popper.js/1.14.3/popper.min.js}"></script>
+    <script src="../../static/js/jquery3.3.1.min.js" th:src="@{/webjars/jquery/3.3.1/jquery.min.js}"></script>
+    <script src="../../static/js/popper.min.js" th:src="@{/webjars/popper.js/1.14.4/popper.min.js}"></script>
     <script src="../../static/js/bootstrap.min.js" th:src="@{/webjars/bootstrap/4.1.3/js/bootstrap.min.js}"></script>
 </head>
-<body class="body">
-<div class="layui-row layui-col-space10 my-index-main">
-    <div class="container-fluid">
-        <span sec:authorize="hasRole('STUDENT')">
-            学生·
-            <a href="basic_information.html" th:href="@{/student/info}"
-                  th:text="${#session.getAttribute('username')}">
-                小明
-            </a>
-        </span>
-        <span sec:authorize="hasRole('TEACHER')">
+<body>
+<div class="container">
+    <br>
+    <h3 sec:authorize="hasRole('STUDENT')">
+        学生·
+        <a href="basic_information.html" th:href="@{/student/info}"
+           th:text="${#session.getAttribute('username')}">
+            小明
+        </a>
+    <span sec:authorize="hasRole('TEACHER')">
             <span sec:authorize="hasRole('ADVISER')">班主任·</span>
             <span sec:authorize="hasRole('SUBLEADER')">学科组长·</span>
             <span sec:authorize="hasRole('GRADELEADER')">年级组长·</span>
@@ -36,8 +33,9 @@
             <span sec:authorize="!hasAnyRole('ADVISER', 'SUBLEADER', 'GRADELEADER', 'ACADEMIC', 'REGISTRAR', 'PRINCIPAL')">教师·</span>
             <a href="basic_information.html" th:href="@{/teacher/info}" th:text="${#session.getAttribute('username')}">小明</a>
         </span>
-        你好<br>欢迎访问排课系统
-    </div>
+    你好
+    </h3>
+    <h3>欢迎访问教务·排课系统</h3>
 </div>
 </body>
 </html>

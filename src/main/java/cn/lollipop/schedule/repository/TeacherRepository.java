@@ -33,15 +33,6 @@ public interface TeacherRepository extends JpaRepository<Teacher, String> {
     List<Teacher> findAllByTeacherGradeAndSubject(String teacherGrade, Subject subject);
 
     /**
-     * 根据教师编号和密码查询出该教师的全部信息
-     *
-     * @param teacherNo  教师编号
-     * @param teacherKey 登录密码
-     * @return 返回教师信息
-     */
-    Teacher findByTeacherNoAndTeacherKey(String teacherNo, String teacherKey);
-
-    /**
      * 根据教师编号查询出该教师的全部信息
      *
      * @param teacherNo 教师编号

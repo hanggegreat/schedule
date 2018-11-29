@@ -1,7 +1,6 @@
 package cn.lollipop.schedule.service;
 
 import cn.lollipop.schedule.domain.Program;
-import cn.lollipop.schedule.domain.Teacher;
 
 import java.util.List;
 import java.util.Set;
@@ -42,7 +41,8 @@ public interface ProgramService {
 
     /**
      * 根据发布状态查询指定届全部培养方案
-     * @param status 发布状态
+     *
+     * @param status     发布状态
      * @param enrollYear 注册年份
      * @return 以List集合的形式返回全部的数据
      */
@@ -57,22 +57,6 @@ public interface ProgramService {
     Program insert(Program program);
 
     /**
-     * 教务员制定培养方案
-     *
-     * @param programs 培养方案
-     * @return 以List集合的形式返回插入后的新数据
-     */
-    List<Program> insertInBatch(List<Program> programs);
-
-    /**
-     * 教务员批量修改培养方案
-     *
-     * @param programs 培养方案
-     * @return 返回原集合数据
-     */
-    List<Program> updateInBatch(List<Program> programs);
-
-    /**
      * 教务员修改培养方案信息
      *
      * @param program 培养方案
@@ -81,41 +65,41 @@ public interface ProgramService {
     Program update(Program program);
 
     /**
-     * 批量删除培养方案信息
+     * 删除指定培养方案信息
      *
-     * @param programs 要删除的培养方案
+     * @param id 要删除的培养方案信息
      */
-    void removeInBatch(List<Program> programs);
+    void remove(String id);
 
     /**
-     * 驳回培养方案
+     * 根据培养方案编号查询出该培养方案信息，用于更新前的查询操作
      *
-     * @param programs 培养方案
-     * @return 返回驳回后的培养方案信息
+     * @param id 培养方案编号
+     * @return 返回培养方案信息
      */
-    Program refuse(Program programs);
+    Program show(String id);
 
     /**
      * 批量驳回培养方案
      *
-     * @param programs 培养方案
-     * @return 返回驳回后的培养方案信息
+     * @param ids 培养方案编号
+     * @return 返回行数
      */
-    List<Program> refuseInBatch(List<Program> programs);
+    int refuseInBatch(Set<String> ids);
 
     /**
-     * 通过培养方案
+     * 批量发布培养方案
      *
-     * @param programs 培养方案
-     * @return 返回通过审核后的培养方案信息
+     * @param ids 培养方案编号
+     * @return 返回行数
      */
-    Program pass(Program programs);
+    int publishInBatch(Set<String> ids);
 
     /**
      * 批量通过培养方案
      *
-     * @param programs 培养方案
-     * @return 返回通过审核后的培养方案信息
+     * @param ids 培养方案编号
+     * @return 返回行数
      */
-    List<Program> passInBatch(List<Program> programs);
+    int passInBatch(Set<String> ids);
 }

@@ -23,7 +23,7 @@ public class Class implements Serializable {
     private String gradeNo;//年级号
 
     @ManyToOne
-    @JoinColumn(name = "teacherNo", foreignKey = @ForeignKey(name = "none", value = ConstraintMode.NO_CONSTRAINT))
+    @JoinColumn(name = "teacherNo", referencedColumnName = "teacherNo", foreignKey = @ForeignKey(name = "none", value = ConstraintMode.NO_CONSTRAINT))
     private Teacher teacher;//班主任
 
     public String getClassNo() {

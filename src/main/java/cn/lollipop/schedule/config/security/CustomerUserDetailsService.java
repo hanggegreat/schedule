@@ -32,45 +32,53 @@ public class CustomerUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        if (username == null) {
+            throw new UsernameNotFoundException("UserName can not be null!");
+        }
+
         List<GrantedAuthority> authorities = new ArrayList<>();
-        Teacher teacher = this.teacherRepository.findByTeacherNo(username);
-        if (teacher != null) {
-            Set<Job> jobs = teacher.getJobs();
-            Set<String> jobNos = new HashSet<>();
-            for (Job job : jobs) {
-                jobNos.add(job.getJobNo());
+        if (username.length() == 4) {// 教师编号
+            Teacher teacher = this.teacherRepository.findByTeacherNo(username);
+            System.out.println(teacher);
+            if (teacher != null) {
+                Set<Job> jobs = teacher.getJobs();
+                Set<String> jobNos = new HashSet<>();
+                for (Job job : jobs) {
+                    jobNos.add(job.getJobNo());
+                }
+                authorities.add(new SimpleGrantedAuthority("ROLE_TEACHER"));
+                if (jobNos.contains("00")) {
+                    authorities.add(new SimpleGrantedAuthority("ROLE_ADVISER"));
+                }
+                if (jobNos.contains("21")) {
+                    authorities.add(new SimpleGrantedAuthority("ROLE_SUBLEADER"));
+                }
+                if (jobNos.contains("22")) {
+                    authorities.add(new SimpleGrantedAuthority("ROLE_GRADELEADER"));
+                }
+                if (jobNos.contains("23")) {
+                    authorities.add(new SimpleGrantedAuthority("ROLE_ACADEMIC"));
+                }
+                if (jobNos.contains("24")) {
+                    authorities.add(new SimpleGrantedAuthority("ROLE_REGISTRAR"));
+                }
+                if (jobNos.contains("25")) {
+                    authorities.add(new SimpleGrantedAuthority("ROLE_PRINCIPAL"));
+                }
+                session.setAttribute("username", teacher.getTeacherName());
+                session.setAttribute("type", "teacher");
+                return new User(username, teacher.getTeacherKey(), authorities);
             }
-            authorities.add(new SimpleGrantedAuthority("ROLE_TEACHER"));
-            if (jobNos.contains("00")) {
-                authorities.add(new SimpleGrantedAuthority("ROLE_ADVISER"));
-            }
-            if (jobNos.contains("21")) {
-                authorities.add(new SimpleGrantedAuthority("ROLE_SUBLEADER"));
-            }
-            if (jobNos.contains("22")) {
-                authorities.add(new SimpleGrantedAuthority("ROLE_GRADELEADER"));
-            }
-            if (jobNos.contains("23")) {
-                authorities.add(new SimpleGrantedAuthority("ROLE_ACADEMIC"));
-            }
-            if (jobNos.contains("24")) {
-                authorities.add(new SimpleGrantedAuthority("ROLE_REGISTRAR"));
-            }
-            if (jobNos.contains("25")) {
-                authorities.add(new SimpleGrantedAuthority("ROLE_PRINCIPAL"));
-            }
-            session.setAttribute("username", teacher.getTeacherName());
-            session.setAttribute("type", "teacher");
-            return new User(username, teacher.getTeacherKey(), authorities);
-        } else {
-            Optional<Student> studentOptional = this.studentRepository.findById(username);
-            if (studentOptional.isPresent()) {
+        } else if (username.length() == 8) {// 学生编号
+            Student student = this.studentRepository.findBySno(username);
+            if (student != null) {
                 authorities.add(new SimpleGrantedAuthority("ROLE_STUDENT"));
-                session.setAttribute("username", studentOptional.get().getSname());
+                session.setAttribute("username", student.getSname());
                 session.setAttribute("type", "student");
-                return new User(username, studentOptional.get().getPassword(), authorities);
+                return new User(username, student.getPassword(), authorities);
             }
         }
+
         throw new UsernameNotFoundException("User " + username + " not found!");
     }
 }
