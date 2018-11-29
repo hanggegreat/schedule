@@ -1,17 +1,25 @@
+// csrf头部信息
 var header = $("meta[name='_csrf_header']").attr("content");
 var token = $("meta[name='_csrf']").attr("content");
+// 模态窗口
+var modal = $('#modal');
 
-
+/**
+ *用于弹出模态框
+ * @param body 模态框主体内容，包含html元素
+ * @param type 弹框类型，根据类型判断要执行的具体内容
+ * @param info 传入的数据，用于接下来的操作
+ */
 var myAlert = function (body, type, info) {
-    var modal = $('#modal');
     modal.find('.modal-body').html(body);
     var foot = modal.find('.modal-footer');
     var footData = '<button type="button" class="btn btn-primary" data-dismiss="modal">确定</button>';
+
     if (type !== undefined) {
         if (type === 'remove') {
             footData = '<button type="button" class="btn btn-secondary" data-dismiss="modal" aria-label="Close">取消</button>' +
                 '<button type="button" class="btn btn-primary" onclick="remove(' + info + ');" data-dismiss="modal">确定</button>';
-        } else if (type === 'update') {
+        } else if (type === 'update') { //更新操作
             $.ajax({
                 url: "/teacher/academic/program/show/" + info,
                 type: 'POST',
@@ -73,6 +81,7 @@ var myAlert = function (body, type, info) {
 
                     footData = '<button type="button" class="btn btn-secondary" data-dismiss="modal" aria-label="Close">取消</button>' +
                         '<button type="button" class="btn btn-primary" onclick="update(' + info + ');" data-dismiss="modal">保存</button>';
+
                     foot.html(footData);
                 },
                 error: function () {
@@ -89,17 +98,12 @@ var myAlert = function (body, type, info) {
             footData = '<button type="button" class="btn btn-secondary" data-dismiss="modal" aria-label="Close">取消</button>' +
                 '<button type="button" class="btn btn-primary" onclick="changeStatus(\'3\');" data-dismiss="modal">确定</button>';
         } else if (type === 'redirect') {
-            footData = '<button type="button" onclick="redirect(\'' + info + '\');" class="btn btn-primary" data-dismiss="modal">确定</button>';
+            footData = '<button type="button" onclick="window.location = ' + info + ';" class="btn btn-primary" data-dismiss="modal">确定</button>';
         }
     }
     foot.html(footData);
     modal.modal({show: true, backdrop: 'static'});
 };
-
-var redirect = function (url) {
-    window.location = url;
-};
-
 
 var insert = function () {
     var enrollYear = $("#enrollYear").val();
