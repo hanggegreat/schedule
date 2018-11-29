@@ -14,9 +14,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
-import java.security.Principal;
 import java.util.*;
 
 /**
@@ -43,14 +41,14 @@ public class programController {
     @RequestMapping("/student/program/list")
     public String studentList(Model model, Authentication authentication) {
         model.addAttribute("programs", programService.listStudentProgram(authentication.getName()));
-        return "sub-view/show_program";
+        return "sub-view/program/show";
     }
 
     @GetMapping("/teacher/academic/program/make")
     public String preMake(Model model) {
         model.addAttribute("grades", gradeRepository.findAll());
         model.addAttribute("subjects", subjectService.list());
-        return "sub-view/make_program";
+        return "sub-view/program/make";
     }
 
     @RequestMapping({"/teacher/academic/program/list/{status}/{enrollYear}"})
@@ -71,7 +69,7 @@ public class programController {
     @RequestMapping("/teacher/adviser/program/list")
     public String adviserList(Model model, Authentication authentication) {
         model.addAttribute("programs", programService.listByClassTeacher(authentication.getName()));
-        return "sub-view/show_program";
+        return "sub-view/program/show";
     }
 
     @RequestMapping("/teacher/gradeLeader/program/list")
@@ -79,13 +77,13 @@ public class programController {
         Teacher gradeLeader = teacherService.show(authentication.getName());
         Grade grade = gradeRepository.findByGradeNo(String.valueOf(Integer.parseInt(gradeLeader.getTeacherGrade()) + 6));
         model.addAttribute("programs", programService.listByGrade(grade.getEnrollYear()));
-        return "sub-view/show_program";
+        return "sub-view/program/show";
     }
 
     @RequestMapping("/teacher/academic/program/listByGrade")
     public String preListByGrade(Model model) {
         model.addAttribute("grades", gradeRepository.findAll());
-        return "sub-view/show_program_by_grade";
+        return "sub-view/program/list_by_grade";
     }
 
     @RequestMapping("/teacher/academic/program/listByGrade/{enrollYear}")
@@ -100,7 +98,7 @@ public class programController {
         model.addAttribute("status", status);
         model.addAttribute("isAcademic", authentication.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_ACADEMIC")));
         model.addAttribute("grades", gradeRepository.findAll());
-        return "sub-view/show_program_by_status_and_grade.html";
+        return "sub-view/program/list_by_status_and_grade.html";
     }
 
     @RequestMapping("teacher/academic/program/show/{id}")
@@ -144,6 +142,6 @@ public class programController {
         model.addAttribute("status", "2");
         model.addAttribute("isAcademic", !authentication.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_REGISTRAR")));
         model.addAttribute("grades", gradeRepository.findAll());
-        return "sub-view/show_program_by_status_and_grade.html";
+        return "sub-view/program/list_by_status_and_grade.html";
     }
 }
