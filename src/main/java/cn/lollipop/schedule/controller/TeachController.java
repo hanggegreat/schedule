@@ -13,8 +13,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 
 /**
  * @author lollipop
@@ -38,25 +36,27 @@ public class TeachController {
         this.classService = classService;
     }
 
-    @GetMapping("/teacher/subLeader/teach/list")
-    public String subjectLeaderPreList(Model model, Authentication authentication) {
+    @GetMapping("/teacher/subLeader/teach/list/{year}")
+    public String subLeaderList(@PathVariable String year, Model model, Authentication authentication) {
         Teacher subjectLeader = teacherService.show(authentication.getName());
         model.addAttribute("subject", subjectLeader.getSubject());
+        model.addAttribute("gradeNo", String.valueOf(Integer.parseInt(subjectLeader.getTeacherGrade()) + 6));
+        model.addAttribute("year", Integer.parseInt(year));
+        model.addAttribute("teaches", teachService.subjectLeaderList(String.valueOf(Integer.parseInt(subjectLeader.getTeacherGrade()) + 6), subjectLeader.getSubject().getSubNo(), year));
         return "sub-view/teach/list";
     }
 
-    @RequestMapping("/teacher/subLeader/teach/list/{enrollYear}/{year}")
-    @ResponseBody
-    public List<Teach> subjectLeaderList(@PathVariable String enrollYear, @PathVariable String year, Authentication authentication) {
-        Teacher subjectLeader = teacherService.show(authentication.getName());
-        return teachService.subjectLeaderList(gradeRepository.getOne(enrollYear).getGradeNo(), subjectLeader.getSubject().getSubNo(), year);
-    }
 
     @RequestMapping("/teacher/subLeader/teach/make/{year}")
-    public String preMake(Model model, @PathVariable String year, Authentication authentication) {
+    public String make(Model model, @PathVariable String year, Authentication authentication) {
         Teacher subjectLeader = teacherService.show(authentication.getName());
-        model.addAttribute("subject", subjectLeader.getSubject());
+        String gradeNo = String.valueOf(Integer.parseInt(subjectLeader.getTeacherGrade()) + 6);
         model.addAttribute("year", Integer.parseInt(year));
+        model.addAttribute("gradeNo", gradeNo);
+        model.addAttribute("subject", subjectLeader.getSubject());
+        model.addAttribute("teaches", teachService.subjectLeaderList(gradeNo, subjectLeader.getSubject().getSubNo(), year));
+        model.addAttribute("classes", classService.listByGradeNoAndYear(gradeNo, year));
+        model.addAttribute("teachers", teacherService.listByGnoAndSubNo(gradeNo, subjectLeader.getSubject().getSubNo()));
         return "sub-view/teach/make";
     }
 

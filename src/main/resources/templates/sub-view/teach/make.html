@@ -13,28 +13,27 @@
     <script src="../../../static/js/bootstrap.min.js" th:src="@{/webjars/bootstrap/4.1.3/js/bootstrap.min.js}"></script>
     <script src="../../../static/js/teach.js" th:src="@{/js/teach.js}"></script>
 </head>
-<body onload="addGrade($('#year').text(), $('#subNo').text())">
+<body>
 <div class="container">
     <br>
     <span style="display: none;" id="year" th:text="${year}"></span>
     <span style="display: none;" id="subNo" th:text="${subject.subNo}"></span>
-    <h2><span th:text="${year} + '-' + ${year + 1}"></span> 学年<span th:text="${subject.subName}">语文</span>学科任教信息制定</h2>
+    <h2>
+        <span th:text="${year} + '-' + ${year + 1}">2018-2019</span> 学年
+        <span th:switch="${gradeNo}">
+            <span th:case="'7'">七年级</span>
+            <span th:case="'8'">八年级</span>
+            <span th:case="'9'">九年级</span>
+        </span>
+        <span th:text="${subject.subName}">语文</span>学科任教信息制定
+    </h2>
     <br>
     <form method="post" th:action="@{/teacher/academic/program/make}">
         <div class="form-group row">
-            <label class="col-sm-2 col-form-label" for="enrollYear">年级</label>
-            <select th:onchange="'listWithEdit(\'' + ${year} +'\');addClass(this.value);'"
-                    class="custom-select col-sm-2" name="enrollYear"
-                    id="enrollYear">
-                <option value="">请选择年级</option>
-            </select>
-        </div>
-
-        <div class="form-group row">
             <label class="col-sm-2 col-form-label" for="tClass.classNo">班级</label>
-            <select onchange="addTeacher($('#year').text() - $('#enrollYear').val() + 7, $('#subNo').text(), '#teacher\\.teacherNo');"
-                    class="custom-select col-sm-2" name="tClass.classNo" id="tClass.classNo">
+            <select class="custom-select col-sm-2" name="tClass.classNo" id="tClass.classNo">
                 <option value="">请选择班级</option>
+                <option th:each="class: ${classes}" th:value="${class.classNo}" th:text="${class.className}"></option>
             </select>
         </div>
 
@@ -42,6 +41,8 @@
             <label class="col-sm-2 col-form-label" for="teacher.teacherNo">教师</label>
             <select class="custom-select col-sm-2" name="teacher.teacherNo" id="teacher.teacherNo">
                 <option value="">请选择教师</option>
+                <option th:each="teacher: ${teachers}" th:value="${teacher.teacherNo}"
+                        th:text="${teacher.teacherName}"></option>
             </select>
         </div>
         <br>
@@ -59,17 +60,32 @@
     <table class="table table-hover text-center">
         <thead class="table-title">
         <tr>
-            <th style="width: 15%;">编号</th>
-            <th style="width: 10%;">学年</th>
-            <th style="width: 10%;">科目</th>
-            <th style="width: 13%;">班级</th>
-            <th style="width: 12%;">教师</th>
+            <th style="width: 20%;">编号</th>
+            <th style="width: 15%;">班级</th>
+            <th style="width: 20%;">教师</th>
             <th style="width: 15%;">培养方案</th>
-            <th style="width: 10%;">课程名称</th>
-            <th colspan="2" style="width: 15%;">操作</th>
+            <th style="width: 20%;">课程名称</th>
+            <th style="width: 10%;">操作</th>
         </tr>
         </thead>
         <tbody class="table-content">
+        <tr th:each="teach: ${teaches}" th:id="${teach.id}">
+            <td th:text="${teach.teachNo}"></td>
+            <td th:text="${teach.tClass.className}"></td>
+            <td>
+                <span th:text="${teach.teacher.teacherName}"></span>&nbsp;&nbsp;&nbsp;
+                <button class="btn btn-sm btn-outline-primary" th:attr="teachId=${teach.id}"
+                        onclick="myAlert('', 'update', this.getAttribute('teachId'));">更换
+                </button>
+            </td>
+            <td th:text="${teach.program.id}"></td>
+            <td th:text="${teach.program.name}"></td>
+            <td>
+                <button class="btn btn-sm btn-outline-danger" th:attr="teachId=${teach.id}"
+                        onclick="myAlert('您确定要删除该条数据吗？', 'remove', this.getAttribute('teachId'));">删除
+                </button>
+            </td>
+        </tr>
         </tbody>
     </table>
 

@@ -17,61 +17,36 @@
 <div class="container">
     <br>
     <span style="display: none;" id="subNo" th:text="${subject.subNo}"></span>
-    <div class="form-group row">
-        <label class="col-sm-2 col-form-label" for="year">学年</label>
-        <select onchange="addGrade(this.value, $('#subNo').text());" class="custom-select col-sm-2" name="year" id="year">
-            <option value="">请选择学年</option>
-            <option value="2016">2016-2017</option>
-            <option value="2017">2017-2018</option>
-            <option value="2018">2018-2019</option>
-        </select>
-    </div>
-    <div class="form-group row">
-        <label class="col-sm-2 col-form-label" for="enrollYear">年级</label>
-        <select onchange="list()" class="custom-select col-sm-2" name="enrollYear" id="enrollYear">
-            <option value="">请选择年级</option>
-        </select>
-    </div>
-    <br>
-    <br>
-    <hr>
-    <h2><span th:text="${subject.subName}">语文</span>学科任教信息</h2>
+    <h2>
+        <span th:text="${year} + '-' + ${year + 1}">2018-2019</span> 学年
+        <span th:switch="${gradeNo}">
+            <span th:case="'7'">七年级</span>
+            <span th:case="'8'">八年级</span>
+            <span th:case="'9'">九年级</span>
+        </span>
+        <span th:text="${subject.subName}">语文</span>学科任教信息
+    </h2>
     <br>
     <table class="table table-hover text-center">
         <thead class="table-title">
         <tr>
-            <th style="width: 20%;">编号</th>
-            <th style="width: 15%;">学年</th>
-            <th style="width: 10%;">科目</th>
-            <th style="width: 15%;">班级</th>
-            <th style="width: 15%;">教师</th>
-            <th style="width: 15%;">培养方案</th>
-            <th style="width: 10%;">课程名称</th>
+            <th style="width: 25%;">编号</th>
+            <th style="width: 20%;">班级</th>
+            <th style="width: 20%;">教师</th>
+            <th style="width: 15%;">培养方案编号</th>
+            <th style="width: 20%;">课程名称</th>
         </tr>
         </thead>
         <tbody class="table-content">
+        <tr th:each="teach: ${teaches}">
+            <td th:text="${teach.teachNo}"></td>
+            <td th:text="${teach.teacher.teacherName}"></td>
+            <td th:text="${teach.tClass.className}"></td>
+            <td th:text="${teach.program.id}"></td>
+            <td th:text="${teach.program.name}"></td>
+        </tr>
         </tbody>
     </table>
-
-    <div class="modal" id="modal" tabindex="-1" role="dialog" aria-labelledby="modalTitle" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="modalTitle">提示信息</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    ...
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" data-dismiss="modal">确定</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
 </div>
 </body>
 </html>
