@@ -148,7 +148,7 @@ var update = function (id) {
         success: function (data) {
             if (data) {
                 var tr = $('#' + id);
-                tr.children().eq(0).text(data.teacherNo);
+                tr.children().eq(0).text(data.teachNo);
                 var teacherTd = tr.children().eq(2);
                 teacherTd.html(data.teacher.teacherName + '&nbsp;&nbsp;&nbsp;&nbsp;<button class="btn btn-sm btn-outline-primary" onclick="myAlert(\'\', \'update\', ' + data.id + ');">更换</button>');
                 myAlert("更新成功！");
