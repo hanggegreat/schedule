@@ -75,68 +75,64 @@
                         </dd>
                     </dl>
                 </li>
-                <li class="layui-nav-item  layui-nav-itemed">
+                <li class="layui-nav-item  layui-nav-itemed" sec:authorize="hasAnyRole('STUDENT', 'ADVISER', 'GRADELEADER', 'ACADEMIC', 'REGISTRAR')">
                     <a href="javascript:;"><i class="layui-icon">&#xe620;</i>培养方案</a>
                     <dl class="layui-nav-child">
                         <dd sec:authorize="hasRole('STUDENT')">
-                            <a href="javascript:;"
-                               href-url="sub-view/show_program.html"
+                            <a href="javascript:;" href-url="sub-view/program/list.html"
                                th:attr="href-url=@{/student/program/list}">
                                 <i class="layui-icon">&#xe621;</i>我的
                             </a>
                         </dd>
                         <dd sec:authorize="hasRole('ADVISER')">
-                            <a href="javascript:;"
-                               href-url="sub-view/show_program.html"
+                            <a href="javascript:;" href-url="sub-view/program/list.html"
                                th:attr="href-url=@{/teacher/adviser/program/list}">
                                 <i class="layui-icon">&#xe621;</i>所在班级
                             </a>
                         </dd>
                         <dd sec:authorize="hasRole('GRADELEADER')">
-                            <a href="javascript:;"
-                               href-url="sub-view/show_program.html"
+                            <a href="javascript:;" href-url="sub-view/program/list.html"
                                th:attr="href-url=@{/teacher/gradeLeader/program/list}">
                                 <i class="layui-icon">&#xe621;</i>所在年级
                             </a>
                         </dd>
                         <dd sec:authorize="hasRole('ACADEMIC')">
-                            <a href="javascript:;"
-                               href-url="sub-view/show_program_by_grade.html"
+                            <a href="javascript:;" href-url="sub-view/program/list.html"
                                th:attr="href-url=@{/teacher/academic/program/listByGrade}">
                                 <i class="layui-icon">&#xe621;</i>查看历届</a>
                         </dd>
                         <dd sec:authorize="hasRole('ACADEMIC')">
-                            <a href="javascript:;" href-url="sub-view/make_schedule.html"
+                            <a href="javascript:;" href-url="sub-view/program/make.html"
                                th:attr="href-url=@{/teacher/academic/program/make}">
                                 <i class="layui-icon">&#xe621;</i>制定
                             </a>
                         </dd>
                         <dd sec:authorize="hasRole('ACADEMIC')">
-                            <a href="javascript:;" href-url="sub-view/show_program_by_status_and_grade.html"
+                            <a href="javascript:;" href-url="sub-view/program/list_by_status_and_grade.html"
                                th:attr="href-url=@{/teacher/academic/program/list/0}">
                                 <i class="layui-icon">&#xe621;</i>未发布
                             </a>
                         </dd>
                         <dd sec:authorize="hasRole('ACADEMIC')">
-                            <a href="javascript:;" href-url="sub-view/show_program_by_status_and_grade.html"
+                            <a href="javascript:;" href-url="sub-view/program/list_by_status_and_grade.html"
                                th:attr="href-url=@{/teacher/academic/program/list/2}">
                                 <i class="layui-icon">&#xe621;</i>待审核
                             </a>
                         </dd>
                         <dd sec:authorize="hasAnyRole('REGISTRAR', 'ACADEMIC')">
-                            <a href="javascript:;" href-url="sub-view/show_program_by_status_and_grade.html"
+                            <a href="javascript:;" href-url="sub-view/program/list_by_status_and_grade.html"
                                th:attr="href-url=@{/teacher/academic/program/list/1}">
                                 <i class="layui-icon">&#xe621;</i>已发布
                             </a>
                         </dd>
                         <dd sec:authorize="hasRole('REGISTRAR')">
-                            <a href="javascript:;" href-url="sub-view/show_program_by_status_and_grade.html"
+                            <a href="javascript:;" href-url="sub-view/program/list_by_status_and_grade.html"
                                th:attr="href-url=@{/teacher/registrar/program/check}">
                                 <i class="layui-icon">&#xe621;</i>待审核
                             </a>
                         </dd>
                         <dd sec:authorize="hasAnyRole('REGISTRAR', 'ACADEMIC')">
-                            <a href="javascript:;" href-url="sub-view/show_program_by_status_and_grade.html"
+                            <a href="javascript:;" href-url="sub-view/program/list_by_status_and_grade.html"
                                th:attr="href-url=@{/teacher/academic/program/list/3}">
                                 <i class="layui-icon">&#xe621;</i>未通过
                             </a>
@@ -144,11 +140,17 @@
                     </dl>
                 </li>
                 <li class="layui-nav-item  layui-nav-itemed" sec:authorize="hasRole('SUBLEADER')">
-                    <a href="javascript:;"><i class="layui-icon">&#xe620;</i>任教(学科组长)</a>
+                    <a href="javascript:;"><i class="layui-icon">&#xe620;</i>任教信息</a>
                     <dl class="layui-nav-child">
-                        <dd><a href="javascript:;" href-url="sub-view/check_tertable.html"><i class="layui-icon">&#xe621;</i>分配教师(增加、修改)</a>
+                        <dd>
+                            <a href="javascript:;" href-url="sub-view/teach/make.html"
+                               th:attr="href-url=@{/teacher/subLeader/teach/make/2018}">
+                                <i class="layui-icon">&#xe621;</i>分配教师
+                            </a>
                         </dd>
-                        <dd><a href="javascript:;" href-url="sub-view/check_classtable.html"><i class="layui-icon">&#xe621;</i>查看</a>
+                        <dd><a href="javascript:;" href-url="sub-view/teach/list.html"
+                               th:attr="href-url=@{/teacher/subLeader/teach/list}">
+                            <i class="layui-icon">&#xe621;</i>查看</a>
                         </dd>
                     </dl>
                 </li>

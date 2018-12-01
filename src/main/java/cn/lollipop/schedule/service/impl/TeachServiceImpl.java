@@ -17,32 +17,38 @@ public class TeachServiceImpl implements TeachService {
     }
 
     @Override
+    public List<Teach> subjectLeaderList(String gradeNo, String subNo, String year) {
+        return teachRepository.findAllBySubNoAndGradeNoAndYear(subNo, gradeNo, year);
+    }
+
+    @Override
     public List<Teach> listByProgram(Program program) {
-        return this.teachRepository.findAllByProgram(program);
+        return teachRepository.findAllByProgram(program);
     }
 
     @Override
     public List<Teach> listByTeacherNo(String teacherNo, String year) {
-        return this.teachRepository.findAllByTeacherNoAndYear(teacherNo, year);
+        return teachRepository.findAllByTeacherNoAndYear(teacherNo, year);
+    }
+
+    @Override
+    public Teach show(Long id) {
+        return teachRepository.getOne(id);
     }
 
     @Override
     public Teach insert(Teach teach) {
-        return this.teachRepository.save(teach);
-    }
-
-    @Override
-    public List<Teach> insertInBatch(List<Teach> teaches) {
-        return this.teachRepository.saveAll(teaches);
+        return teachRepository.save(teach);
     }
 
     @Override
     public Teach update(Teach teach) {
-        return this.teachRepository.save(teach);
+        return teachRepository.save(teach);
     }
 
     @Override
-    public List<Teach> updateInBatch(List<Teach> teaches) {
-        return this.teachRepository.saveAll(teaches);
+    public boolean remove(Long id) {
+        teachRepository.deleteById(id);
+        return true;
     }
 }

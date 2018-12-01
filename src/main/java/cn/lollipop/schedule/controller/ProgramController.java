@@ -23,15 +23,14 @@ import java.util.*;
  * @date 2018/11/25 16:55
  */
 @Controller
-@RequestMapping
-public class programController {
+public class ProgramController {
     private final ProgramService programService;
     private final TeacherService teacherService;
     private final GradeRepository gradeRepository;
     private final SubjectService subjectService;
 
     @Autowired
-    public programController(ProgramService programService, TeacherService teacherService, GradeRepository gradeRepository, SubjectService subjectService) {
+    public ProgramController(ProgramService programService, TeacherService teacherService, GradeRepository gradeRepository, SubjectService subjectService) {
         this.programService = programService;
         this.teacherService = teacherService;
         this.gradeRepository = gradeRepository;
@@ -41,35 +40,13 @@ public class programController {
     @RequestMapping("/student/program/list")
     public String studentList(Model model, Authentication authentication) {
         model.addAttribute("programs", programService.listStudentProgram(authentication.getName()));
-        return "sub-view/program/show";
-    }
-
-    @GetMapping("/teacher/academic/program/make")
-    public String preMake(Model model) {
-        model.addAttribute("grades", gradeRepository.findAll());
-        model.addAttribute("subjects", subjectService.list());
-        return "sub-view/program/make";
-    }
-
-    @RequestMapping({"/teacher/academic/program/list/{status}/{enrollYear}"})
-    @ResponseBody
-    public List<Program> list(@PathVariable String status, @PathVariable String enrollYear) {
-        return programService.listByStatusAndEnrollYear(status, enrollYear);
-    }
-
-    @PostMapping("/teacher/academic/program/make")
-    @ResponseBody
-    public Program make(@Valid Program program) {
-        program.setStatus("0");
-        program.setYear(String.valueOf(Integer.parseInt(program.getGrade().getEnrollYear()) + Integer.parseInt(program.getGradeNo()) - 7));
-        program.setId(program.getYear() + program.getGradeNo() + program.getSubject().getSubNo());
-        return programService.insert(program);
+        return "sub-view/program/list";
     }
 
     @RequestMapping("/teacher/adviser/program/list")
     public String adviserList(Model model, Authentication authentication) {
         model.addAttribute("programs", programService.listByClassTeacher(authentication.getName()));
-        return "sub-view/program/show";
+        return "sub-view/program/list";
     }
 
     @RequestMapping("/teacher/gradeLeader/program/list")
@@ -77,7 +54,7 @@ public class programController {
         Teacher gradeLeader = teacherService.show(authentication.getName());
         Grade grade = gradeRepository.findByGradeNo(String.valueOf(Integer.parseInt(gradeLeader.getTeacherGrade()) + 6));
         model.addAttribute("programs", programService.listByGrade(grade.getEnrollYear()));
-        return "sub-view/program/show";
+        return "sub-view/program/list";
     }
 
     @RequestMapping("/teacher/academic/program/listByGrade")
@@ -93,12 +70,32 @@ public class programController {
 
     @RequestMapping({"/teacher/academic/program/list/{status}"})
     public String preList(Authentication authentication, Model model, @PathVariable String status) {
-        System.out.println(authentication.getAuthorities());
-        System.out.println(new SimpleGrantedAuthority("ROLE_ACADEMIC"));
         model.addAttribute("status", status);
         model.addAttribute("isAcademic", authentication.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_ACADEMIC")));
         model.addAttribute("grades", gradeRepository.findAll());
         return "sub-view/program/list_by_status_and_grade.html";
+    }
+
+    @RequestMapping({"/teacher/academic/program/list/{status}/{enrollYear}"})
+    @ResponseBody
+    public List<Program> list(@PathVariable String status, @PathVariable String enrollYear) {
+        return programService.listByStatusAndEnrollYear(status, enrollYear);
+    }
+
+    @GetMapping("/teacher/academic/program/make")
+    public String preMake(Model model) {
+        model.addAttribute("grades", gradeRepository.findAll());
+        model.addAttribute("subjects", subjectService.list());
+        return "sub-view/program/make";
+    }
+
+    @PostMapping("/teacher/academic/program/make")
+    @ResponseBody
+    public Program make(@Valid Program program) {
+        program.setStatus("0");
+        program.setYear(String.valueOf(Integer.parseInt(program.getGrade().getEnrollYear()) + Integer.parseInt(program.getGradeNo()) - 7));
+        program.setId(program.getYear() + program.getGradeNo() + program.getSubject().getSubNo());
+        return programService.insert(program);
     }
 
     @RequestMapping("teacher/academic/program/show/{id}")
@@ -143,5 +140,11 @@ public class programController {
         model.addAttribute("isAcademic", !authentication.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_REGISTRAR")));
         model.addAttribute("grades", gradeRepository.findAll());
         return "sub-view/program/list_by_status_and_grade.html";
+    }
+
+    @RequestMapping("/teacher/subLeader/program/listByGnoAndYear/{gradeNo}/{year}")
+    @ResponseBody
+    public List<Program> listByGnoAndYear(@PathVariable String gradeNo, @PathVariable String year) {
+        return programService.listByGnoAndYear(gradeNo, year);
     }
 }

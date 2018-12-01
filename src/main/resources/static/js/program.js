@@ -1,8 +1,6 @@
 // csrf头部信息
 var header = $("meta[name='_csrf_header']").attr("content");
 var token = $("meta[name='_csrf']").attr("content");
-// 模态窗口
-var modal = $('#modal');
 
 /**
  *用于弹出模态框
@@ -11,6 +9,8 @@ var modal = $('#modal');
  * @param info 传入的数据，用于接下来的操作
  */
 var myAlert = function (body, type, info) {
+    // 模态窗口
+    var modal = $('#modal');
     modal.find('.modal-body').html(body);
     var foot = modal.find('.modal-footer');
     var footData = '<button type="button" class="btn btn-primary" data-dismiss="modal">确定</button>';
@@ -55,7 +55,6 @@ var myAlert = function (body, type, info) {
                         '<span>' + grade + '</span><br>' +
                         '<label>学科：</label>' +
                         '<span>' + data.subject.subName + '</span><br>' +
-                        '<form class="form-group">' +
                         '<div class="form-group">' +
                         '<label for="name1" class="col-form-label">课程名称:</label>' +
                         '<input type="text" class="form-control" value="' + data.name + '" id="name1" name="name1"' +
@@ -281,6 +280,7 @@ var update = function (id) {
                 tr.children().eq(2).text(name);
                 tr.children().eq(3).text(amount);
                 tr.children().eq(4).text(exam === '1' ? '考试' : '考查');
+                tr.children().eq(4).attr('name', exam);
                 myAlert("更新成功！");
             } else {
                 myAlert("更新失败！");

@@ -18,11 +18,21 @@ public interface ClassRepository extends JpaRepository<Class, String> {
     Class findByTeacherNoAndYear(String teacherNo, String year);
 
     /**
-     * 根据年级号查询出该年级的全部班级信息
+     * 根据年级号和学年查询出该年级的全部班级信息
      *
      * @param gradeNo 年级号
+     * @param year    学年编号
      * @return 以List集合的形式返回全部数据
      */
-    @Query(nativeQuery = true, value = "SELECT ClassNo, ClassName, GradeNo, TeacherNo FROM XJ_Class WHERE TeacherNo = ?1 AND ClassNo LIKE CONCAT((?2 + 1 - GradeNo), '%')")
-    List<Class> findAllByGradeNo(String gradeNo);
+    @Query(nativeQuery = true, value = "SELECT ClassNo, ClassName, GradeNo, TeacherNo FROM XJ_Class WHERE ClassNo LIKE CONCAT((?2 + 7 - ?1), '%')")
+    List<Class> findAllByGradeNoAndYear(String gradeNo, String year);
+
+    /**
+     * 根据注册年份查询全部班级信息
+     *
+     * @param enrollYear 注册年份
+     * @return 以List集合的形式返回全部数据
+     */
+    @Query(nativeQuery = true, value = "SELECT ClassNo, ClassName, GradeNo, TeacherNo FROM XJ_Class WHERE ClassNo LIKE CONCAT(?1, '%')")
+    List<Class> findAllByEnrollYear(String enrollYear);
 }

@@ -24,12 +24,13 @@ public interface ProgramService {
     List<Program> listByClassTeacher(String teacherNo);
 
     /**
-     * 教务员查询当前学年指定年级的培养方案信息
+     * 教务员查询指定学年指定年级的培养方案信息
      *
      * @param gno 年级号
+     * @param year 学年编号
      * @return 以List集合的形式返回全部的数据
      */
-    List<Program> listByGno(String gno);
+    List<Program> listByGnoAndYear(String gno, String year);
 
     /**
      * 教务员根据注册年份查询该届学生的全部培养方案信息

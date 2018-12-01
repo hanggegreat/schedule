@@ -44,8 +44,8 @@ public class ProgramServiceImpl implements ProgramService {
     }
 
     @Override
-    public List<Program> listByGno(String gno) {
-        return programRepository.findAllByGradeNoAndYearAndStatus(gno, YearUtil.getCurrentYear(), "1");
+    public List<Program> listByGnoAndYear(String gno, String year) {
+        return programRepository.findAllByGradeNoAndYear(gno, year);
     }
 
     @Override

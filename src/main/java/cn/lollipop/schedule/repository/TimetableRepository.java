@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
 
-public interface TimetableRepository extends JpaRepository<Timetable, String> {
+public interface TimetableRepository extends JpaRepository<Timetable, Long> {
     /**
      * 根据班级编号和发布状态查询全部的课表信息
      *

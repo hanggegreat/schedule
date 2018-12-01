@@ -22,7 +22,7 @@ public class Teach implements Serializable {
     private Program program;//培养方案
 
     @ManyToOne
-    @JoinColumn(name = "teacherNo", foreignKey = @ForeignKey(name = "none", value = ConstraintMode.NO_CONSTRAINT))
+    @JoinColumn(name = "teacherNo", referencedColumnName = "teacherNo", foreignKey = @ForeignKey(name = "none", value = ConstraintMode.NO_CONSTRAINT))
     private Teacher teacher;//教师
 
     @OneToOne

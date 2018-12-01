@@ -26,6 +26,7 @@ public class TeacherServiceImpl implements TeacherService {
 
     @Override
     public List<Teacher> listByGno(String gno) {
+        gno = String.valueOf(Integer.valueOf(gno) - 6);
         return this.teacherRepository.findAllByTeacherGrade(gno);
     }
 
@@ -37,6 +38,7 @@ public class TeacherServiceImpl implements TeacherService {
 
     @Override
     public List<Teacher> listByGnoAndSubNo(String gno, String subNo) {
+        gno = String.valueOf(Integer.valueOf(gno) - 6);
         Subject subject = this.subjectRepository.getOne(subNo);
         return this.teacherRepository.findAllByTeacherGradeAndSubject(gno, subject);
     }

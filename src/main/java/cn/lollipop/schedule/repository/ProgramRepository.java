@@ -25,10 +25,9 @@ public interface ProgramRepository extends JpaRepository<Program, String> {
      *
      * @param gradeNo 年级号
      * @param year    学年编号
-     * @param status  发布状态
      * @return 以List集合的形式返回查询出的全部数据
      */
-    List<Program> findAllByGradeNoAndYearAndStatus(String gradeNo, String year, String status);
+    List<Program> findAllByGradeNoAndYear(String gradeNo, String year);
 
     /**
      * 批量修改培养方案状态
