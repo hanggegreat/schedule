@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="_csrf" th:content="${_csrf.token}"/>
+    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
+    <title>查看课表</title>
+    <link rel="stylesheet" href="../../../static/css/bootstrap.min.css"
+          th:href="@{/webjars/bootstrap/4.1.3/css/bootstrap.min.css}">
+    <script src="../../../static/js/jquery3.3.1.min.js" th:src="@{/webjars/jquery/3.3.1/jquery.min.js}"></script>
+    <script src="../../../static/js/popper.min.js" th:src="@{/webjars/popper.js/1.14.4/popper.min.js}"></script>
+    <script src="../../../static/js/bootstrap.min.js" th:src="@{/webjars/bootstrap/4.1.3/js/bootstrap.min.js}"></script>
+    <style>
+        .btn{
+            margin-left:60px;
+        }
+        h2{
+            margin-bottom: 30px;
+        }
+    </style>
+
+<body>
+<div style="width:46%;margin:auto;">
+<h2>课程表生成</h2>
+<form method="post" th:action="@{/teacher/academic/timetable/make}">
+    <div class="form-group row">
+        <label class="col-sm-2 col-form-label" for="enrollYear">学年</label>
+        <select th:onchange="'listWithEdit(\'' + ${year} +'\');addClass(this.value);'"
+                class="custom-select col-sm-2" name="enrollYear"
+                id="enrollYear">
+            <option value="">请选择学年</option>
+        </select>
+    </div>
+
+    <div class="form-group row">
+        <label class="col-sm-2 col-form-label" for="teacher.teacherNo">年级</label>
+        <select class="custom-select col-sm-2" name="teacher.teacherNo" id="teacher.teacherNo">
+            <option value="">请选择年级</option>
+        </select>
+    </div>
+
+    <div class="form-group row">
+        <label class="col-sm-2 col-form-label" for="tClass.classNo">班级</label>
+        <select onchange="addTeacher($('#year').text() - $('#enrollYear').val() + 7, $('#subNo').text(), '#teacher\\.teacherNo');"
+                class="custom-select col-sm-2" name="tClass.classNo" id="tClass.classNo">
+            <option value="">请选择班级</option>
+        </select>
+    </div>
+    <br>
+    <div class="form-group row">
+        <button class="btn btn-outline-primary" type="button" >生成</button>
+    </div>
+</form>
+<hr>
+<h2>查看课表</h2>
+<table class="table table-hover text-center">
+    <thead class="table-title">
+    <tr>
+        <th>节次/星期</th>
+        <th>周一</th>
+        <th>周二</th>
+        <th>周三</th>
+        <th>周四</th>
+        <th>周五</th>
+    </tr>
+    </thead>
+    <tbody class="table-content">
+    </tbody>
+</table>
+</div>
+</body>
+</html>
