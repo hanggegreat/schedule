@@ -13,6 +13,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 
 /**
  * @author lollipop
@@ -97,5 +99,11 @@ public class TeachController {
         String newTeachNo = oldTeachNo.substring(0, 7) + teacherNo + oldTeachNo.substring(11);
         teach.setTeachNo(newTeachNo);
         return teachService.update(teach);
+    }
+
+    @RequestMapping("/teacher/academic/teach/list/{classNo}/{year}")
+    @ResponseBody
+    public List<Teach> listByClassNoAndYear(@PathVariable String classNo, @PathVariable String year) {
+        return teachService.listByClassNoAndYear(classNo, year);
     }
 }

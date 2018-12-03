@@ -10,115 +10,170 @@
     <script src="../../../static/js/jquery3.3.1.min.js" th:src="@{/webjars/jquery/3.3.1/jquery.min.js}"></script>
     <script src="../../../static/js/popper.min.js" th:src="@{/webjars/popper.js/1.14.4/popper.min.js}"></script>
     <script src="../../../static/js/bootstrap.min.js" th:src="@{/webjars/bootstrap/4.1.3/js/bootstrap.min.js}"></script>
+    <script src="../../../static/js/timetable.js" th:src="@{/js/timetable.js}"></script>
 <body>
-<span style="display: none;" id="year" th:text="${year}"></span>
+<span style="display: none;" id="year" th:text="${T(java.lang.Integer).parseInt(year)}"></span>
 <div class="container">
     <br>
     <h2>
-        <span th:text="${year} + '-' + ${year + 1}">2018-2019</span> 学年课程制定
+        <span th:text="${year} + '-' + ${T(java.lang.Integer).parseInt(year) + 1}">2018-2019</span> 学年课表制定
     </h2>
     <br>
     <form method="post" th:action="@{/teacher/academic/timetable/make}">
         <div class="form-group row">
-            <label class="col-sm-2 col-form-label" for="teacher.teacherNo">年级</label>
-            <select class="custom-select col-sm-2" name="teacher.teacherNo" id="teacher.teacherNo">
+            <label class="col-sm-2 col-form-label" for="enrollYear">年级</label>
+            <select onchange="addClass(this.value);" class="custom-select col-sm-2" name="enrollYear" id="enrollYear">
                 <option value="">请选择年级</option>
+                <option th:each="grade: ${grades}" th:value="${grade.enrollYear}" th:switch="${grade.gradeNo}">
+                    <span th:case="'7'">七年级</span>
+                    <span th:case="'8'">八年级</span>
+                    <span th:case="'9'">九年级</span>
+                </option>
             </select>
         </div>
 
         <div class="form-group row">
-            <label class="col-sm-2 col-form-label" for="tClass.classNo">班级</label>
-            <select onchange="addTeacher($('#year').text() - $('#enrollYear').val() + 7, $('#subNo').text(), '#teacher\\.teacherNo');"
-                    class="custom-select col-sm-2" name="tClass.classNo" id="tClass.classNo">
+            <label class="col-sm-2 col-form-label" for="classNo">班级</label>
+            <select onchange="list(this.value, $('#year').text());" class="custom-select col-sm-2" name="classNo"
+                    id="classNo">
                 <option value="">请选择班级</option>
             </select>
         </div>
         <br>
     </form>
-    <hr>
-    <h2>课表信息<button style="margin-left: 75px;" class="btn btn-large btn-success">一键生成</button></h2>
-    <table class="table table-hover text-center">
-        <thead class="table-title">
-        <tr>
-            <th style="width: 10%;">节次/周次</th>
-            <th style="width: 18%;">星期一</th>
-            <th style="width: 18%;">星期二</th>
-            <th style="width: 18%;">星期三</th>
-            <th style="width: 18%;">星期四</th>
-            <th style="width: 18%;">星期五</th>
-        </tr>
-        </thead>
-        <tbody class="table-content">
-        <tr>
-            <td class="font-weight-bold">第一节</td>
-            <td num="1"></td>
-            <td num="9"></td>
-            <td num="17"></td>
-            <td num="25"></td>
-            <td num="33"></td>
-        </tr>
-        <tr>
-            <td class="font-weight-bold">第二节</td>
-            <td num="2"></td>
-            <td num="10"></td>
-            <td num="18"></td>
-            <td num="26"></td>
-            <td num="34"></td>
-        </tr>
-        <tr>
-            <td class="font-weight-bold">第三节</td>
-            <td num="3"></td>
-            <td num="11"></td>
-            <td num="19"></td>
-            <td num="27"></td>
-            <td num="35"></td>
-        </tr>
-        <tr>
-            <td class="font-weight-bold">第四节</td>
-            <td num="4"></td>
-            <td num="12"></td>
-            <td num="20"></td>
-            <td num="28"></td>
-            <td num="36"></td>
-        </tr>
-        <tr>
-            <td class="font-weight-bold">午　休</td>
-            <td colspan="5"></td>
-        </tr>
-        <tr>
-            <td class="font-weight-bold">第五节</td>
-            <td num="5"></td>
-            <td num="13"></td>
-            <td num="21"></td>
-            <td num="29"></td>
-            <td num="37"></td>
-        </tr>
-        <tr>
-            <td class="font-weight-bold">第六节</td>
-            <td num="6"></td>
-            <td num="14"></td>
-            <td num="22"></td>
-            <td num="30"></td>
-            <td num="38"></td>
-        </tr>
-        <tr>
-            <td class="font-weight-bold">第七节</td>
-            <td num="7"></td>
-            <td num="15"></td>
-            <td num="23"></td>
-            <td num="31"></td>
-            <td num="39"></td>
-        </tr>
-        <tr>
-            <td class="font-weight-bold">第八节</td>
-            <td num="8"></td>
-            <td num="16"></td>
-            <td num="24"></td>
-            <td num="32"></td>
-            <td num="40"></td>
-        </tr>
-        </tbody>
-    </table>
+    <div id="wait" style="display: none;">
+        <p>正在排课，请耐心等待！</p>
+        <div class="progress">
+            <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="100"
+                 aria-valuemin="0" aria-valuemax="100" style="width: 100%"></div>
+        </div>
+    </div>
+    <div id="teach">
+        <hr>
+        <h2>
+            任教信息<span id="teach_className" style="display: none;"></span>
+        </h2>
+        <table class="table table-hover text-center">
+            <thead class="table-title">
+            <tr>
+                <th style="width: 20%;">编号</th>
+                <th style="width: 15%;">教师</th>
+                <th style="width: 15%;">班级</th>
+                <th style="width: 15%;">培养方案</th>
+                <th style="width: 10%;">学科</th>
+                <th style="width: 10%;">课时</th>
+                <th style="width: 15%;">名称</th>
+            </tr>
+            </thead>
+            <tbody id="teachInfo" class="table-content">
+            </tbody>
+        </table>
+    </div>
+    <div id="timetable" style="display: none;">
+        <hr>
+        <h2>课表信息</h2>
+        <table class="table table-bordered table-striped text-center">
+            <thead class="table-title">
+            <tr>
+                <th style="width: 10%;">节次/周次</th>
+                <th style="width: 18%;">星期一</th>
+                <th style="width: 18%;">星期二</th>
+                <th style="width: 18%;">星期三</th>
+                <th style="width: 18%;">星期四</th>
+                <th style="width: 18%;">星期五</th>
+            </tr>
+            </thead>
+            <tbody id="timetableInfo" class="table-content">
+            <tr>
+                <td class="font-weight-bold">第一节</td>
+                <td num="1"></td>
+                <td num="9"></td>
+                <td num="17"></td>
+                <td num="25"></td>
+                <td num="33"></td>
+            </tr>
+            <tr>
+                <td class="font-weight-bold">第二节</td>
+                <td num="2"></td>
+                <td num="10"></td>
+                <td num="18"></td>
+                <td num="26"></td>
+                <td num="34"></td>
+            </tr>
+            <tr>
+                <td class="font-weight-bold">第三节</td>
+                <td num="3"></td>
+                <td num="11"></td>
+                <td num="19"></td>
+                <td num="27"></td>
+                <td num="35"></td>
+            </tr>
+            <tr>
+                <td class="font-weight-bold">第四节</td>
+                <td num="4"></td>
+                <td num="12"></td>
+                <td num="20"></td>
+                <td num="28"></td>
+                <td num="36"></td>
+            </tr>
+            <tr>
+                <td class="font-weight-bold">午　休</td>
+                <td colspan="5"></td>
+            </tr>
+            <tr>
+                <td class="font-weight-bold">第五节</td>
+                <td num="5"></td>
+                <td num="13"></td>
+                <td num="21"></td>
+                <td num="29"></td>
+                <td num="37"></td>
+            </tr>
+            <tr>
+                <td class="font-weight-bold">第六节</td>
+                <td num="6"></td>
+                <td num="14"></td>
+                <td num="22"></td>
+                <td num="30"></td>
+                <td num="38"></td>
+            </tr>
+            <tr>
+                <td class="font-weight-bold">第七节</td>
+                <td num="7"></td>
+                <td num="15"></td>
+                <td num="23"></td>
+                <td num="31"></td>
+                <td num="39"></td>
+            </tr>
+            <tr>
+                <td class="font-weight-bold">第八节</td>
+                <td num="8"></td>
+                <td num="16"></td>
+                <td num="24"></td>
+                <td num="32"></td>
+                <td num="40"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="modal" id="modal" tabindex="-1" role="dialog" aria-labelledby="modalTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalTitle">提示信息</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    ...
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">确定</button>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 </body>
 </html>

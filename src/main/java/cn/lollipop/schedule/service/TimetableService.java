@@ -8,6 +8,34 @@ import java.util.List;
 
 public interface TimetableService {
     /**
+     * 为指定学年指定班级制定课表
+     *
+     * @param year    学年编号
+     * @param classNo 班级编号
+     * @return 以List集合的形式返回全部数据
+     */
+    List<Timetable> make(String year, String classNo);
+
+    /**
+     * 查询指定学年指定班级的课表
+     *
+     * @param classNo 班级编号
+     * @param year    学年编号
+     * @return 以List集合的形式返回全部数据
+     */
+    List<Timetable> listByClassNoAndYear(String classNo, String year);
+
+    /**
+     * 查询指定学年指定班级指定发布状态的课表
+     *
+     * @param classNo 班级编号
+     * @param year    学年编号
+     * @param status  发布状态
+     * @return 以List集合的形式返回全部数据
+     */
+    List<Timetable> listByClassNoAndYearAndStatus(String classNo, String year, String status);
+
+    /**
      * 学生查询自己指定学年的全部课表信息
      *
      * @param sno  学生编号

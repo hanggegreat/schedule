@@ -1,6 +1,7 @@
 package cn.lollipop.schedule.repository;
 
-import cn.lollipop.schedule.domain.*;
+import cn.lollipop.schedule.domain.Subject;
+import cn.lollipop.schedule.domain.Teacher;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
@@ -39,4 +40,16 @@ public interface TeacherRepository extends JpaRepository<Teacher, String> {
      * @return 返回教师信息
      */
     Teacher findByTeacherNo(String teacherNo);
+
+    /**
+     * 查询指定学年指定时间的上课老师
+     *
+     * @param year 学年编号
+     * @param time 上课时间
+     * @return 返回教师信息
+     */
+    @Query(nativeQuery = true, value = "SELECT id, TeacherNo, TeacherName, TeacherSex, TeacherGrade, TeacherState, TeacherSub, TeacherKey " +
+            "FROM js_teacher " +
+            "WHERE TeacherNo = (SELECT SUBSTR(timetableNo, 8, 4) FROM pke_timetable WHERE time = ?2 AND timetableNo LIKE CONCAT(?1, '%'))")
+    Teacher findByYearAndTime(String year, Short time);
 }

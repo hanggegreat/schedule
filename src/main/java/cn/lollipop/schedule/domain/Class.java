@@ -22,6 +22,10 @@ public class Class implements Serializable {
     @Size(min = 1, max = 1)
     private String gradeNo;//年级号
 
+    @Column(length = 3, columnDefinition = "char(3)")
+    @Size(max = 3)
+    private String classNum;//人数
+
     @ManyToOne
     @JoinColumn(name = "teacherNo", referencedColumnName = "teacherNo", foreignKey = @ForeignKey(name = "none", value = ConstraintMode.NO_CONSTRAINT))
     private Teacher teacher;//班主任
@@ -58,6 +62,14 @@ public class Class implements Serializable {
         this.teacher = teacher;
     }
 
+    public String getClassNum() {
+        return classNum;
+    }
+
+    public void setClassNum(String classNum) {
+        this.classNum = classNum;
+    }
+
     @Override
     public String toString() {
         return "Class{" +
@@ -65,6 +77,7 @@ public class Class implements Serializable {
                 ", className='" + className + '\'' +
                 ", gradeNo='" + gradeNo + '\'' +
                 ", teacher=" + teacher +
+                ", classNum=" + classNum +
                 '}';
     }
 }

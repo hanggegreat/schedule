@@ -79,6 +79,11 @@ public class ProgramController {
     @RequestMapping({"/teacher/academic/program/list/{status}/{enrollYear}"})
     @ResponseBody
     public List<Program> list(@PathVariable String status, @PathVariable String enrollYear) {
+        if ("0".equals(status)) {
+            List<Program> result = programService.listByStatusAndEnrollYear("0", enrollYear);
+            result.addAll(programService.listByStatusAndEnrollYear("3", enrollYear));
+            return result;
+        }
         return programService.listByStatusAndEnrollYear(status, enrollYear);
     }
 

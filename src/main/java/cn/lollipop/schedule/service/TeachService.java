@@ -2,7 +2,6 @@ package cn.lollipop.schedule.service;
 
 import cn.lollipop.schedule.domain.Program;
 import cn.lollipop.schedule.domain.Teach;
-import cn.lollipop.schedule.domain.Teacher;
 
 import java.util.List;
 
@@ -65,4 +64,13 @@ public interface TeachService {
      * @return true
      */
     boolean remove(Long id);
+
+    /**
+     * 查询指定班级指定学年的任教信息
+     *
+     * @param classNo 班级编号
+     * @param year    学年编号
+     * @return 以List集合的形式返回查询出的全部数据
+     */
+    List<Teach> listByClassNoAndYear(String classNo, String year);
 }

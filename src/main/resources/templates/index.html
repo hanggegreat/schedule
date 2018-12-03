@@ -75,7 +75,8 @@
                         </dd>
                     </dl>
                 </li>
-                <li class="layui-nav-item  layui-nav-itemed" sec:authorize="hasAnyRole('STUDENT', 'ADVISER', 'GRADELEADER', 'ACADEMIC', 'REGISTRAR')">
+                <li class="layui-nav-item  layui-nav-itemed"
+                    sec:authorize="hasAnyRole('STUDENT', 'ADVISER', 'GRADELEADER', 'ACADEMIC', 'REGISTRAR')">
                     <a href="javascript:;"><i class="layui-icon">&#xe620;</i>培养方案</a>
                     <dl class="layui-nav-child">
                         <dd sec:authorize="hasRole('STUDENT')">
@@ -155,35 +156,47 @@
                     </dl>
                 </li>
                 <li class="layui-nav-item  layui-nav-itemed">
-                    <a href="javascript:;"><i class="layui-icon">&#xe620;</i>课程表</a>
+                    <a href="javascript:;"><i class="layui-icon">&#xe620;</i>课表</a>
                     <dl class="layui-nav-child">
-                        <dd><a href="javascript:;" href-url="sub-view/check_tertable.html"><i class="layui-icon">&#xe621;</i>查看教师课表</a>
+                        <dd>
+                            <a href="javascript:;" href-url="sub-view/timetable/make.html"
+                               th:attr="href-url=@{/teacher/academic/timetable/make/2018}">
+                                <i class="layui-icon">&#xe621;</i>排课
+                            </a>
                         </dd>
-                        <dd><a href="javascript:;" href-url="sub-view/check_classtable.html"><i class="layui-icon">&#xe621;</i>查看班级课表</a>
+                        <dd>
+                            <a href="javascript:;" href-url="sub-view/timetable/list_by_class_and_status.html">
+                                <i class="layui-icon">&#xe621;</i>未发布
+                            </a>
                         </dd>
-                        <dd><a href="javascript:;" href-url="sub-view/check_classtable.html"><i class="layui-icon">&#xe621;</i>我的（学生）</a>
+                        <dd>
+                            <a href="javascript:;" href-url="sub-view/timetable/list_by_class_and_status.html">
+                                <i class="layui-icon">&#xe621;</i>待审核
+                            </a>
                         </dd>
-                        <dd><a href="javascript:;" href-url="sub-view/check_classtable.html"><i class="layui-icon">&#xe621;</i>我的（教师）</a>
+                        <dd>
+                            <a href="javascript:;" href-url="sub-view/timetable/list_by_class_and_status.html">
+                                <i class="layui-icon">&#xe621;</i>已发布
+                            </a>
                         </dd>
-                        <dd><a href="javascript:;" href-url="sub-view/check_classtable.html"><i class="layui-icon">&#xe621;</i>当前班级（班主任）</a>
+                        <dd>
+                            <a href="javascript:;" href-url="sub-view/timetable/list_by_class_and_status.html">
+                                <i class="layui-icon">&#xe621;</i>未通过
+                            </a>
                         </dd>
-                        <dd><a href="javascript:;" href-url="sub-view/check_classtable.html"><i class="layui-icon">&#xe621;</i>当前年级（年级组长）</a>
+                        <dd><a href="javascript:;" href-url="sub-view/timetable/list_by_class_and_status.html"><i class="layui-icon">&#xe621;</i>查看教师课表</a>
                         </dd>
-                        <dd><a href="javascript:;" href-url="sub-view/check_classtable.html"><i class="layui-icon">&#xe621;</i>查看（领导）</a>
+                        <dd><a href="javascript:;" href-url="sub-view/timetable/list_by_class_and_status.html"><i class="layui-icon">&#xe621;</i>查看班级课表</a>
                         </dd>
-                        <dd><a href="javascript:;" href-url="sub-view/check_classtable.html"><i class="layui-icon">&#xe621;</i>排课（教务员）</a>
+                        <dd><a href="javascript:;" href-url="sub-view/timetable/list.html"><i class="layui-icon">&#xe621;</i>我的（学生）</a>
                         </dd>
-                        <dd><a href="javascript:;" href-url="sub-view/check_classtable.html"><i class="layui-icon">&#xe621;</i>修改（教务员）</a>
+                        <dd><a href="javascript:;" href-url="sub-view/timetable/list.html"><i class="layui-icon">&#xe621;</i>我的（教师）</a>
                         </dd>
-                        <dd><a href="javascript:;" href-url="sub-view/check_classtable.html"><i class="layui-icon">&#xe621;</i>审核（教务主任）</a>
+                        <dd><a href="javascript:;" href-url="sub-view/timetable/list.html"><i class="layui-icon">&#xe621;</i>当前班级（班主任）</a>
                         </dd>
-                        <dd><a href="javascript:;" href-url="sub-view/check_classtable.html"><i class="layui-icon">&#xe621;</i>未发布（教务员）</a>
+                        <dd><a href="javascript:;" href-url="sub-view/timetable/list.html"><i class="layui-icon">&#xe621;</i>当前年级（年级组长）</a>
                         </dd>
-                        <dd><a href="javascript:;" href-url="sub-view/check_classtable.html"><i class="layui-icon">&#xe621;</i>已发布（教务员、教务主任）</a>
-                        </dd>
-                        <dd><a href="javascript:;" href-url="sub-view/check_classtable.html"><i class="layui-icon">&#xe621;</i>待审核（教务员、教务主任）</a>
-                        </dd>
-                        <dd><a href="javascript:;" href-url="sub-view/check_classtable.html"><i class="layui-icon">&#xe621;</i>未通过（教务员、教务主任）</a>
+                        <dd><a href="javascript:;" href-url="sub-view/timetable/list.html"><i class="layui-icon">&#xe621;</i>查看（领导）</a>
                         </dd>
                     </dl>
                 </li>

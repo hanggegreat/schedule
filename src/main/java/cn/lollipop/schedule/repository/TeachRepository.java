@@ -23,7 +23,7 @@ public interface TeachRepository extends JpaRepository<Teach, Long> {
      * @param year    学年编号
      * @return 以List集合的形式返回全部的查询结果
      */
-    @Query(nativeQuery = true, value = "SELECT id, teachNo, teacherNo, classNo, programId FROM pke_teach WHERE classNo = ?1 AND teacherNo LIKE CONCAT(?2, '%')")
+    @Query(nativeQuery = true, value = "SELECT id, teachNo, teacherNo, classNo, programId FROM pke_teach WHERE classNo = ?1 AND teachNo LIKE CONCAT(?2, '%')")
     List<Teach> findAllByClassNoAndYear(String classNo, String year);
 
     /**

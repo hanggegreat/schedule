@@ -51,4 +51,9 @@ public class TeachServiceImpl implements TeachService {
         teachRepository.deleteById(id);
         return true;
     }
+
+    @Override
+    public List<Teach> listByClassNoAndYear(String classNo, String year) {
+        return teachRepository.findAllByClassNoAndYear(classNo, year);
+    }
 }
