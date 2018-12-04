@@ -7,6 +7,17 @@ import cn.lollipop.schedule.domain.Timetable;
 import java.util.List;
 
 public interface TimetableService {
+
+    /**
+     * 交换两节课前的查询操作
+     *
+     * @param classNo 班级编号
+     * @param year    学年编号
+     * @param time    上课时间
+     * @return 以List集合的形式返回全部数据
+     */
+    List<Timetable> preExchange(String classNo, String year, Short time);
+
     /**
      * 为指定学年指定班级制定课表
      *
@@ -24,6 +35,16 @@ public interface TimetableService {
      * @return 以List集合的形式返回全部数据
      */
     List<Timetable> listByClassNoAndYear(String classNo, String year);
+
+    /**
+     * 批量修改指定学年指定年级的全部课表发布状态的操作
+     *
+     * @param year       学年编号
+     * @param enrollYear 注册学年
+     * @param status     要修改的状态编号
+     * @return true
+     */
+    boolean changeStatus(String year, String enrollYear, String status);
 
     /**
      * 查询指定学年指定班级指定发布状态的课表
@@ -143,9 +164,19 @@ public interface TimetableService {
      *
      * @param room 教室信息
      * @param time 上课时间
-     * @return 以List集合的形式返回全部查询出的数据
+     * @return 返回课程信息
      */
     Timetable showByRoomAndTime(Room room, Short time);
+
+    /**
+     * 查询指定学年指定班级指定上课时间的课程信息
+     *
+     * @param year    学年编号
+     * @param classNo 班级编号
+     * @param time    上课时间
+     * @return 返回课程信息
+     */
+    Timetable showByYearAndClassNoAndTime(String year, String classNo, Short time);
 
     /**
      * 交换两节课的上课时间
@@ -153,7 +184,7 @@ public interface TimetableService {
      * @param a 课程a
      * @param b 课程b
      */
-    void exchangeTowTimetables(Timetable a, Timetable b);
+    boolean exchangeTowTimetables(Timetable a, Timetable b);
 
     /**
      * 批量审核通过课程信息

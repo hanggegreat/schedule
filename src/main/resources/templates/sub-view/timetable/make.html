@@ -19,7 +19,7 @@
         <span th:text="${year} + '-' + ${T(java.lang.Integer).parseInt(year) + 1}">2018-2019</span> 学年课表制定
     </h2>
     <br>
-    <form method="post" th:action="@{/teacher/academic/timetable/make}">
+    <form>
         <div class="form-group row">
             <label class="col-sm-2 col-form-label" for="enrollYear">年级</label>
             <select onchange="addClass(this.value);" class="custom-select col-sm-2" name="enrollYear" id="enrollYear">
@@ -53,7 +53,7 @@
         <h2>
             任教信息<span id="teach_className" style="display: none;"></span>
         </h2>
-        <table class="table table-hover text-center">
+        <table class="table table-hover table-hover text-center">
             <thead class="table-title">
             <tr>
                 <th style="width: 20%;">编号</th>
@@ -71,16 +71,21 @@
     </div>
     <div id="timetable" style="display: none;">
         <hr>
-        <h2>课表信息</h2>
+        <h2>
+            <span style="margin-right: 70px;">课表信息</span>
+            <button onclick="preExchange();" id="exchangeBtn" class="btn btn-lg btn-warning">调整课表</button>
+            <button onclick="cancel();" id="cancelBtn" class="btn btn-lg btn-danger" style="display: none;">取消调整
+            </button>
+        </h2>
         <table class="table table-bordered table-striped text-center">
             <thead class="table-title">
             <tr>
-                <th style="width: 10%;">节次/周次</th>
-                <th style="width: 18%;">星期一</th>
-                <th style="width: 18%;">星期二</th>
-                <th style="width: 18%;">星期三</th>
-                <th style="width: 18%;">星期四</th>
-                <th style="width: 18%;">星期五</th>
+                <th style="width: 15%;">节次/周次</th>
+                <th style="width: 17%;">星期一</th>
+                <th style="width: 17%;">星期二</th>
+                <th style="width: 17%;">星期三</th>
+                <th style="width: 17%;">星期四</th>
+                <th style="width: 17%;">星期五</th>
             </tr>
             </thead>
             <tbody id="timetableInfo" class="table-content">

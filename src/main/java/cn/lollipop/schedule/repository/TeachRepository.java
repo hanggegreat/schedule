@@ -46,30 +46,4 @@ public interface TeachRepository extends JpaRepository<Teach, Long> {
      */
     @Query(nativeQuery = true, value = "SELECT id, teachNo, teacherNo, classNo, programId FROM pke_teach WHERE teachNo LIKE CONCAT(?3, ?2, ?1, '%')")
     List<Teach> findAllBySubNoAndGradeNoAndYear(String subNo, String gradeNo, String year);
-
-//    /**
-//     * 根据年级号和学年查询出该学年该年级的全部任课信息
-//     * @param gradeNo 年级号
-//     * @param year 学年号
-//     * @return 以List集合的形式返回全部的查询结果
-//     */
-//    @Query(nativeQuery = true, value = "SELECT id, teachNo, teacherNo, classNo, programId FROM pke_teach WHERE teacherNo LIKE CONCAT(?2, ?1, '%')")
-//    List<Teach> findAllByGradeNoAndYear(String gradeNo, String year);
-//
-//    /**
-//     * 根据年级号和学科编号查询出该学年该年级的全部任课信息
-//     * @param gradeNo 年级号
-//     * @param subjectNo 学科编号
-//     * @return 以List集合的形式返回全部的查询结果
-//     */
-//    @Query(nativeQuery = true, value = "SELECT id, teachNo, teacherNo, classNo, programId FROM pke_teach WHERE programId LIKE CONCAT('%', ?1, ?2)")
-//    List<Teach> findAllByGradeNoAndSubjectNo(String gradeNo, String subjectNo);
-//
-//    /**
-//     * 根据学科编号查询出该学年该年级的全部任课信息
-//     * @param subjectNo 学科编号
-//     * @return 以List集合的形式返回全部的查询结果
-//     */
-//    @Query(nativeQuery = true, value = "SELECT id, teachNo, teacherNo, classNo, programId FROM pke_teach WHERE programId LIKE CONCAT('%', ?1)")
-//    List<Teach> findAllBySubjectNo(String subjectNo);
 }

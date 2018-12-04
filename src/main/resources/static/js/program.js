@@ -321,9 +321,9 @@ var changeStatus = function (status) {
             },
             success: function (data) {
                 if (data) {
-                    myAlert("更新成功！", 'redirect', "/teacher/academic/program/list/" + status);
+                    myAlert("操作成功！", 'redirect', "/teacher/academic/program/list/" + status);
                 } else {
-                    myAlert("更新失败！");
+                    myAlert("操作失败！");
                 }
             }
         });

@@ -8,21 +8,21 @@ public class RandomUtil {
     public RandomUtil(int range) {
         this.array = new short[range];
         for (int i = 0; i < range; i++) {
-            array[i] = (short)i;
+            array[i] = (short) i;
         }
         this.range = range;
     }
 
     public short getRandomInt() {
-        if (range == 0) {
-            return 0;
-        }
-
         index = (int) (range * Math.random());
         return array[index];
     }
 
     public void remove() {
-        array[index] = array[--range];
+        if (range == 0) {
+            range--;
+        } else {
+            array[index] = array[--range];
+        }
     }
 }

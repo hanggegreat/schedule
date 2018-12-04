@@ -31,12 +31,60 @@ public class TimetableServiceImpl implements TimetableService {
     }
 
     @Override
+    public List<Timetable> preExchange(String classNo, String year, Short time) {
+        Timetable first = timetableRepository.findByYearAndClassNoAndTime(year, classNo, time);
+        List<Timetable> result = new ArrayList<>();
+        List<Timetable> timetables = timetableRepository.findAllByClassNoAndYearAndStatusAndIsNotTime(classNo, year, "0", time);
+        for (Timetable timetable : timetables) {
+            String teacherNo = first.getTimetableNo().substring(7, 11);
+
+            // 交换两节课老师会冲突
+            if (timetableRepository.findByYearAndTimeAndTeacherNo(year, time, timetable.getTimetableNo().substring(7, 11)) != null
+                    || timetableRepository.findByYearAndTimeAndTeacherNo(year, timetable.getTime(), teacherNo) != null) {
+                continue;
+            }
+
+            // 教室相同
+            if (first.getRoom().getRoomNo().equals(timetable.getRoom().getRoomNo())) {
+                result.add(timetable);
+                continue;
+            }
+
+            //第一节为体育课
+            if ("06".equals(first.getRoom().getRoomFunction().getRoomFunctionNo())) {
+                //第二节一定不为体育课
+                if (40 * timetableRepository.findAllByRoomAndTime(first.getRoom(), timetable.getTime()).size() > first.getRoom().getRoomCapacity()
+                        || timetableRepository.findByRoomAndTimeAndStatus(timetable.getRoom(), time, "0") != null) {
+                    continue;
+                }
+            } else {//第一节不为体育课
+                //第二节为体育课
+                if ("06".equals(timetable.getRoom().getRoomFunction().getRoomFunctionNo())) {
+                    if (40 * timetableRepository.findAllByRoomAndTime(timetable.getRoom(), time).size() > timetable.getRoom().getRoomCapacity()
+                            || timetableRepository.findByRoomAndTimeAndStatus(first.getRoom(), timetable.getTime(), "0") != null) {
+                        continue;
+                    }
+                } else if (timetableRepository.findByRoomAndTimeAndStatus(first.getRoom(), timetable.getTime(), "0") != null
+                        || timetableRepository.findByRoomAndTimeAndStatus(timetable.getRoom(), time, "0") != null) {
+                    continue;
+                }
+            }
+            result.add(timetable);
+        }
+        return result;
+    }
+
+    @Override
     public List<Timetable> make(String year, String classNo) {
         List<Timetable> result = new ArrayList<>(40);
         List<Teach> teaches = teachRepository.findAllByClassNoAndYear(classNo, year);
+
+        String gno = teaches.get(0).getTeachNo().substring(4, 5);
+        String floor = String.valueOf(Integer.parseInt(gno) - 6);
+
         RoomFunction roomFunction = new RoomFunction();
-        roomFunction.setRoomFunctionNo("01"); //普通教室
-        List<Room> commonRooms = roomRepository.findAllByRoomFunctionAndRoomStateNo(roomFunction, "0");
+        //普通教室
+        List<Room> commonRooms = roomRepository.findAllByRoomFunctionAndRoomAndFloorAndStateNo("01", floor, "0");
         roomFunction.setRoomFunctionNo("03"); //音乐教室
         List<Room> musicRooms = roomRepository.findAllByRoomFunctionAndRoomStateNo(roomFunction, "0");
         roomFunction.setRoomFunctionNo("04"); //美术教室
@@ -47,12 +95,13 @@ public class TimetableServiceImpl implements TimetableService {
         List<Room> peRooms = roomRepository.findAllByRoomFunctionAndRoomStateNo(roomFunction, "0");
         RandomUtil randomUtil = new RandomUtil(40);
 
+
         for (Teach teach : teaches) {
             short amount = teach.getProgram().getAmount(); //课时
             String subNo = teach.getTeachNo().substring(5, 7); //学科编号
             if ("10".equals(subNo)) {// 体育
                 while (amount-- > 0) {
-                    makePeRoom(peRooms, randomUtil, teach, result);
+                    makePe(peRooms, randomUtil, teach, result);
                 }
             } else if ("11".equals(subNo)) {// 艺术
                 ArrayList<Room> rooms = new ArrayList<>(musicRooms);
@@ -76,6 +125,11 @@ public class TimetableServiceImpl implements TimetableService {
     @Override
     public List<Timetable> listByClassNoAndYear(String classNo, String year) {
         return timetableRepository.findAllByClassNoAndYear(classNo, year);
+    }
+
+    @Override
+    public boolean changeStatus(String year, String enrollYear, String status) {
+        return timetableRepository.updateAllStatusByYearAndEnrollYear(year, enrollYear, status) > 0;
     }
 
     @Override
@@ -147,12 +201,22 @@ public class TimetableServiceImpl implements TimetableService {
     }
 
     @Override
-    public void exchangeTowTimetables(Timetable a, Timetable b) {
+    public Timetable showByYearAndClassNoAndTime(String year, String classNo, Short time) {
+        return timetableRepository.findByYearAndClassNoAndTime(year, classNo, time);
+    }
+
+    @Override
+    public boolean exchangeTowTimetables(Timetable a, Timetable b) {
         Short timeA = a.getTime();
         a.setTime(b.getTime());
         b.setTime(timeA);
+        String firstTimetableNo = a.getTimetableNo();
+        String secondTimetableNo = b.getTimetableNo();
+        a.setTimetableNo(firstTimetableNo.substring(0, 21) + secondTimetableNo.substring(21, 23));
+        a.setTimetableNo(secondTimetableNo.substring(0, 21) + firstTimetableNo.substring(21, 23));
         this.timetableRepository.save(a);
         this.timetableRepository.save(b);
+        return true;
     }
 
     @Override
@@ -171,7 +235,7 @@ public class TimetableServiceImpl implements TimetableService {
         return this.timetableRepository.saveAll(timetables);
     }
 
-    private void makePeRoom(List<Room> peRooms, RandomUtil randomUtil, Teach teach, List<Timetable> result) {
+    private void makePe(List<Room> peRooms, RandomUtil randomUtil, Teach teach, List<Timetable> result) {
         //随机取一个体育馆
         Room peRoom = peRooms.get((int) (peRooms.size() * Math.random()));
         //随机取得一个上课时间
@@ -198,7 +262,7 @@ public class TimetableServiceImpl implements TimetableService {
             result.add(timetable);
             randomUtil.remove();
         } else {
-            makePeRoom(peRooms, randomUtil, teach, result);
+            makePe(peRooms, randomUtil, teach, result);
         }
     }
 
@@ -224,7 +288,7 @@ public class TimetableServiceImpl implements TimetableService {
             result.add(timetable);
             randomUtil.remove();
         } else {
-            makePeRoom(rooms, randomUtil, teach, result);
+            make(rooms, randomUtil, teach, result);
         }
     }
 }

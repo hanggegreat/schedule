@@ -65,4 +65,38 @@ public class TimetableController {
         }
         return result;
     }
+
+    @RequestMapping("/teacher/academic/timetable/preExchange/{classNo}/{year}/{time}")
+    @ResponseBody
+    public List<Timetable> preExchange(@PathVariable String classNo, @PathVariable String year, @PathVariable Short time) {
+        return timetableService.preExchange(classNo, year, time);
+    }
+
+    @RequestMapping("/teacher/academic/timetable/exchange/{year}/{classNo}/{first}/{second}")
+    @ResponseBody
+    public boolean exchange(@PathVariable String classNo, @PathVariable String year, @PathVariable Short first, @PathVariable Short second) {
+        Timetable firstTimetable = timetableService.showByYearAndClassNoAndTime(year, classNo, first);
+        Timetable secondTimetable = timetableService.showByYearAndClassNoAndTime(year, classNo, second);
+        return timetableService.exchangeTowTimetables(firstTimetable, secondTimetable);
+    }
+
+    @RequestMapping("/teacher/academic/timetable/list/{year}/{status}")
+    public String list(Model model, @PathVariable String year, @PathVariable String status) {
+        model.addAttribute("grades", gradeRepository.findAllByYear(year));
+        model.addAttribute("year", year);
+        model.addAttribute("status", status);
+        return "sub-view/timetable/list_by_class_and_status";
+    }
+
+    @RequestMapping("/teacher/academic/timetable/list/{classNo}/{year}/{status}")
+    @ResponseBody
+    public List<Timetable> list(@PathVariable String classNo, @PathVariable String year, @PathVariable String status) {
+        return timetableService.listByClassNoAndYearAndStatus(classNo, year, status);
+    }
+
+    @RequestMapping("/teacher/academic/timetable/changeStatus/{year}/{enrollYear}/{status}")
+    @ResponseBody
+    public boolean changeStatus(@PathVariable String year, @PathVariable String enrollYear , @PathVariable String status){
+        return timetableService.changeStatus(year, enrollYear, status);
+    }
 }

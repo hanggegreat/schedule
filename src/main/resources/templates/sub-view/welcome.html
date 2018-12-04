@@ -17,13 +17,15 @@
 <body>
 <div class="container">
     <br>
-    <h3 sec:authorize="hasRole('STUDENT')">
-        学生·
-        <a href="basic_information.html" th:href="@{/student/info}"
-           th:text="${#session.getAttribute('username')}">
+    <h3>
+        <span sec:authorize="hasRole('STUDENT')">
+            学生·
+            <a href="basic_information.html" th:href="@{/student/info}"
+               th:text="${#session.getAttribute('username')}">
             小明
-        </a>
-    <span sec:authorize="hasRole('TEACHER')">
+            </a>
+        </span>
+        <span sec:authorize="hasRole('TEACHER')">
             <span sec:authorize="hasRole('ADVISER')">班主任·</span>
             <span sec:authorize="hasRole('SUBLEADER')">学科组长·</span>
             <span sec:authorize="hasRole('GRADELEADER')">年级组长·</span>
@@ -33,9 +35,8 @@
             <span sec:authorize="!hasAnyRole('ADVISER', 'SUBLEADER', 'GRADELEADER', 'ACADEMIC', 'REGISTRAR', 'PRINCIPAL')">教师·</span>
             <a href="basic_information.html" th:href="@{/teacher/info}" th:text="${#session.getAttribute('username')}">小明</a>
         </span>
-    你好
-    </h3>
-    <h3>欢迎访问教务·排课系统</h3>
+        你好
+        欢迎访问教务·课程系统</h3>
 </div>
 </body>
 </html>

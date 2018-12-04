@@ -3,11 +3,48 @@ package cn.lollipop.schedule.repository;
 import cn.lollipop.schedule.domain.Room;
 import cn.lollipop.schedule.domain.Timetable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 public interface TimetableRepository extends JpaRepository<Timetable, Long> {
+
+    /**
+     * 批量修改指定学年指定年级的课表发布状态的操作
+     *
+     * @param year       学年编号
+     * @param enrollYear 注册学年
+     * @param status     修改后的发布状态
+     */
+    @Modifying
+    @Transactional
+    @Query(nativeQuery = true, value = "UPDATE pke_timetable SET status = ?3 WHERE SUBSTR(teachNo, 1, 4) = ?1 AND SUBSTR(teachNo, 12, 4) = ?2")
+    int updateAllStatusByYearAndEnrollYear(String year, String enrollYear, String status);
+
+    /**
+     * 查询指定学年指定班级指定时间的课程
+     *
+     * @param year    学年编号
+     * @param classNo 班级编号
+     * @param time    上课时间
+     * @return 以List集合的形式返回查询出的全部数据
+     */
+    @Query(nativeQuery = true, value = "SELECT id, timetableNo, status, `time`, teachNo, roomNo FROM pke_timetable WHERE SUBSTR(timetableNo, 12, 6) = ?2 AND SUBSTR(timetableNo, 1, 4) = ?1 AND time = ?3")
+    Timetable findByYearAndClassNoAndTime(String year, String classNo, Short time);
+
+    /**
+     * 查询指定学年指定班级指定发布状态的课程
+     *
+     * @param classNo 班级编号
+     * @param year    学年编号
+     * @param status  发布状态
+     * @param time    时间
+     * @return 以List集合的形式返回查询出的全部数据
+     */
+    @Query(nativeQuery = true, value = "SELECT id, timetableNo, status, `time`, teachNo, roomNo FROM pke_timetable WHERE SUBSTR(timetableNo, 12, 6) = ?1 AND SUBSTR(timetableNo, 1, 4) = ?2 AND status = ?3 AND time != ?4")
+    List<Timetable> findAllByClassNoAndYearAndStatusAndIsNotTime(String classNo, String year, String status, Short time);
 
     /**
      * 查询指定时间指定教室的全部任课信息
