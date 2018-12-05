@@ -13,12 +13,13 @@
     <script src="../../../static/js/timetable.js" th:src="@{/js/timetable.js}"></script>
 <body>
 <span style="display: none;" id="type" th:text="${type}"></span>
-<span style="display: none;" id="year" th:text="${year}"></span>
 <div class="container">
     <br>
-    <select onchange="listByClassNo(this.value);" class="custom-select col-sm-2" name="enrollYear" id="enrollYear">
-        <option value="">请选择班级</option>
-        <option th:each="class : ${classes}" th:value="${class.classNo}" th:text="${class.className}"></option>
+    <select onchange="simpleList(this.value);" class="custom-select col-sm-2" name="year" id="year">
+        <option value="">请选择学年</option>
+        <option value="2018">2018-2019</option>
+        <option value="2017">2017-2018</option>
+        <option value="2016">2016-2017</option>
     </select>
     <div id="timetable" style="display: none;">
         <hr>

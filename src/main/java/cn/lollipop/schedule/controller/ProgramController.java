@@ -79,7 +79,7 @@ public class ProgramController {
     @RequestMapping({"/teacher/academic/program/list/{status}/{enrollYear}"})
     @ResponseBody
     public List<Program> list(@PathVariable String status, @PathVariable String enrollYear) {
-        if ("0".equals(status)) {
+        if ("0" .equals(status)) {
             List<Program> result = programService.listByStatusAndEnrollYear("0", enrollYear);
             result.addAll(programService.listByStatusAndEnrollYear("3", enrollYear));
             return result;
@@ -129,14 +129,16 @@ public class ProgramController {
     @PostMapping("/teacher/academic/program/changeStatus/{status}")
     @ResponseBody
     public boolean changeStatus(@PathVariable String status, @RequestBody Set<String> ids) {
-        if ("1".equals(status)) {
-            this.programService.passInBatch(ids);
-        } else if ("2".equals(status)) {
-            this.programService.publishInBatch(ids);
-        } else if ("3".equals(status)) {
-            this.programService.refuseInBatch(ids);
+        if ("1" .equals(status)) {
+            return this.programService.passInBatch(ids) > 0;
         }
-        return true;
+        if ("2" .equals(status)) {
+            return this.programService.publishInBatch(ids) > 0;
+        }
+        if ("3" .equals(status)) {
+            return this.programService.refuseInBatch(ids) > 0;
+        }
+        return false;
     }
 
     @RequestMapping("/teacher/registrar/program/check")

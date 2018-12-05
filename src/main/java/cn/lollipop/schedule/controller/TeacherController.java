@@ -22,12 +22,10 @@ import java.util.List;
 @RequestMapping("/teacher")
 public class TeacherController {
     private final TeacherService teacherService;
-    private final TeachService teachService;
 
     @Autowired
-    public TeacherController(TeacherService teacherService, TeachService teachService) {
+    public TeacherController(TeacherService teacherService) {
         this.teacherService = teacherService;
-        this.teachService = teachService;
     }
 
     @RequestMapping("/info")

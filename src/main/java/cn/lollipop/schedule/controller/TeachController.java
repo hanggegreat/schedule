@@ -25,15 +25,13 @@ import java.util.List;
 public class TeachController {
     private final ProgramService programService;
     private final TeacherService teacherService;
-    private final GradeRepository gradeRepository;
     private final TeachService teachService;
     private final ClassService classService;
 
     @Autowired
-    public TeachController(ProgramService programService, TeacherService teacherService, GradeRepository gradeRepository, TeachService teachService, ClassService classService) {
+    public TeachController(ProgramService programService, TeacherService teacherService, TeachService teachService, ClassService classService) {
         this.programService = programService;
         this.teacherService = teacherService;
-        this.gradeRepository = gradeRepository;
         this.teachService = teachService;
         this.classService = classService;
     }

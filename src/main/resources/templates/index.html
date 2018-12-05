@@ -190,34 +190,44 @@
                         </dd>
                         <dd sec:authorize="hasRole('TEACHER')">
                             <a href="javascript:;" href-url="sub-view/timetable/list.html"
-                               th:attr="href-url=@{/teacher/timetable/teacherList/2018}">
-                                <i class="layui-icon">&#xe621;</i>查看课表
+                               th:attr="href-url=@{/teacher/timetable/teacherList}">
+                                <i class="layui-icon">&#xe621;</i>我的课表
                             </a>
                         </dd>
                         <dd sec:authorize="hasRole('STUDENT')">
                             <a href="javascript:;" href-url="sub-view/timetable/list.html"
-                               th:attr="href-url=@{/timetable/classList/2018}">
-                                <i class="layui-icon">&#xe621;</i>查看课表
+                               th:attr="href-url=@{/timetable/studentList}">
+                                <i class="layui-icon">&#xe621;</i>我的课表
                             </a>
                         </dd>
                         <dd sec:authorize="hasRole('ADVISER')">
-                            <a href="javascript:;" href-url="sub-view/timetable/list.html">
-                                <i class="layui-icon">&#xe621;</i>当前班级课表
+                            <a href="javascript:;" href-url="sub-view/timetable/list.html"
+                               th:attr="href-url=@{/teacher/adviser/timetable/adviserList}">
+                            <i class="layui-icon">&#xe621;</i>班级课表
                             </a>
                         </dd>
                         <dd sec:authorize="hasRole('GRADELEADER')">
-                            <a href="javascript:;" href-url="sub-view/timetable/list_by_class.html">
-                                <i class="layui-icon">&#xe621;</i>当前年级课表
+                            <a href="javascript:;" href-url="sub-view/timetable/list_by_class.html"
+                               th:attr="href-url=@{/teacher/gradeLeader/timetable/gradeLeaderList/2018}">
+                                <i class="layui-icon">&#xe621;</i>年级课表
                             </a>
                         </dd>
                         <dd sec:authorize="hasRole('SUBLEADER')">
-                            <a href="javascript:;" href-url="sub-view/timetable/list_by_class.html">
-                                <i class="layui-icon">&#xe621;</i>当前学科课表
+                            <a href="javascript:;" href-url="sub-view/timetable/list_by_class.html"
+                               th:attr="href-url=@{/teacher/subLeader/timetable/subLeaderList/2018}">
+                                <i class="layui-icon">&#xe621;</i>学科课表
                             </a>
                         </dd>
                         <dd sec:authorize="hasAnyRole('ACADEMIC, REGISTRAR, PRINCIPAL')">
-                            <a href="javascript:;" href-url="sub-view/timetable/list_by_details.html">
-                                <i class="layui-icon">&#xe621;</i>分类查看
+                            <a href="javascript:;" href-url="sub-view/timetable/list_by_class_details.html"
+                               th:attr="href-url=@{/teacher/academic/timetable/listByClass}">
+                            <i class="layui-icon">&#xe621;</i>全部班级课表
+                            </a>
+                        </dd>
+                        <dd sec:authorize="hasAnyRole('ACADEMIC, REGISTRAR, PRINCIPAL')">
+                            <a href="javascript:;" href-url="sub-view/timetable/list_by_teacher_details.html"
+                               th:attr="href-url=@{/teacher/academic/timetable/listByTeacher}">
+                                <i class="layui-icon">&#xe621;</i>全部教师课表
                             </a>
                         </dd>
                     </dl>

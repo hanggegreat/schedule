@@ -37,14 +37,14 @@
             <td th:text="${program.id}"></td>
             <td th:text="${program.year} + '-' + (${#numbers.formatInteger(program.year, 0)} + 1)"></td>
             <td th:text="${program.name}"></td>
-            <td th:text="${program.subject.subName}"></td>
+            <td th:text="${program.amount}"></td>
+            <td th:text="${program.exam == '0' ? '考查' : '考试'}"></td>
             <td th:switch="${program.gradeNo}">
                 <span th:case="'7'">七年级</span>
                 <span th:case="'8'">八年级</span>
                 <span th:case="'9'">九年级</span>
             </td>
-            <td th:text="${program.amount}"></td>
-            <td th:text="${program.exam == '0' ? '考查' : '考试'}"></td>
+            <td th:text="${program.subject.subName}"></td>
         </tr>
         </tbody>
     </table>

@@ -1,12 +1,10 @@
 package cn.lollipop.schedule.service.impl;
 
-import cn.lollipop.schedule.domain.Class;
 import cn.lollipop.schedule.domain.*;
 import cn.lollipop.schedule.repository.*;
 import cn.lollipop.schedule.service.TimetableService;
 import cn.lollipop.schedule.util.NumToString;
 import cn.lollipop.schedule.util.RandomUtil;
-import cn.lollipop.schedule.util.YearUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,15 +15,13 @@ import java.util.List;
 public class TimetableServiceImpl implements TimetableService {
     private final TimetableRepository timetableRepository;
     private final StudentRepository studentRepository;
-    private final ClassRepository classRepository;
     private final TeachRepository teachRepository;
     private final RoomRepository roomRepository;
 
     @Autowired
-    public TimetableServiceImpl(TimetableRepository timetableRepository, StudentRepository studentRepository, ClassRepository classRepository, TeachRepository teachRepository, RoomRepository roomRepository) {
+    public TimetableServiceImpl(TimetableRepository timetableRepository, StudentRepository studentRepository, TeachRepository teachRepository, RoomRepository roomRepository) {
         this.timetableRepository = timetableRepository;
         this.studentRepository = studentRepository;
-        this.classRepository = classRepository;
         this.teachRepository = teachRepository;
         this.roomRepository = roomRepository;
     }
@@ -51,7 +47,7 @@ public class TimetableServiceImpl implements TimetableService {
             }
 
             //第一节为体育课
-            if ("06".equals(first.getRoom().getRoomFunction().getRoomFunctionNo())) {
+            if ("06" .equals(first.getRoom().getRoomFunction().getRoomFunctionNo())) {
                 //第二节一定不为体育课
                 if (40 * timetableRepository.findAllByRoomAndTime(first.getRoom(), timetable.getTime()).size() > first.getRoom().getRoomCapacity()
                         || timetableRepository.findByRoomAndTimeAndStatus(timetable.getRoom(), time, "0") != null) {
@@ -59,7 +55,7 @@ public class TimetableServiceImpl implements TimetableService {
                 }
             } else {//第一节不为体育课
                 //第二节为体育课
-                if ("06".equals(timetable.getRoom().getRoomFunction().getRoomFunctionNo())) {
+                if ("06" .equals(timetable.getRoom().getRoomFunction().getRoomFunctionNo())) {
                     if (40 * timetableRepository.findAllByRoomAndTime(timetable.getRoom(), time).size() > timetable.getRoom().getRoomCapacity()
                             || timetableRepository.findByRoomAndTimeAndStatus(first.getRoom(), timetable.getTime(), "0") != null) {
                         continue;
@@ -99,17 +95,17 @@ public class TimetableServiceImpl implements TimetableService {
         for (Teach teach : teaches) {
             short amount = teach.getProgram().getAmount(); //课时
             String subNo = teach.getTeachNo().substring(5, 7); //学科编号
-            if ("10".equals(subNo)) {// 体育
+            if ("10" .equals(subNo)) {// 体育
                 while (amount-- > 0) {
                     makePe(peRooms, randomUtil, teach, result);
                 }
-            } else if ("11".equals(subNo)) {// 艺术
+            } else if ("11" .equals(subNo)) {// 艺术
                 ArrayList<Room> rooms = new ArrayList<>(musicRooms);
                 rooms.addAll(artRooms);
                 while (amount-- > 0) {
                     make(rooms, randomUtil, teach, result);
                 }
-            } else if ("12".equals(subNo)) {// 信息科技
+            } else if ("12" .equals(subNo)) {// 信息科技
                 while (amount-- > 0) {
                     make(computerRooms, randomUtil, teach, result);
                 }
@@ -150,19 +146,8 @@ public class TimetableServiceImpl implements TimetableService {
     }
 
     @Override
-    public List<Timetable> listByClassTeacher(Teacher teacher, String year) {
-        Class myClass = this.classRepository.findByTeacherNoAndYear(teacher.getTeacherNo(), year);
-        return this.timetableRepository.findAllByClassNoAndStatusAndYear(myClass.getClassNo(), "1", year);
-    }
-
-    @Override
     public List<Timetable> listByClassNoAndSubNo(String classNo, String year, String subNo) {
         return this.timetableRepository.findAllByClassNoAndYearAndSubNoAndStatus(classNo, year, subNo, "1");
-    }
-
-    @Override
-    public List<Timetable> listByClassNo(String classNo, String year) {
-        return this.timetableRepository.findAllByClassNoAndStatusAndYear(classNo, "1", year);
     }
 
     @Override
@@ -171,33 +156,8 @@ public class TimetableServiceImpl implements TimetableService {
     }
 
     @Override
-    public List<Timetable> listByClassNoAndStatus(String classNo, String status) {
-        return this.timetableRepository.findAllByClassNoAndStatusAndYear(classNo, status, YearUtil.getCurrentYear());
-    }
-
-    @Override
-    public List<Timetable> listByRoom(Room room) {
-        return this.timetableRepository.findAllByRoomAndStatus(room, "1");
-    }
-
-    @Override
     public List<Timetable> list(String year) {
         return this.timetableRepository.findAllByYear(year);
-    }
-
-    @Override
-    public List<Timetable> listByStatus(String year, String status) {
-        return this.timetableRepository.findAllByStatusAndYear(status, year);
-    }
-
-    @Override
-    public List<Timetable> listByGnoAndStatus(String gno, String year, String status) {
-        return this.timetableRepository.findAllByGnoAndYearAndStatus(gno, year, status);
-    }
-
-    @Override
-    public Timetable showByRoomAndTime(Room room, Short time) {
-        return this.timetableRepository.findByRoomAndTimeAndStatus(room, time, "1");
     }
 
     @Override
@@ -217,22 +177,6 @@ public class TimetableServiceImpl implements TimetableService {
         this.timetableRepository.save(a);
         this.timetableRepository.save(b);
         return true;
-    }
-
-    @Override
-    public List<Timetable> passInBatch(List<Timetable> timetables) {
-        for (Timetable timetable : timetables) {
-            timetable.setStatus("1");
-        }
-        return this.timetableRepository.saveAll(timetables);
-    }
-
-    @Override
-    public List<Timetable> refuseInBatch(List<Timetable> timetables) {
-        for (Timetable timetable : timetables) {
-            timetable.setStatus("3");
-        }
-        return this.timetableRepository.saveAll(timetables);
     }
 
     private void makePe(List<Room> peRooms, RandomUtil randomUtil, Teach teach, List<Timetable> result) {

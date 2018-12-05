@@ -89,6 +89,45 @@ var addClass = function (enrollYear) {
     });
 };
 
+var addGrade = function (year) {
+    var enrollYearSelector = $('#enrollYear');
+    enrollYearSelector.html('<option value="">请选择班级</option>')
+    if (!/^\d{4}$/.test(year)) {
+        return;
+    }
+
+    var enrollYears = [
+        {'enrollYear': year, 'name': '七年级'},
+        {'enrollYear': (parseInt(year) + 1).toString(), 'name': '八年级'},
+        {'enrollYear': (parseInt(year) + 2).toString(), 'name': '九年级'}];
+
+
+    for (var i = 0; i < enrollYears.length; i++) {
+        enrollYearSelector.append('<option value="' + enrollYears[i].enrollYear + '">' + enrollYears[i].name + '</option>');
+    }
+};
+
+var addTeacher = function (gradeNo, subNo) {
+    $('#teacherNo').html('<option value="">请选择教师</option>');
+    if (!/^\d$/.test(gradeNo) || !/^\d{2}$/.test(subNo)) {
+        return;
+    }
+
+    $.ajax({
+        url: "/teacher/list/" + gradeNo + "/" + subNo,
+        type: 'POST',
+        dataType: 'json',
+        beforeSend: function (xhr) {
+            xhr.setRequestHeader(header, token);
+        },
+        success: function (data) {
+            for (var i = 0; i < data.length; i++) {
+                $('#teacherNo').append('<option value="' + data[i].teacherNo + '">' + data[i].teacherName + '</option>');
+            }
+        }
+    });
+};
+
 var list = function (classNo, year) {
     var teach_className = $('#teach_className');
     var teachInfo = $('#teachInfo');
@@ -152,6 +191,125 @@ var list = function (classNo, year) {
                         td.html(data.info[i].teach.program.subject.subName + "<br>" + data.info[i].teach.teacher.teacherName + "<br>" + data.info[i].room.block.blockName + data.info[i].room.roomNo);
                     }
                 }
+            }
+        }
+    });
+};
+
+var listByClass = function (classNo, year) {
+    if (!/^\d{4}$/.test(year) || !/^\d{6}$/.test(classNo)) {
+        return;
+    }
+
+    $.ajax({
+        url: "/teacher/academic/timetable/list/" + classNo + "/" + year + "/1",
+        type: 'POST',
+        dataType: 'json',
+        beforeSend: function (xhr) {
+            xhr.setRequestHeader(header, token);
+        },
+        success: function (data) {
+            for (var i = 1; i <= 40; i++) {
+                var td = $('[num=' + i + ']');
+                td.html('');
+            }
+            $("#timetable").removeAttr("style");
+            for (var i = 0; i < data.length; i++) {
+                var td = $('[num=' + data[i].time + ']');
+                td.html(data[i].teach.program.subject.subName + "<br>" + data[i].teach.teacher.teacherName + "<br>" + data[i].room.block.blockName + data[i].room.roomNo);
+            }
+        }
+    });
+};
+
+var listByTeacher = function (teacherNo, year) {
+    if (!/^\d{4}$/.test(year) || !/^\d{4}$/.test(teacherNo)) {
+        return;
+    }
+
+    $.ajax({
+        url: "/teacher/academic/timetable/listByTeacher/" + year + "/" + teacherNo,
+        type: 'POST',
+        dataType: 'json',
+        beforeSend: function (xhr) {
+            xhr.setRequestHeader(header, token);
+        },
+        success: function (data) {
+            for (var i = 1; i <= 40; i++) {
+                var td = $('[num=' + i + ']');
+                td.html('');
+            }
+            $("#timetable").removeAttr("style");
+            for (var i = 0; i < data.length; i++) {
+                var td = $('[num=' + data[i].time + ']');
+                td.html(data[i].teach.program.subject.subName + "<br>" + data[i].teach.tClass.className + "<br>" + data[i].room.block.blockName + data[i].room.roomNo);
+            }
+        }
+    });
+};
+
+var simpleList = function (year) {
+    if (!/^\d{4}$/.test(year)) {
+        return;
+    }
+    var type = $("#type").text();
+    var url = "/timetable/studentList/" + year;
+    if (type === "teacherList") {
+        url = "/teacher/timetable/teacherList/" + year;
+    } else if (type === "adviserList") {
+        url = "/teacher/adviser/timetable/adviserList/" + year;
+    }
+    $.ajax({
+        url: url,
+        type: 'POST',
+        dataType: 'json',
+        beforeSend: function (xhr) {
+            xhr.setRequestHeader(header, token);
+        },
+        success: function (data) {
+            for (var i = 1; i <= 40; i++) {
+                var td = $('[num=' + i + ']');
+                td.html('');
+            }
+            $("#timetable").removeAttr("style");
+            if (type === "teacherList") {
+                for (var i = 0; i < data.length; i++) {
+                    var td = $('[num=' + data[i].time + ']');
+                    td.html(data[i].teach.program.subject.subName + "<br>" + data[i].teach.tClass.className + "<br>" + data[i].room.block.blockName + data[i].room.roomNo);
+                }
+            } else {
+                for (var i = 0; i < data.length; i++) {
+                    var td = $('[num=' + data[i].time + ']');
+                    td.html(data[i].teach.program.subject.subName + "<br>" + data[i].teach.teacher.teacherName + "<br>" + data[i].room.block.blockName + data[i].room.roomNo);
+                }
+            }
+        }
+    });
+};
+
+var listByClassNo = function (classNo) {
+    if (!/^\d{6}$/.test(classNo)) {
+        return;
+    }
+
+    var year = $('#year').text();
+    var url = ($("#type").text() === 'subLeaderList' ? "/teacher/subLeader/timetable/subLeaderList/" : "/teacher/gradeLeader/timetable/gradeLeaderList/") + year + "/" + classNo;
+    $.ajax({
+        url: url,
+        type: 'POST',
+        dataType: 'json',
+        beforeSend: function (xhr) {
+            xhr.setRequestHeader(header, token);
+        },
+        success: function (data) {
+            for (var i = 1; i <= 40; i++) {
+                var td = $('[num=' + i + ']');
+                td.html('');
+            }
+            $("#timetable").removeAttr("style");
+            for (var i = 0; i < data.length; i++) {
+                var td = $('[num=' + data[i].time + ']');
+                td.html(data[i].teach.program.subject.subName + "<br>" + data[i].teach.teacher.teacherName + "<br>" + data[i].room.block.blockName + data[i].room.roomNo);
             }
         }
     });
