@@ -14,7 +14,7 @@ public interface ClassRepository extends JpaRepository<Class, String> {
      * @param teacherNo 班主任编号
      * @return 返回班级对象
      */
-    @Query(nativeQuery = true, value = "SELECT ClassNo, ClassName, ClassNum, GradeNo, TeacherNo FROM XJ_Class WHERE TeacherNo = ?1 AND ClassNo LIKE CONCAT((?2 + 1 - GradeNo), '%')")
+    @Query(nativeQuery = true, value = "SELECT ClassNo, ClassName, ClassNum, GradeNo, TeacherNo FROM XJ_Class WHERE TeacherNo = ?1")
     Class findByTeacherNoAndYear(String teacherNo, String year);
 
     /**

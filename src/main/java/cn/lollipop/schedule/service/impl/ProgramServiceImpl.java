@@ -38,7 +38,7 @@ public class ProgramServiceImpl implements ProgramService {
     public List<Program> listByClassTeacher(String teacherNo) {
         Class myClass = classRepository.findByTeacherNoAndYear(teacherNo, YearUtil.getCurrentYear());
         System.out.println(myClass);
-        Grade grade = gradeRepository.findByGradeNo(String.valueOf(Integer.parseInt(myClass.getGradeNo()) + 6));
+        Grade grade = gradeRepository.findByGradeNo(myClass.getGradeNo());
         System.out.println(grade);
         return programRepository.findAllByGradeAndStatus(grade, "1");
     }

@@ -98,8 +98,8 @@ var addGrade = function (year) {
 
     var enrollYears = [
         {'enrollYear': year, 'name': '七年级'},
-        {'enrollYear': (parseInt(year) + 1).toString(), 'name': '八年级'},
-        {'enrollYear': (parseInt(year) + 2).toString(), 'name': '九年级'}];
+        {'enrollYear': (parseInt(year) - 1).toString(), 'name': '八年级'},
+        {'enrollYear': (parseInt(year) - 2).toString(), 'name': '九年级'}];
 
 
     for (var i = 0; i < enrollYears.length; i++) {

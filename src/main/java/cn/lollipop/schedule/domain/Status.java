@@ -11,7 +11,7 @@ import javax.validation.constraints.Size;
 @Proxy(lazy = false)
 public class Status {
     @Id
-    @Column(length = 2, columnDefinition = "char(2)")
+    @Column(name = "SStatus", length = 2, columnDefinition = "char(2)")
     @Size(min = 2, max = 2)
     private String stuStaNo;
 
